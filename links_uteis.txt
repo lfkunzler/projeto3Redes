@@ -1,0 +1,3 @@
+http://www.piclist.com/techref/microchip/spbrgcalc.asp?fOSCILLATOR=20&fErr=3
+http://www.nicksoft.info/el/calc/?ac=spbrg 
+https://www.microchip.com/forums/m76411.aspx : planilha
