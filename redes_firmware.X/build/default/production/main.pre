@@ -4968,8 +4968,11 @@ LIGA_LED1,
 LIGA_LED2,
 DESLIGA_LED1,
 DESLIGA_LED2,
+LE_BOTAO1,
+LE_BOTAO2,
 ERR_UNDETECTED
-} en_comunicacao_t;
+} comunicacao_en;
+
 
 
 typedef struct {
@@ -4986,7 +4989,7 @@ uint8_t uart_receive_byte(void);
 void uart_send_byte(uint8_t dbyte);
 
 void send_string_data(char *string, dados_t *dados);
-en_comunicacao_t check_data(dados_t *data);
+comunicacao_en check_data(dados_t *data);
 uint8_t calc_bcc(uint8_t *data);
 void write_zero(dados_t *dados);
 
@@ -5009,14 +5012,16 @@ ADCON1 = 0x0F;
 
 TRISDbits.RD0 = 0;
 TRISDbits.RD1 = 0;
+TRISDbits.RD2 = 1;
+TRISDbits.RD3 = 1;
 
 
 
 uart_init();
 
-# 35
+# 37
 dados_t dados;
-char msg[32] = { 0 };
+char msg[32] = {0};
 
 
 
@@ -5043,34 +5048,64 @@ if (dados.data_flag) {
 switch (check_data(&dados)) {
 case ERR_STX:
 
-
 break;
 case ERR_IGNORE_MSG:
-
 
 break;
 case ERR_BCC:
 
 break;
 case ERR_NAK:
+msg[0] = 0x15;
+mk_msg(&dados, 1, msg);
+write_cmd(&dados, dados.addr_from);
 
 break;
 case LIGA_LED1:
 PORTDbits.RD0 = 0;
+
 msg[0] = 0x06;
 mk_msg(&dados, 1, msg);
 write_cmd(&dados, dados.addr_from);
 
-# 85
 break;
 case DESLIGA_LED1:
 PORTDbits.RD0 = 1;
+
+msg[0] = 0x06;
+mk_msg(&dados, 1, msg);
+write_cmd(&dados, dados.addr_from);
+
 break;
 case LIGA_LED2:
 PORTDbits.RD1 = 0;
+
+msg[0] = 0x06;
+mk_msg(&dados, 1, msg);
+write_cmd(&dados, dados.addr_from);
+
 break;
 case DESLIGA_LED2:
 PORTDbits.RD1 = 1;
+
+msg[0] = 0x06;
+mk_msg(&dados, 1, msg);
+write_cmd(&dados, dados.addr_from);
+
+break;
+case LE_BOTAO1:
+msg[0] = 0x06;
+msg[1] = (char) PORTDbits.RD2;
+mk_msg(&dados, 2, msg);
+write_cmd(&dados, dados.addr_from);
+
+break;
+case LE_BOTAO2:
+msg[0] = 0x06;
+msg[1] = (char) PORTDbits.RD3;
+mk_msg(&dados, 2, msg);
+write_cmd(&dados, dados.addr_from);
+
 break;
 default:
 
@@ -5081,7 +5116,7 @@ write_zero(&dados);
 
 }
 
-# 128
+# 157
 }
 
 

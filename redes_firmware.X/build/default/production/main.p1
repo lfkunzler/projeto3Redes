@@ -17,9 +17,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S154 . . . ]
 "4031
 [v _TRISDbits `VS154 ~T0 @X0 0 e@3989 ]
-"53 comunicacao.h
+"56 comunicacao.h
 [v _uart_init `(v ~T0 @X0 0 ef ]
-"45
+"48
 [s S362 `uc 1 `uc -> 64 `i `s 1 `uc 1 `uc 1 ]
 [n S362 . count buff data_flag addr_from command ]
 "2709 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4550.h
@@ -36,20 +36,20 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S111 . . . . ]
 "2734
 [v _PORTDbits `VS111 ~T0 @X0 0 e@3971 ]
-"61 comunicacao.h
+"64 comunicacao.h
 [v _write_zero `(v ~T0 @X0 0 ef1`*S362 ]
-"54
+"57
 [v _uart_check_rx `(s ~T0 @X0 0 ef ]
 "5412 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4550.h
 [v _RCREG `Vuc ~T0 @X0 0 e@4014 ]
-"63 comunicacao.h
+"66 comunicacao.h
 [v _mk_msg `(v ~T0 @X0 0 ef3`*S362`uc`*uc ]
-"65
+"68
 [v _write_cmd `(v ~T0 @X0 0 ef2`*S362`uc ]
-"60 main.c
-[c E3818 0 1 2 3 4 5 6 7 8 .. ]
-[n E3818 . ERR_STX ERR_IGNORE_MSG ERR_BCC ERR_NAK LIGA_LED1 LIGA_LED2 DESLIGA_LED1 DESLIGA_LED2 ERR_UNDETECTED  ]
-"59 comunicacao.h
+"62 main.c
+[c E3818 0 1 2 3 4 5 6 7 8 9 10 .. ]
+[n E3818 . ERR_STX ERR_IGNORE_MSG ERR_BCC ERR_NAK LIGA_LED1 LIGA_LED2 DESLIGA_LED1 DESLIGA_LED2 LE_BOTAO1 LE_BOTAO2 ERR_UNDETECTED  ]
+"62 comunicacao.h
 [v _check_data `(E3818 ~T0 @X0 0 ef1`*S362 ]
 "9 main.h
 [p x PLLDIV=2 ]
@@ -3674,25 +3674,27 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;comunicacao.h: 38: LIGA_LED2,
 [; ;comunicacao.h: 39: DESLIGA_LED1,
 [; ;comunicacao.h: 40: DESLIGA_LED2,
-[; ;comunicacao.h: 41: ERR_UNDETECTED
-[; ;comunicacao.h: 42: } en_comunicacao_t;
-[; ;comunicacao.h: 45: typedef struct {
-[; ;comunicacao.h: 46: uint8_t count;
-[; ;comunicacao.h: 47: uint8_t buff[64];
-[; ;comunicacao.h: 48: short data_flag;
-[; ;comunicacao.h: 49: uint8_t addr_from;
-[; ;comunicacao.h: 50: uint8_t command;
-[; ;comunicacao.h: 51: } dados_t;
-[; ;comunicacao.h: 53: void uart_init(void);
-[; ;comunicacao.h: 54: short uart_check_rx(void);
-[; ;comunicacao.h: 55: uint8_t uart_receive_byte(void);
-[; ;comunicacao.h: 56: void uart_send_byte(uint8_t dbyte);
-[; ;comunicacao.h: 58: void send_string_data(char *string, dados_t *dados);
-[; ;comunicacao.h: 59: en_comunicacao_t check_data(dados_t *data);
-[; ;comunicacao.h: 60: uint8_t calc_bcc(uint8_t *data);
-[; ;comunicacao.h: 61: void write_zero(dados_t *dados);
-[; ;comunicacao.h: 63: void mk_msg(dados_t *data, uint8_t count, char *string);
-[; ;comunicacao.h: 65: void write_cmd(dados_t *data, uint8_t addr_to);
+[; ;comunicacao.h: 41: LE_BOTAO1,
+[; ;comunicacao.h: 42: LE_BOTAO2,
+[; ;comunicacao.h: 43: ERR_UNDETECTED
+[; ;comunicacao.h: 44: } comunicacao_en;
+[; ;comunicacao.h: 48: typedef struct {
+[; ;comunicacao.h: 49: uint8_t count;
+[; ;comunicacao.h: 50: uint8_t buff[64];
+[; ;comunicacao.h: 51: short data_flag;
+[; ;comunicacao.h: 52: uint8_t addr_from;
+[; ;comunicacao.h: 53: uint8_t command;
+[; ;comunicacao.h: 54: } dados_t;
+[; ;comunicacao.h: 56: void uart_init(void);
+[; ;comunicacao.h: 57: short uart_check_rx(void);
+[; ;comunicacao.h: 58: uint8_t uart_receive_byte(void);
+[; ;comunicacao.h: 59: void uart_send_byte(uint8_t dbyte);
+[; ;comunicacao.h: 61: void send_string_data(char *string, dados_t *dados);
+[; ;comunicacao.h: 62: comunicacao_en check_data(dados_t *data);
+[; ;comunicacao.h: 63: uint8_t calc_bcc(uint8_t *data);
+[; ;comunicacao.h: 64: void write_zero(dados_t *dados);
+[; ;comunicacao.h: 66: void mk_msg(dados_t *data, uint8_t count, char *string);
+[; ;comunicacao.h: 68: void write_cmd(dados_t *data, uint8_t addr_to);
 "11 main.c
 [v _my_delay `(v ~T0 @X0 1 ef1`ui ]
 "12
@@ -3747,74 +3749,80 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 24: TRISDbits.RD1 = 0;
 "24
 [e = . . _TRISDbits 1 1 -> -> 0 `i `uc ]
-[; ;main.c: 28: uart_init();
-"28
+[; ;main.c: 25: TRISDbits.RD2 = 1;
+"25
+[e = . . _TRISDbits 1 2 -> -> 1 `i `uc ]
+[; ;main.c: 26: TRISDbits.RD3 = 1;
+"26
+[e = . . _TRISDbits 1 3 -> -> 1 `i `uc ]
+[; ;main.c: 30: uart_init();
+"30
 [e ( _uart_init ..  ]
-"35
+"37
 [v _dados `S362 ~T0 @X0 1 a ]
-[v F3868 `uc ~T0 @X0 -> 32 `i s ]
-[i F3868
+[v F3870 `uc ~T0 @X0 -> 32 `i s ]
+[i F3870
 :U ..
-"36
+"38
 -> -> 0 `i `uc
 ..
 ]
 [v _msg `uc ~T0 @X0 -> 32 `i a ]
-[; ;main.c: 35: dados_t dados;
-[; ;main.c: 36: char msg[32] = { 0 };
-[e = _msg F3868 ]
-[; ;main.c: 41: PORTDbits.RD0 = 1;
-"41
-[e = . . _PORTDbits 0 0 -> -> 1 `i `uc ]
-[; ;main.c: 42: PORTDbits.RD1 = 1;
-"42
-[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
-[; ;main.c: 43: write_zero(&dados);
+[; ;main.c: 37: dados_t dados;
+[; ;main.c: 38: char msg[32] = {0};
+[e = _msg F3870 ]
+[; ;main.c: 43: PORTDbits.RD0 = 1;
 "43
+[e = . . _PORTDbits 0 0 -> -> 1 `i `uc ]
+[; ;main.c: 44: PORTDbits.RD1 = 1;
+"44
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[; ;main.c: 45: write_zero(&dados);
+"45
 [e ( _write_zero (1 &U _dados ]
-[; ;main.c: 48: while (1) {
-"48
+[; ;main.c: 50: while (1) {
+"50
 [e :U 370 ]
 {
-[; ;main.c: 50: if (!uart_check_rx()) {
-"50
+[; ;main.c: 52: if (!uart_check_rx()) {
+"52
 [e $ ! ! != -> ( _uart_check_rx ..  `i -> -> -> 0 `i `s `i 372  ]
 {
-[; ;main.c: 51: do {
-"51
+[; ;main.c: 53: do {
+"53
 [e :U 375 ]
 {
-[; ;main.c: 53: dados.buff[dados.count++] = RCREG;
-"53
-[e = *U + &U . _dados 1 * -> ++ . _dados 0 -> -> 1 `i `uc `ux -> -> # *U &U . _dados 1 `ui `ux _RCREG ]
-"54
-}
-[; ;main.c: 54: } while (!uart_check_rx());
-[e $ ! != -> ( _uart_check_rx ..  `i -> -> -> 0 `i `s `i 375  ]
-[e :U 374 ]
-[; ;main.c: 55: dados.data_flag = 1;
+[; ;main.c: 55: dados.buff[dados.count++] = RCREG;
 "55
-[e = . _dados 2 -> -> 1 `i `s ]
+[e = *U + &U . _dados 1 * -> ++ . _dados 0 -> -> 1 `i `uc `ux -> -> # *U &U . _dados 1 `ui `ux _RCREG ]
 "56
 }
+[; ;main.c: 56: } while (!uart_check_rx());
+[e $ ! != -> ( _uart_check_rx ..  `i -> -> -> 0 `i `s `i 375  ]
+[e :U 374 ]
+[; ;main.c: 57: dados.data_flag = 1;
+"57
+[e = . _dados 2 -> -> 1 `i `s ]
+"58
+}
 [e :U 372 ]
-[; ;main.c: 56: }
-[; ;main.c: 59: if (dados.data_flag) {
-"59
+[; ;main.c: 58: }
+[; ;main.c: 61: if (dados.data_flag) {
+"61
 [e $ ! != -> . _dados 2 `i -> -> -> 0 `i `s `i 376  ]
 {
-[; ;main.c: 60: switch (check_data(&dados)) {
-"60
+[; ;main.c: 62: switch (check_data(&dados)) {
+"62
 [e $U 378  ]
 {
-[; ;main.c: 61: case ERR_STX:
-"61
+[; ;main.c: 63: case ERR_STX:
+"63
 [e :U 379 ]
-[; ;main.c: 64: break;
-"64
-[e $U 377  ]
-[; ;main.c: 65: case ERR_IGNORE_MSG:
+[; ;main.c: 65: break;
 "65
+[e $U 377  ]
+[; ;main.c: 66: case ERR_IGNORE_MSG:
+"66
 [e :U 380 ]
 [; ;main.c: 68: break;
 "68
@@ -3828,23 +3836,32 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 72: case ERR_NAK:
 "72
 [e :U 382 ]
-[; ;main.c: 74: break;
+[; ;main.c: 73: msg[0] = 0x15;
+"73
+[e = *U + &U _msg * -> -> -> 0 `i `ui `ux -> -> # *U &U _msg `ui `ux -> -> 21 `i `uc ]
+[; ;main.c: 74: mk_msg(&dados, 1, msg);
 "74
-[e $U 377  ]
-[; ;main.c: 75: case LIGA_LED1:
-"75
-[e :U 383 ]
-[; ;main.c: 76: PORTDbits.RD0 = 0;
-"76
-[e = . . _PORTDbits 0 0 -> -> 0 `i `uc ]
-[; ;main.c: 77: msg[0] = 0x06;
-"77
-[e = *U + &U _msg * -> -> -> 0 `i `ui `ux -> -> # *U &U _msg `ui `ux -> -> 6 `i `uc ]
-[; ;main.c: 78: mk_msg(&dados, 1, msg);
-"78
 [e ( _mk_msg (3 , , &U _dados -> -> 1 `i `uc &U _msg ]
-[; ;main.c: 79: write_cmd(&dados, dados.addr_from);
+[; ;main.c: 75: write_cmd(&dados, dados.addr_from);
+"75
+[e ( _write_cmd (2 , &U _dados . _dados 3 ]
+[; ;main.c: 77: break;
+"77
+[e $U 377  ]
+[; ;main.c: 78: case LIGA_LED1:
+"78
+[e :U 383 ]
+[; ;main.c: 79: PORTDbits.RD0 = 0;
 "79
+[e = . . _PORTDbits 0 0 -> -> 0 `i `uc ]
+[; ;main.c: 81: msg[0] = 0x06;
+"81
+[e = *U + &U _msg * -> -> -> 0 `i `ui `ux -> -> # *U &U _msg `ui `ux -> -> 6 `i `uc ]
+[; ;main.c: 82: mk_msg(&dados, 1, msg);
+"82
+[e ( _mk_msg (3 , , &U _dados -> -> 1 `i `uc &U _msg ]
+[; ;main.c: 83: write_cmd(&dados, dados.addr_from);
+"83
 [e ( _write_cmd (2 , &U _dados . _dados 3 ]
 [; ;main.c: 85: break;
 "85
@@ -3855,38 +3872,101 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 87: PORTDbits.RD0 = 1;
 "87
 [e = . . _PORTDbits 0 0 -> -> 1 `i `uc ]
-[; ;main.c: 88: break;
-"88
-[e $U 377  ]
-[; ;main.c: 89: case LIGA_LED2:
+[; ;main.c: 89: msg[0] = 0x06;
 "89
-[e :U 385 ]
-[; ;main.c: 90: PORTDbits.RD1 = 0;
+[e = *U + &U _msg * -> -> -> 0 `i `ui `ux -> -> # *U &U _msg `ui `ux -> -> 6 `i `uc ]
+[; ;main.c: 90: mk_msg(&dados, 1, msg);
 "90
-[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
-[; ;main.c: 91: break;
+[e ( _mk_msg (3 , , &U _dados -> -> 1 `i `uc &U _msg ]
+[; ;main.c: 91: write_cmd(&dados, dados.addr_from);
 "91
-[e $U 377  ]
-[; ;main.c: 92: case DESLIGA_LED2:
-"92
-[e :U 386 ]
-[; ;main.c: 93: PORTDbits.RD1 = 1;
+[e ( _write_cmd (2 , &U _dados . _dados 3 ]
+[; ;main.c: 93: break;
 "93
-[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
-[; ;main.c: 94: break;
+[e $U 377  ]
+[; ;main.c: 94: case LIGA_LED2:
 "94
-[e $U 377  ]
-[; ;main.c: 95: default:
+[e :U 385 ]
+[; ;main.c: 95: PORTDbits.RD1 = 0;
 "95
-[e :U 387 ]
-[; ;main.c: 97: break;
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[; ;main.c: 97: msg[0] = 0x06;
 "97
-[e $U 377  ]
+[e = *U + &U _msg * -> -> -> 0 `i `ui `ux -> -> # *U &U _msg `ui `ux -> -> 6 `i `uc ]
+[; ;main.c: 98: mk_msg(&dados, 1, msg);
 "98
-}
-[; ;main.c: 98: }
+[e ( _mk_msg (3 , , &U _dados -> -> 1 `i `uc &U _msg ]
+[; ;main.c: 99: write_cmd(&dados, dados.addr_from);
+"99
+[e ( _write_cmd (2 , &U _dados . _dados 3 ]
+[; ;main.c: 101: break;
+"101
 [e $U 377  ]
-"60
+[; ;main.c: 102: case DESLIGA_LED2:
+"102
+[e :U 386 ]
+[; ;main.c: 103: PORTDbits.RD1 = 1;
+"103
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[; ;main.c: 105: msg[0] = 0x06;
+"105
+[e = *U + &U _msg * -> -> -> 0 `i `ui `ux -> -> # *U &U _msg `ui `ux -> -> 6 `i `uc ]
+[; ;main.c: 106: mk_msg(&dados, 1, msg);
+"106
+[e ( _mk_msg (3 , , &U _dados -> -> 1 `i `uc &U _msg ]
+[; ;main.c: 107: write_cmd(&dados, dados.addr_from);
+"107
+[e ( _write_cmd (2 , &U _dados . _dados 3 ]
+[; ;main.c: 109: break;
+"109
+[e $U 377  ]
+[; ;main.c: 110: case LE_BOTAO1:
+"110
+[e :U 387 ]
+[; ;main.c: 111: msg[0] = 0x06;
+"111
+[e = *U + &U _msg * -> -> -> 0 `i `ui `ux -> -> # *U &U _msg `ui `ux -> -> 6 `i `uc ]
+[; ;main.c: 112: msg[1] = (char) PORTDbits.RD2;
+"112
+[e = *U + &U _msg * -> -> -> 1 `i `ui `ux -> -> # *U &U _msg `ui `ux . . _PORTDbits 0 2 ]
+[; ;main.c: 113: mk_msg(&dados, 2, msg);
+"113
+[e ( _mk_msg (3 , , &U _dados -> -> 2 `i `uc &U _msg ]
+[; ;main.c: 114: write_cmd(&dados, dados.addr_from);
+"114
+[e ( _write_cmd (2 , &U _dados . _dados 3 ]
+[; ;main.c: 116: break;
+"116
+[e $U 377  ]
+[; ;main.c: 117: case LE_BOTAO2:
+"117
+[e :U 388 ]
+[; ;main.c: 118: msg[0] = 0x06;
+"118
+[e = *U + &U _msg * -> -> -> 0 `i `ui `ux -> -> # *U &U _msg `ui `ux -> -> 6 `i `uc ]
+[; ;main.c: 119: msg[1] = (char) PORTDbits.RD3;
+"119
+[e = *U + &U _msg * -> -> -> 1 `i `ui `ux -> -> # *U &U _msg `ui `ux . . _PORTDbits 0 3 ]
+[; ;main.c: 120: mk_msg(&dados, 2, msg);
+"120
+[e ( _mk_msg (3 , , &U _dados -> -> 2 `i `uc &U _msg ]
+[; ;main.c: 121: write_cmd(&dados, dados.addr_from);
+"121
+[e ( _write_cmd (2 , &U _dados . _dados 3 ]
+[; ;main.c: 123: break;
+"123
+[e $U 377  ]
+[; ;main.c: 124: default:
+"124
+[e :U 389 ]
+[; ;main.c: 126: break;
+"126
+[e $U 377  ]
+"127
+}
+[; ;main.c: 127: }
+[e $U 377  ]
+"62
 [e :U 378 ]
 [e [\ ( _check_data (1 &U _dados , $ . `E3818 0 379
  , $ . `E3818 1 380
@@ -3896,27 +3976,29 @@ Version 3.2 HI-TECH Software Intermediate Code
  , $ . `E3818 6 384
  , $ . `E3818 5 385
  , $ . `E3818 7 386
- 387 ]
-"98
+ , $ . `E3818 8 387
+ , $ . `E3818 9 388
+ 389 ]
+"127
 [e :U 377 ]
-[; ;main.c: 100: write_zero(&dados);
-"100
+[; ;main.c: 129: write_zero(&dados);
+"129
 [e ( _write_zero (1 &U _dados ]
-"102
+"131
 }
 [e :U 376 ]
-"128
+"157
 }
 [e :U 369 ]
-"48
+"50
 [e $U 370  ]
 [e :U 371 ]
-[; ;main.c: 102: }
-[; ;main.c: 128: }
-[; ;main.c: 131: return;
-"131
+[; ;main.c: 131: }
+[; ;main.c: 157: }
+[; ;main.c: 160: return;
+"160
 [e $UE 368  ]
-[; ;main.c: 132: }
-"132
+[; ;main.c: 161: }
+"161
 [e :UE 368 ]
 }

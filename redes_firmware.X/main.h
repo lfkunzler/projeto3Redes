@@ -77,6 +77,8 @@
 
 #define LED1 PORTDbits.RD0
 #define LED2 PORTDbits.RD1
+#define BT1  PORTDbits.RD2
+#define BT2  PORTDbits.RD3
 
 #define _XTAL_FREQ 8000000UL
 

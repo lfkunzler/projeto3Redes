@@ -41,14 +41,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _TXREG `Vuc ~T0 @X0 0 e@4013 ]
 "10281
 [v _TRMT `Vb ~T0 @X0 0 e@32097 ]
-"45 comunicacao.h
+"48 comunicacao.h
 [s S362 `uc 1 `uc -> 64 `i `s 1 `uc 1 `uc 1 ]
 [n S362 . count buff data_flag addr_from command ]
-"60
+"63
 [v _calc_bcc `(uc ~T0 @X0 0 ef1`*uc ]
 "102 comunicacao.c
-[c E3818 0 1 2 3 4 5 6 7 8 .. ]
-[n E3818 . ERR_STX ERR_IGNORE_MSG ERR_BCC ERR_NAK LIGA_LED1 LIGA_LED2 DESLIGA_LED1 DESLIGA_LED2 ERR_UNDETECTED  ]
+[c E3818 0 1 2 3 4 5 6 7 8 9 10 .. ]
+[n E3818 . ERR_STX ERR_IGNORE_MSG ERR_BCC ERR_NAK LIGA_LED1 LIGA_LED2 DESLIGA_LED1 DESLIGA_LED2 LE_BOTAO1 LE_BOTAO2 ERR_UNDETECTED  ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3672,25 +3672,27 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;comunicacao.h: 38: LIGA_LED2,
 [; ;comunicacao.h: 39: DESLIGA_LED1,
 [; ;comunicacao.h: 40: DESLIGA_LED2,
-[; ;comunicacao.h: 41: ERR_UNDETECTED
-[; ;comunicacao.h: 42: } en_comunicacao_t;
-[; ;comunicacao.h: 45: typedef struct {
-[; ;comunicacao.h: 46: uint8_t count;
-[; ;comunicacao.h: 47: uint8_t buff[64];
-[; ;comunicacao.h: 48: short data_flag;
-[; ;comunicacao.h: 49: uint8_t addr_from;
-[; ;comunicacao.h: 50: uint8_t command;
-[; ;comunicacao.h: 51: } dados_t;
-[; ;comunicacao.h: 53: void uart_init(void);
-[; ;comunicacao.h: 54: short uart_check_rx(void);
-[; ;comunicacao.h: 55: uint8_t uart_receive_byte(void);
-[; ;comunicacao.h: 56: void uart_send_byte(uint8_t dbyte);
-[; ;comunicacao.h: 58: void send_string_data(char *string, dados_t *dados);
-[; ;comunicacao.h: 59: en_comunicacao_t check_data(dados_t *data);
-[; ;comunicacao.h: 60: uint8_t calc_bcc(uint8_t *data);
-[; ;comunicacao.h: 61: void write_zero(dados_t *dados);
-[; ;comunicacao.h: 63: void mk_msg(dados_t *data, uint8_t count, char *string);
-[; ;comunicacao.h: 65: void write_cmd(dados_t *data, uint8_t addr_to);
+[; ;comunicacao.h: 41: LE_BOTAO1,
+[; ;comunicacao.h: 42: LE_BOTAO2,
+[; ;comunicacao.h: 43: ERR_UNDETECTED
+[; ;comunicacao.h: 44: } comunicacao_en;
+[; ;comunicacao.h: 48: typedef struct {
+[; ;comunicacao.h: 49: uint8_t count;
+[; ;comunicacao.h: 50: uint8_t buff[64];
+[; ;comunicacao.h: 51: short data_flag;
+[; ;comunicacao.h: 52: uint8_t addr_from;
+[; ;comunicacao.h: 53: uint8_t command;
+[; ;comunicacao.h: 54: } dados_t;
+[; ;comunicacao.h: 56: void uart_init(void);
+[; ;comunicacao.h: 57: short uart_check_rx(void);
+[; ;comunicacao.h: 58: uint8_t uart_receive_byte(void);
+[; ;comunicacao.h: 59: void uart_send_byte(uint8_t dbyte);
+[; ;comunicacao.h: 61: void send_string_data(char *string, dados_t *dados);
+[; ;comunicacao.h: 62: comunicacao_en check_data(dados_t *data);
+[; ;comunicacao.h: 63: uint8_t calc_bcc(uint8_t *data);
+[; ;comunicacao.h: 64: void write_zero(dados_t *dados);
+[; ;comunicacao.h: 66: void mk_msg(dados_t *data, uint8_t count, char *string);
+[; ;comunicacao.h: 68: void write_cmd(dados_t *data, uint8_t addr_to);
 "9 comunicacao.c
 [v _uart_init `(v ~T0 @X0 1 ef ]
 "10
@@ -3875,16 +3877,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _addr_to `uc ~T0 @X0 1 r2 ]
 "68
 [f ]
-[v F3873 `uc ~T0 @X0 -> 64 `i s ]
-[i F3873
+[v F3875 `uc ~T0 @X0 -> 64 `i s ]
+[i F3875
 :U ..
 "69
 -> -> 0 `i `uc
 ..
 ]
 [v _aux `uc ~T0 @X0 -> 64 `i a ]
-[; ;comunicacao.c: 69: char aux[64] = {0};
-[e = _aux F3873 ]
+[; ;comunicacao.c: 69: uint8_t aux[64] = {0};
+[e = _aux F3875 ]
 [; ;comunicacao.c: 71: aux[0] = 0x02;
 "71
 [e = *U + &U _aux * -> -> -> 0 `i `ui `ux -> -> # *U &U _aux `ui `ux -> -> 2 `i `uc ]
@@ -3995,7 +3997,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _check_data `(E3818 ~T0 @X0 1 ef1`*S362 ]
 "102
 {
-[; ;comunicacao.c: 101: en_comunicacao_t check_data(dados_t *data)
+[; ;comunicacao.c: 101: comunicacao_en check_data(dados_t *data)
 [; ;comunicacao.c: 102: {
 [e :U _check_data ]
 "101
@@ -4047,97 +4049,129 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;comunicacao.c: 117: data->count = data->buff[4];
 "117
 [e = . *U _data 0 *U + &U . *U _data 1 * -> -> -> 4 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux ]
-[; ;comunicacao.c: 119: if (data->count == 1) {
-"119
-[e $ ! == -> . *U _data 0 `i -> 1 `i 398  ]
-{
-[; ;comunicacao.c: 120: if (data->buff[3] == 0x21) {
+[; ;comunicacao.c: 120: if (data->count == 0) {
 "120
-[e $ ! == -> *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 33 `i 399  ]
+[e $ ! == -> . *U _data 0 `i -> 0 `i 398  ]
 {
-[; ;comunicacao.c: 121: return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
+[; ;comunicacao.c: 121: if (data->buff[3] == 0x01) {
 "121
-[e ) -> ? != & -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> == -> 1 `i -> 1 `i `i -> 0 `i : -> . `E3818 4 `i -> . `E3818 6 `i `E3818 ]
-[e $UE 394  ]
+[e $ ! == -> *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 1 `i 399  ]
+{
+[; ;comunicacao.c: 122: return LE_BOTAO1;
 "122
-}
-[; ;comunicacao.c: 122: } else if (data->buff[3] == 0x22) {
-[e $U 400  ]
-[e :U 399 ]
-[e $ ! == -> *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 34 `i 401  ]
-{
-[; ;comunicacao.c: 123: return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
-"123
-[e ) -> ? != & -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> == -> 1 `i -> 1 `i `i -> 0 `i : -> . `E3818 5 `i -> . `E3818 7 `i `E3818 ]
+[e ) . `E3818 8 ]
 [e $UE 394  ]
-"124
+"123
 }
-[; ;comunicacao.c: 124: } else {
-[e $U 402  ]
-[e :U 401 ]
+[e :U 399 ]
+[; ;comunicacao.c: 123: }
+[; ;comunicacao.c: 124: if (data->buff[3] == 0x02) {
+"124
+[e $ ! == -> *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 2 `i 400  ]
 {
-[; ;comunicacao.c: 125: return ERR_NAK;
+[; ;comunicacao.c: 125: return LE_BOTAO2;
 "125
-[e ) . `E3818 3 ]
+[e ) . `E3818 9 ]
 [e $UE 394  ]
 "126
 }
-[e :U 402 ]
 [e :U 400 ]
 "127
 }
-[e :U 398 ]
 [; ;comunicacao.c: 126: }
-[; ;comunicacao.c: 127: }
-[; ;comunicacao.c: 128: }
+[; ;comunicacao.c: 127: } else if (data->count == 1) {
+[e $U 401  ]
+[e :U 398 ]
+[e $ ! == -> . *U _data 0 `i -> 1 `i 402  ]
+{
+[; ;comunicacao.c: 128: if (data->buff[3] == 0x21) {
 "128
+[e $ ! == -> *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 33 `i 403  ]
+{
+[; ;comunicacao.c: 129: return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
+"129
+[e ) -> ? != & -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> == -> 1 `i -> 1 `i `i -> 0 `i : -> . `E3818 4 `i -> . `E3818 6 `i `E3818 ]
+[e $UE 394  ]
+"130
+}
+[e :U 403 ]
+[; ;comunicacao.c: 130: }
+[; ;comunicacao.c: 131: if (data->buff[3] == 0x22) {
+"131
+[e $ ! == -> *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 34 `i 404  ]
+{
+[; ;comunicacao.c: 132: return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
+"132
+[e ) -> ? != & -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> == -> 1 `i -> 1 `i `i -> 0 `i : -> . `E3818 5 `i -> . `E3818 7 `i `E3818 ]
+[e $UE 394  ]
+"133
+}
+[e :U 404 ]
+"134
+}
+[; ;comunicacao.c: 133: }
+[; ;comunicacao.c: 134: } else {
+[e $U 405  ]
+[e :U 402 ]
+{
+[; ;comunicacao.c: 135: return ERR_NAK;
+"135
+[e ) . `E3818 3 ]
+[e $UE 394  ]
+"136
+}
+[e :U 405 ]
+[e :U 401 ]
+[; ;comunicacao.c: 136: }
+[; ;comunicacao.c: 137: }
+"137
 [e :UE 394 ]
 }
-"130
+"139
 [v _write_zero `(v ~T0 @X0 1 ef1`*S362 ]
-"131
+"140
 {
-[; ;comunicacao.c: 130: void write_zero(dados_t *dados)
-[; ;comunicacao.c: 131: {
+[; ;comunicacao.c: 139: void write_zero(dados_t *dados)
+[; ;comunicacao.c: 140: {
 [e :U _write_zero ]
-"130
+"139
 [v _dados `*S362 ~T0 @X0 1 r1 ]
-"131
+"140
 [f ]
-[; ;comunicacao.c: 132: for (uint8_t i = 0; i < 64; i++) {
-"132
+[; ;comunicacao.c: 141: for (uint8_t i = 0; i < 64; i++) {
+"141
 {
 [v _i `uc ~T0 @X0 1 a ]
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 64 `i 404  ]
-[e $U 405  ]
-[e :U 404 ]
+[e $ < -> _i `i -> 64 `i 407  ]
+[e $U 408  ]
+[e :U 407 ]
 {
-[; ;comunicacao.c: 133: dados->buff[i] = 0x00;
-"133
+[; ;comunicacao.c: 142: dados->buff[i] = 0x00;
+"142
 [e = *U + &U . *U _dados 1 * -> _i `ux -> -> # *U &U . *U _dados 1 `ui `ux -> -> 0 `i `uc ]
-"134
+"143
 }
-"132
+"141
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 64 `i 404  ]
-[e :U 405 ]
-"134
+[e $ < -> _i `i -> 64 `i 407  ]
+[e :U 408 ]
+"143
 }
-[; ;comunicacao.c: 134: }
-[; ;comunicacao.c: 136: dados->count = 0;
-"136
+[; ;comunicacao.c: 143: }
+[; ;comunicacao.c: 145: dados->count = 0;
+"145
 [e = . *U _dados 0 -> -> 0 `i `uc ]
-[; ;comunicacao.c: 137: dados->command = 0;
-"137
+[; ;comunicacao.c: 146: dados->command = 0;
+"146
 [e = . *U _dados 4 -> -> 0 `i `uc ]
-[; ;comunicacao.c: 138: dados->data_flag = 0;
-"138
+[; ;comunicacao.c: 147: dados->data_flag = 0;
+"147
 [e = . *U _dados 2 -> -> 0 `i `s ]
-[; ;comunicacao.c: 139: dados->addr_from = 0;
-"139
+[; ;comunicacao.c: 148: dados->addr_from = 0;
+"148
 [e = . *U _dados 3 -> -> 0 `i `uc ]
-[; ;comunicacao.c: 140: }
-"140
-[e :UE 403 ]
+[; ;comunicacao.c: 149: }
+"149
+[e :UE 406 ]
 }

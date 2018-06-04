@@ -24,8 +24,8 @@
 #define BLINK_LED1 0x41 // pisca led1, 2 bytes dados: [qtde:tempo]
 #define BLINK_LED2 0x42 // pisca o led2
 #define WRT_MSG 0x70 // escreve msg no display, 1o byte eh o endereco, 1o addr = 0x80
-#define ANS_ACK 0x06 // byte de resposta para comando compreendido
-#define ANS_NAK 0x15 // byte de resposta para comando nao compreendido
+#define CMD_ACK 0x06 // byte de resposta para comando compreendido
+#define CMD_NAK 0x15 // byte de resposta para comando nao compreendido
 /* FIM DA DEFINICAO DE COMANDOS */
 
 /* RETORNOS PARA VERIFICACAO DE DADOS */
@@ -38,8 +38,11 @@ typedef enum {
     LIGA_LED2,
     DESLIGA_LED1,
     DESLIGA_LED2,
+    LE_BOTAO1,
+    LE_BOTAO2,
     ERR_UNDETECTED
-} en_comunicacao_t;
+} comunicacao_en;
+
 /* FIM DA DEFINICAO DE RETORNOS */
 
 typedef struct {
@@ -56,7 +59,7 @@ uint8_t uart_receive_byte(void);
 void uart_send_byte(uint8_t dbyte);
 
 void send_string_data(char *string, dados_t *dados);
-en_comunicacao_t check_data(dados_t *data); // analisa o tipo de dado
+comunicacao_en check_data(dados_t *data); // analisa o tipo de dado
 uint8_t calc_bcc(uint8_t *data); // calcula o bcc
 void write_zero(dados_t *dados); // write zeros on buffer and count
 // salva a string no campo de buff do data e atualiza o contador

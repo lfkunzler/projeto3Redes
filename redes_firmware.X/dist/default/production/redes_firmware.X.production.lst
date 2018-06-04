@@ -1,7 +1,7 @@
 
 
 Microchip Technology PIC18 LITE Macro Assembler V1.45 build -152302408 
-                                                                                               Sun Jun 03 22:09:17 2018
+                                                                                               Sun Jun 03 23:23:26 2018
 
 Microchip Technology Omniscient Code Generator v1.45 (Free mode) build 201711160504
      1                           	processor	18F4550
@@ -83,36 +83,36 @@ Microchip Technology Omniscient Code Generator v1.45 (Free mode) build 201711160
     69                           ; #config settings
     70  0000                     
     71                           	psect	cinit
-    72  007B98                     __pcinit:
+    72  007A22                     __pcinit:
     73                           	opt stack 0
-    74  007B98                     start_initialization:
+    74  007A22                     start_initialization:
     75                           	opt stack 0
-    76  007B98                     __initialization:
+    76  007A22                     __initialization:
     77                           	opt stack 0
     78                           
     79                           ; Clear objects allocated to BANK1 (64 bytes)
-    80  007B98  EE01  F000         	lfsr	0,__pbssBANK1
-    81  007B9C  0E40               	movlw	64
-    82  007B9E                     clear_0:
-    83  007B9E  6AEE               	clrf	postinc0,c
-    84  007BA0  06E8               	decf	wreg,f,c
-    85  007BA2  E1FD               	bnz	clear_0
+    80  007A22  EE01  F000         	lfsr	0,__pbssBANK1
+    81  007A26  0E40               	movlw	64
+    82  007A28                     clear_0:
+    83  007A28  6AEE               	clrf	postinc0,c
+    84  007A2A  06E8               	decf	wreg,f,c
+    85  007A2C  E1FD               	bnz	clear_0
     86                           
     87                           ; Clear objects allocated to BANK0 (32 bytes)
-    88  007BA4  EE00  F0C5         	lfsr	0,__pbssBANK0
-    89  007BA8  0E20               	movlw	32
-    90  007BAA                     clear_1:
-    91  007BAA  6AEE               	clrf	postinc0,c
-    92  007BAC  06E8               	decf	wreg,f,c
-    93  007BAE  E1FD               	bnz	clear_1
-    94  007BB0                     end_of_initialization:
+    88  007A2E  EE00  F0C5         	lfsr	0,__pbssBANK0
+    89  007A32  0E20               	movlw	32
+    90  007A34                     clear_1:
+    91  007A34  6AEE               	clrf	postinc0,c
+    92  007A36  06E8               	decf	wreg,f,c
+    93  007A38  E1FD               	bnz	clear_1
+    94  007A3A                     end_of_initialization:
     95                           	opt stack 0
-    96  007BB0                     __end_of__initialization:
+    96  007A3A                     __end_of__initialization:
     97                           	opt stack 0
-    98  007BB0  0E00               	movlw	low (__Lmediumconst shr (0+16))
-    99  007BB2  6EF8               	movwf	tblptru,c
-   100  007BB4  0100               	movlb	0
-   101  007BB6  EFF0  F03E         	goto	_main	;jump to C main() function
+    98  007A3A  0E00               	movlw	low (__Lmediumconst shr (0+16))
+    99  007A3C  6EF8               	movwf	tblptru,c
+   100  007A3E  0100               	movlb	0
+   101  007A40  EFE1  F03E         	goto	_main	;jump to C main() function
    102                           tblptru	equ	0xFF8
    103                           postinc0	equ	0xFEE
    104                           wreg	equ	0xFE8
@@ -120,7 +120,7 @@ Microchip Technology Omniscient Code Generator v1.45 (Free mode) build 201711160
    106                           	psect	bssBANK0
    107  0000C5                     __pbssBANK0:
    108                           	opt stack 0
-   109  0000C5                     main@F3868:
+   109  0000C5                     main@F3870:
    110                           	opt stack 0
    111  0000C5                     	ds	32
    112                           tblptru	equ	0xFF8
@@ -130,7 +130,7 @@ Microchip Technology Omniscient Code Generator v1.45 (Free mode) build 201711160
    116                           	psect	bssBANK1
    117  000100                     __pbssBANK1:
    118                           	opt stack 0
-   119  000100                     write_cmd@F3873:
+   119  000100                     write_cmd@F3875:
    120                           	opt stack 0
    121  000100                     	ds	64
    122                           tblptru	equ	0xFF8
@@ -206,12 +206,12 @@ Microchip Technology Omniscient Code Generator v1.45 (Free mode) build 201711160
    192                           ; 1 bytes @ 0x6
    193  000007                     	ds	1
    194  000008                     ??_write_cmd:
-   195  000008                     _check_data$331:
+   195  000008                     _check_data$335:
    196                           	opt stack 0
    197                           
    198                           ; 2 bytes @ 0x7
    199  000008                     	ds	2
-   200  00000A                     _check_data$332:
+   200  00000A                     _check_data$336:
    201                           	opt stack 0
    202                           
    203                           ; 2 bytes @ 0x9
@@ -275,1239 +275,1480 @@ Microchip Technology Omniscient Code Generator v1.45 (Free mode) build 201711160
    261 ;;
    262                           
    263                           	psect	text0
-   264  007DE0                     __ptext0:
+   264  007DC2                     __ptext0:
    265                           	opt stack 0
-   266  007DE0                     _main:
+   266  007DC2                     _main:
    267                           	opt stack 29
    268                           
    269                           ;main.c: 21: ADCON1 = 0x0F;
    270                           
    271                           ;incstack = 0
-   272  007DE0  0E0F               	movlw	15
-   273  007DE2  6EC1               	movwf	4033,c	;volatile
+   272  007DC2  0E0F               	movlw	15
+   273  007DC4  6EC1               	movwf	4033,c	;volatile
    274                           
    275                           ;main.c: 23: TRISDbits.RD0 = 0;
-   276  007DE4  9095               	bcf	3989,0,c	;volatile
+   276  007DC6  9095               	bcf	3989,0,c	;volatile
    277                           
    278                           ;main.c: 24: TRISDbits.RD1 = 0;
-   279  007DE6  9295               	bcf	3989,1,c	;volatile
+   279  007DC8  9295               	bcf	3989,1,c	;volatile
    280                           
-   281                           ;main.c: 28: uart_init();
-   282  007DE8  ECBD  F03D         	call	_uart_init	;wreg free
+   281                           ;main.c: 25: TRISDbits.RD2 = 1;
+   282  007DCA  8495               	bsf	3989,2,c	;volatile
    283                           
-   284                           ;main.c: 35: dados_t dados;
-   285                           ;main.c: 36: char msg[32] = { 0 };
-   286  007DEC  EE20  F0C5         	lfsr	2,main@F3868
-   287  007DF0  EE10  F060         	lfsr	1,main@msg
-   288  007DF4  0E1F               	movlw	31
-   289  007DF6                     u481:
-   290  007DF6  CFDB FFE3          	movff	plusw2,plusw1
-   291  007DFA  06E8               	decf	wreg,f,c
-   292  007DFC  E2FC               	bc	u481
-   293                           
-   294                           ;main.c: 41: PORTDbits.RD0 = 1;
-   295  007DFE  8083               	bsf	3971,0,c	;volatile
-   296                           
-   297                           ;main.c: 42: PORTDbits.RD1 = 1;
-   298  007E00  8283               	bsf	3971,1,c	;volatile
+   284                           ;main.c: 26: TRISDbits.RD3 = 1;
+   285  007DCC  8695               	bsf	3989,3,c	;volatile
+   286                           
+   287                           ;main.c: 30: uart_init();
+   288  007DCE  EC02  F03D         	call	_uart_init	;wreg free
+   289                           
+   290                           ;main.c: 37: dados_t dados;
+   291                           ;main.c: 38: char msg[32] = {0};
+   292  007DD2  EE20  F0C5         	lfsr	2,main@F3870
+   293  007DD6  EE10  F060         	lfsr	1,main@msg
+   294  007DDA  0E1F               	movlw	31
+   295  007DDC                     u541:
+   296  007DDC  CFDB FFE3          	movff	plusw2,plusw1
+   297  007DE0  06E8               	decf	wreg,f,c
+   298  007DE2  E2FC               	bc	u541
    299                           
-   300                           ;main.c: 43: write_zero(&dados);
-   301  007E02  0E80               	movlw	low main@dados
-   302  007E04  6E01               	movwf	write_zero@dados,c
-   303  007E06  0E00               	movlw	high main@dados
-   304  007E08  6E02               	movwf	write_zero@dados+1,c
-   305  007E0A  EC3B  F03E         	call	_write_zero	;wreg free
-   306  007E0E                     
-   307                           ;main.c: 50: if (!uart_check_rx()) {
-   308  007E0E  ECF8  F03D         	call	_uart_check_rx	;wreg free
-   309  007E12  5001               	movf	?_uart_check_rx,w,c
-   310  007E14  1002               	iorwf	?_uart_check_rx+1,w,c
-   311  007E16  A4D8               	btfss	status,2,c
-   312  007E18  D01B               	goto	l36
-   313  007E1A                     u490:
-   314                           
-   315                           ;main.c: 53: dados.buff[dados.count++] = RCREG;
-   316                           
-   317                           ;main.c: 51: do {
-   318  007E1A  0100               	movlb	0	; () banked
-   319  007E1C  5180               	movf	main@dados& (0+255),w,b
-   320  007E1E  0D01               	mullw	1
-   321  007E20  0E01               	movlw	1
-   322  007E22  26F3               	addwf	prodl,f,c
-   323  007E24  0E00               	movlw	0
-   324  007E26  22F4               	addwfc	prodh,f,c
-   325  007E28  0E80               	movlw	low main@dados
-   326  007E2A  24F3               	addwf	prodl,w,c
-   327  007E2C  6ED9               	movwf	fsr2l,c
-   328  007E2E  0E00               	movlw	high main@dados
-   329  007E30  20F4               	addwfc	prodh,w,c
-   330  007E32  6EDA               	movwf	fsr2h,c
-   331  007E34  CFAE FFDF          	movff	4014,indf2	;volatile
-   332                           
-   333                           ; BSR set to: 0
-   334  007E38  2B80               	incf	main@dados& (0+255),f,b
-   335                           
-   336                           ; BSR set to: 0
-   337                           ;main.c: 54: } while (!uart_check_rx());
-   338  007E3A  ECF8  F03D         	call	_uart_check_rx	;wreg free
-   339  007E3E  5001               	movf	?_uart_check_rx,w,c
-   340  007E40  1002               	iorwf	?_uart_check_rx+1,w,c
-   341  007E42  B4D8               	btfsc	status,2,c
-   342  007E44  D7EA               	goto	u490
-   343                           
-   344                           ;main.c: 55: dados.data_flag = 1;
-   345  007E46  0E00               	movlw	0
-   346  007E48  0100               	movlb	0	; () banked
-   347  007E4A  6FC2               	movwf	(main@dados+66)& (0+255),b
-   348  007E4C  0E01               	movlw	1
-   349  007E4E  6FC1               	movwf	(main@dados+65)& (0+255),b
-   350  007E50                     l36:
-   351                           
-   352                           ;main.c: 56: }
-   353                           ;main.c: 59: if (dados.data_flag) {
-   354                           
-   355                           ; BSR set to: 0
-   356  007E50  0100               	movlb	0	; () banked
-   357  007E52  51C1               	movf	(main@dados+65)& (0+255),w,b
-   358  007E54  11C2               	iorwf	(main@dados+66)& (0+255),w,b
-   359  007E56  A4D8               	btfss	status,2,c
-   360  007E58  D020               	goto	l40
-   361  007E5A  D7D9               	goto	l35
-   362  007E5C                     l46:
-   363                           
-   364                           ;main.c: 76: PORTDbits.RD0 = 0;
-   365  007E5C  9083               	bcf	3971,0,c	;volatile
-   366                           
-   367                           ;main.c: 77: msg[0] = 0x06;
-   368  007E5E  0E06               	movlw	6
-   369  007E60  0100               	movlb	0	; () banked
-   370  007E62  6F60               	movwf	main@msg& (0+255),b
-   371                           
-   372                           ; BSR set to: 0
-   373                           ;main.c: 78: mk_msg(&dados, 1, msg);
-   374  007E64  0E80               	movlw	low main@dados
-   375  007E66  6E01               	movwf	mk_msg@data,c
-   376  007E68  0E00               	movlw	high main@dados
-   377  007E6A  6E02               	movwf	mk_msg@data+1,c
-   378  007E6C  0E01               	movlw	1
-   379  007E6E  6E03               	movwf	mk_msg@count,c
-   380  007E70  0E60               	movlw	low main@msg
-   381  007E72  6E04               	movwf	mk_msg@string,c
-   382  007E74  0E00               	movlw	high main@msg
-   383  007E76  6E05               	movwf	mk_msg@string+1,c
-   384  007E78  EC16  F03E         	call	_mk_msg	;wreg free
-   385                           
-   386                           ;main.c: 79: write_cmd(&dados, dados.addr_from);
-   387  007E7C  0E80               	movlw	low main@dados
-   388  007E7E  6E05               	movwf	write_cmd@data,c
-   389  007E80  0E00               	movlw	high main@dados
-   390  007E82  6E06               	movwf	write_cmd@data+1,c
-   391  007E84  C0C3  F007         	movff	main@dados+67,write_cmd@addr_to
-   392  007E88  EC72  F03E         	call	_write_cmd	;wreg free
-   393                           
-   394                           ;main.c: 85: break;
-   395  007E8C  D024               	goto	l42
-   396  007E8E                     l47:
+   300                           ;main.c: 43: PORTDbits.RD0 = 1;
+   301  007DE4  8083               	bsf	3971,0,c	;volatile
+   302                           
+   303                           ;main.c: 44: PORTDbits.RD1 = 1;
+   304  007DE6  8283               	bsf	3971,1,c	;volatile
+   305                           
+   306                           ;main.c: 45: write_zero(&dados);
+   307  007DE8  0E80               	movlw	low main@dados
+   308  007DEA  6E01               	movwf	write_zero@dados,c
+   309  007DEC  0E00               	movlw	high main@dados
+   310  007DEE  6E02               	movwf	write_zero@dados+1,c
+   311  007DF0  EC80  F03D         	call	_write_zero	;wreg free
+   312  007DF4                     
+   313                           ;main.c: 52: if (!uart_check_rx()) {
+   314  007DF4  EC3D  F03D         	call	_uart_check_rx	;wreg free
+   315  007DF8  5001               	movf	?_uart_check_rx,w,c
+   316  007DFA  1002               	iorwf	?_uart_check_rx+1,w,c
+   317  007DFC  A4D8               	btfss	status,2,c
+   318  007DFE  D01B               	goto	l36
+   319  007E00                     u550:
+   320                           
+   321                           ;main.c: 55: dados.buff[dados.count++] = RCREG;
+   322                           
+   323                           ;main.c: 53: do {
+   324  007E00  0100               	movlb	0	; () banked
+   325  007E02  5180               	movf	main@dados& (0+255),w,b
+   326  007E04  0D01               	mullw	1
+   327  007E06  0E01               	movlw	1
+   328  007E08  26F3               	addwf	prodl,f,c
+   329  007E0A  0E00               	movlw	0
+   330  007E0C  22F4               	addwfc	prodh,f,c
+   331  007E0E  0E80               	movlw	low main@dados
+   332  007E10  24F3               	addwf	prodl,w,c
+   333  007E12  6ED9               	movwf	fsr2l,c
+   334  007E14  0E00               	movlw	high main@dados
+   335  007E16  20F4               	addwfc	prodh,w,c
+   336  007E18  6EDA               	movwf	fsr2h,c
+   337  007E1A  CFAE FFDF          	movff	4014,indf2	;volatile
+   338                           
+   339                           ; BSR set to: 0
+   340  007E1E  2B80               	incf	main@dados& (0+255),f,b
+   341                           
+   342                           ; BSR set to: 0
+   343                           ;main.c: 56: } while (!uart_check_rx());
+   344  007E20  EC3D  F03D         	call	_uart_check_rx	;wreg free
+   345  007E24  5001               	movf	?_uart_check_rx,w,c
+   346  007E26  1002               	iorwf	?_uart_check_rx+1,w,c
+   347  007E28  B4D8               	btfsc	status,2,c
+   348  007E2A  D7EA               	goto	u550
+   349                           
+   350                           ;main.c: 57: dados.data_flag = 1;
+   351  007E2C  0E00               	movlw	0
+   352  007E2E  0100               	movlb	0	; () banked
+   353  007E30  6FC2               	movwf	(main@dados+66)& (0+255),b
+   354  007E32  0E01               	movlw	1
+   355  007E34  6FC1               	movwf	(main@dados+65)& (0+255),b
+   356  007E36                     l36:
+   357                           
+   358                           ;main.c: 58: }
+   359                           ;main.c: 61: if (dados.data_flag) {
+   360                           
+   361                           ; BSR set to: 0
+   362  007E36  0100               	movlb	0	; () banked
+   363  007E38  51C1               	movf	(main@dados+65)& (0+255),w,b
+   364  007E3A  11C2               	iorwf	(main@dados+66)& (0+255),w,b
+   365  007E3C  A4D8               	btfss	status,2,c
+   366  007E3E  D0B5               	goto	l40
+   367  007E40  D7D9               	goto	l35
+   368  007E42                     
+   369                           ;main.c: 73: msg[0] = 0x15;
+   370                           
+   371                           ; BSR set to: 0
+   372  007E42  0E15               	movlw	21
+   373  007E44  0100               	movlb	0	; () banked
+   374  007E46  6F60               	movwf	main@msg& (0+255),b
+   375                           
+   376                           ; BSR set to: 0
+   377                           ;main.c: 74: mk_msg(&dados, 1, msg);
+   378  007E48  0E80               	movlw	low main@dados
+   379  007E4A  6E01               	movwf	mk_msg@data,c
+   380  007E4C  0E00               	movlw	high main@dados
+   381  007E4E  6E02               	movwf	mk_msg@data+1,c
+   382  007E50  0E01               	movlw	1
+   383  007E52  6E03               	movwf	mk_msg@count,c
+   384  007E54  0E60               	movlw	low main@msg
+   385  007E56  6E04               	movwf	mk_msg@string,c
+   386  007E58  0E00               	movlw	high main@msg
+   387  007E5A  6E05               	movwf	mk_msg@string+1,c
+   388  007E5C  EC5B  F03D         	call	_mk_msg	;wreg free
+   389                           
+   390                           ;main.c: 75: write_cmd(&dados, dados.addr_from);
+   391  007E60  0E80               	movlw	low main@dados
+   392  007E62  6E05               	movwf	write_cmd@data,c
+   393  007E64  0E00               	movlw	high main@dados
+   394  007E66  6E06               	movwf	write_cmd@data+1,c
+   395  007E68  C0C3  F007         	movff	main@dados+67,write_cmd@addr_to
+   396  007E6C  ECB7  F03D         	call	_write_cmd	;wreg free
    397                           
-   398                           ;main.c: 87: PORTDbits.RD0 = 1;
-   399  007E8E  8083               	bsf	3971,0,c	;volatile
-   400                           
-   401                           ;main.c: 88: break;
-   402  007E90  D022               	goto	l42
-   403  007E92                     l48:
+   398                           ;main.c: 77: break;
+   399  007E70  D0C0               	goto	l42
+   400  007E72                     l46:
+   401                           
+   402                           ;main.c: 79: PORTDbits.RD0 = 0;
+   403  007E72  9083               	bcf	3971,0,c	;volatile
    404                           
-   405                           ;main.c: 90: PORTDbits.RD1 = 0;
-   406  007E92  9283               	bcf	3971,1,c	;volatile
-   407                           
-   408                           ;main.c: 91: break;
-   409  007E94  D020               	goto	l42
-   410  007E96                     l49:
-   411                           
-   412                           ;main.c: 93: PORTDbits.RD1 = 1;
-   413  007E96  8283               	bsf	3971,1,c	;volatile
-   414                           
-   415                           ;main.c: 98: }
-   416                           
-   417                           ;main.c: 97: break;
-   418                           
-   419                           ;main.c: 95: default:
-   420                           
-   421                           ;main.c: 94: break;
-   422  007E98  D01E               	goto	l42
-   423  007E9A                     l40:
-   424  007E9A  0E80               	movlw	low main@dados
-   425  007E9C  6E05               	movwf	check_data@data,c
-   426  007E9E  0E00               	movlw	high main@dados
-   427  007EA0  6E06               	movwf	check_data@data+1,c
-   428  007EA2  EC72  F03F         	call	_check_data	;wreg free
-   429                           
-   430                           ; Switch size 1, requested type "space"
-   431                           ; Number of cases is 8, Range of values is 0 to 7
-   432                           ; switch strategies available:
-   433                           ; Name         Instructions Cycles
-   434                           ; simple_byte           25    13 (average)
-   435                           ;	Chosen strategy is simple_byte
-   436  007EA6  0A00               	xorlw	0	; case 0
-   437  007EA8  B4D8               	btfsc	status,2,c
-   438  007EAA  D015               	goto	l42
-   439  007EAC  0A01               	xorlw	1	; case 1
-   440  007EAE  B4D8               	btfsc	status,2,c
-   441  007EB0  D012               	goto	l42
-   442  007EB2  0A03               	xorlw	3	; case 2
-   443  007EB4  B4D8               	btfsc	status,2,c
-   444  007EB6  D00F               	goto	l42
-   445  007EB8  0A01               	xorlw	1	; case 3
-   446  007EBA  B4D8               	btfsc	status,2,c
-   447  007EBC  D00C               	goto	l42
-   448  007EBE  0A07               	xorlw	7	; case 4
-   449  007EC0  B4D8               	btfsc	status,2,c
-   450  007EC2  D7CC               	goto	l46
-   451  007EC4  0A01               	xorlw	1	; case 5
-   452  007EC6  B4D8               	btfsc	status,2,c
-   453  007EC8  D7E4               	goto	l48
-   454  007ECA  0A03               	xorlw	3	; case 6
-   455  007ECC  B4D8               	btfsc	status,2,c
-   456  007ECE  D7DF               	goto	l47
-   457  007ED0  0A01               	xorlw	1	; case 7
-   458  007ED2  B4D8               	btfsc	status,2,c
-   459  007ED4  D7E0               	goto	l49
-   460  007ED6                     l42:
-   461                           
-   462                           ;main.c: 100: write_zero(&dados);
-   463  007ED6  0E80               	movlw	low main@dados
-   464  007ED8  6E01               	movwf	write_zero@dados,c
-   465  007EDA  0E00               	movlw	high main@dados
-   466  007EDC  6E02               	movwf	write_zero@dados+1,c
-   467  007EDE  EC3B  F03E         	call	_write_zero	;wreg free
-   468  007EE2  D795               	goto	l35
-   469  007EE4                     __end_of_main:
-   470                           	opt stack 0
-   471                           tblptru	equ	0xFF8
-   472                           prodh	equ	0xFF4
-   473                           prodl	equ	0xFF3
-   474                           postinc0	equ	0xFEE
-   475                           wreg	equ	0xFE8
-   476                           plusw1	equ	0xFE3
-   477                           indf2	equ	0xFDF
-   478                           plusw2	equ	0xFDB
-   479                           fsr2h	equ	0xFDA
-   480                           fsr2l	equ	0xFD9
-   481                           status	equ	0xFD8
-   482                           
-   483 ;; *************** function _write_zero *****************
-   484 ;; Defined at:
-   485 ;;		line 130 in file "comunicacao.c"
-   486 ;; Parameters:    Size  Location     Type
-   487 ;;  dados           2    0[COMRAM] PTR struct .
-   488 ;;		 -> main@dados(69), 
-   489 ;; Auto vars:     Size  Location     Type
-   490 ;;  i               1    2[COMRAM] unsigned char 
-   491 ;; Return value:  Size  Location     Type
-   492 ;;                  1    wreg      void 
-   493 ;; Registers used:
-   494 ;;		wreg, fsr2l, fsr2h, status,2, status,0, prodl, prodh
-   495 ;; Tracked objects:
-   496 ;;		On entry : 0/0
-   497 ;;		On exit  : 0/0
-   498 ;;		Unchanged: 0/0
-   499 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
-   500 ;;      Params:         2       0       0       0       0       0       0       0       0
-   501 ;;      Locals:         1       0       0       0       0       0       0       0       0
-   502 ;;      Temps:          0       0       0       0       0       0       0       0       0
-   503 ;;      Totals:         3       0       0       0       0       0       0       0       0
-   504 ;;Total ram usage:        3 bytes
-   505 ;; Hardware stack levels used:    1
-   506 ;; This function calls:
-   507 ;;		Nothing
-   508 ;; This function is called by:
-   509 ;;		_main
-   510 ;; This function uses a non-reentrant model
-   511 ;;
-   512                           
-   513                           	psect	text1
-   514  007C76                     __ptext1:
-   515                           	opt stack 0
-   516  007C76                     _write_zero:
-   517                           	opt stack 30
-   518                           
-   519                           ;comunicacao.c: 132: for (uint8_t i = 0; i < 64; i++) {
-   520                           
-   521                           ;incstack = 0
-   522  007C76  0E00               	movlw	0
-   523  007C78  6E03               	movwf	write_zero@i,c
-   524  007C7A                     l996:
-   525  007C7A  0E3F               	movlw	63
-   526  007C7C  6403               	cpfsgt	write_zero@i,c
-   527  007C7E  D001               	goto	l142
-   528  007C80  D010               	goto	u320
-   529  007C82                     l142:
-   530                           
-   531                           ;comunicacao.c: 133: dados->buff[i] = 0x00;
-   532  007C82  5003               	movf	write_zero@i,w,c
-   533  007C84  0D01               	mullw	1
-   534  007C86  0E01               	movlw	1
-   535  007C88  26F3               	addwf	prodl,f,c
-   536  007C8A  0E00               	movlw	0
-   537  007C8C  22F4               	addwfc	prodh,f,c
-   538  007C8E  50F3               	movf	prodl,w,c
-   539  007C90  2401               	addwf	write_zero@dados,w,c
-   540  007C92  6ED9               	movwf	fsr2l,c
-   541  007C94  50F4               	movf	prodh,w,c
-   542  007C96  2002               	addwfc	write_zero@dados+1,w,c
-   543  007C98  6EDA               	movwf	fsr2h,c
-   544  007C9A  0E00               	movlw	0
-   545  007C9C  6EDF               	movwf	indf2,c
-   546  007C9E  2A03               	incf	write_zero@i,f,c
-   547  007CA0  D7EC               	goto	l996
-   548  007CA2                     u320:
-   549                           
-   550                           ;comunicacao.c: 134: }
-   551                           ;comunicacao.c: 136: dados->count = 0;
-   552  007CA2  C001  FFD9         	movff	write_zero@dados,fsr2l
-   553  007CA6  C002  FFDA         	movff	write_zero@dados+1,fsr2h
-   554  007CAA  0E00               	movlw	0
-   555  007CAC  6EDF               	movwf	indf2,c
-   556                           
-   557                           ;comunicacao.c: 137: dados->command = 0;
-   558  007CAE  EE20 F044          	lfsr	2,68
-   559  007CB2  5001               	movf	write_zero@dados,w,c
-   560  007CB4  26D9               	addwf	fsr2l,f,c
-   561  007CB6  5002               	movf	write_zero@dados+1,w,c
-   562  007CB8  22DA               	addwfc	fsr2h,f,c
-   563  007CBA  0E00               	movlw	0
-   564  007CBC  6EDF               	movwf	indf2,c
-   565                           
-   566                           ;comunicacao.c: 138: dados->data_flag = 0;
-   567  007CBE  EE20 F041          	lfsr	2,65
-   568  007CC2  5001               	movf	write_zero@dados,w,c
-   569  007CC4  26D9               	addwf	fsr2l,f,c
-   570  007CC6  5002               	movf	write_zero@dados+1,w,c
-   571  007CC8  22DA               	addwfc	fsr2h,f,c
-   572  007CCA  0E00               	movlw	0
-   573  007CCC  6EDE               	movwf	postinc2,c
-   574  007CCE  0E00               	movlw	0
-   575  007CD0  6EDD               	movwf	postdec2,c
-   576                           
-   577                           ;comunicacao.c: 139: dados->addr_from = 0;
-   578  007CD2  EE20 F043          	lfsr	2,67
-   579  007CD6  5001               	movf	write_zero@dados,w,c
-   580  007CD8  26D9               	addwf	fsr2l,f,c
-   581  007CDA  5002               	movf	write_zero@dados+1,w,c
-   582  007CDC  22DA               	addwfc	fsr2h,f,c
-   583  007CDE  0E00               	movlw	0
-   584  007CE0  6EDF               	movwf	indf2,c
-   585  007CE2  0012               	return		;funcret
-   586  007CE4                     __end_of_write_zero:
-   587                           	opt stack 0
-   588                           tblptru	equ	0xFF8
-   589                           prodh	equ	0xFF4
-   590                           prodl	equ	0xFF3
-   591                           postinc0	equ	0xFEE
-   592                           wreg	equ	0xFE8
-   593                           plusw1	equ	0xFE3
-   594                           indf2	equ	0xFDF
-   595                           postinc2	equ	0xFDE
-   596                           postdec2	equ	0xFDD
-   597                           plusw2	equ	0xFDB
-   598                           fsr2h	equ	0xFDA
-   599                           fsr2l	equ	0xFD9
-   600                           status	equ	0xFD8
-   601                           
-   602 ;; *************** function _write_cmd *****************
-   603 ;; Defined at:
-   604 ;;		line 67 in file "comunicacao.c"
-   605 ;; Parameters:    Size  Location     Type
-   606 ;;  data            2    4[COMRAM] PTR struct .
-   607 ;;		 -> main@dados(69), 
-   608 ;;  addr_to         1    6[COMRAM] unsigned char 
-   609 ;; Auto vars:     Size  Location     Type
-   610 ;;  t               1   76[COMRAM] unsigned char 
-   611 ;;  aux            64   12[COMRAM] unsigned char [64]
-   612 ;;  i               1   77[COMRAM] unsigned char 
-   613 ;; Return value:  Size  Location     Type
-   614 ;;                  1    wreg      void 
-   615 ;; Registers used:
-   616 ;;		wreg, fsr1l, fsr1h, fsr2l, fsr2h, status,2, status,0, prodl, prodh, cstack
-   617 ;; Tracked objects:
-   618 ;;		On entry : 0/0
-   619 ;;		On exit  : 0/0
-   620 ;;		Unchanged: 0/0
-   621 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
-   622 ;;      Params:         3       0       0       0       0       0       0       0       0
-   623 ;;      Locals:        66       0       0       0       0       0       0       0       0
-   624 ;;      Temps:          5       0       0       0       0       0       0       0       0
-   625 ;;      Totals:        74       0       0       0       0       0       0       0       0
-   626 ;;Total ram usage:       74 bytes
-   627 ;; Hardware stack levels used:    1
-   628 ;; Hardware stack levels required when called:    1
-   629 ;; This function calls:
-   630 ;;		_calc_bcc
-   631 ;;		_uart_send_byte
-   632 ;; This function is called by:
-   633 ;;		_main
-   634 ;; This function uses a non-reentrant model
-   635 ;;
-   636                           
-   637                           	psect	text2
-   638  007CE4                     __ptext2:
-   639                           	opt stack 0
-   640  007CE4                     _write_cmd:
-   641                           	opt stack 29
-   642                           
-   643                           ;comunicacao.c: 69: char aux[64] = {0};
-   644                           
-   645                           ;incstack = 0
-   646  007CE4  EE21  F000         	lfsr	2,write_cmd@F3873
-   647  007CE8  EE10  F00D         	lfsr	1,write_cmd@aux
-   648  007CEC  0E3F               	movlw	63
-   649  007CEE                     u371:
-   650  007CEE  CFDB FFE3          	movff	plusw2,plusw1
-   651  007CF2  06E8               	decf	wreg,f,c
-   652  007CF4  E2FC               	bc	u371
-   653                           
-   654                           ;comunicacao.c: 71: aux[0] = 0x02;
-   655  007CF6  0E02               	movlw	2
-   656  007CF8  6E0D               	movwf	write_cmd@aux,c
-   657                           
-   658                           ;comunicacao.c: 72: aux[1] = addr_to;
-   659  007CFA  C007  F00E         	movff	write_cmd@addr_to,write_cmd@aux+1
+   405                           ;main.c: 81: msg[0] = 0x06;
+   406  007E74  0E06               	movlw	6
+   407  007E76  0100               	movlb	0	; () banked
+   408  007E78  6F60               	movwf	main@msg& (0+255),b
+   409                           
+   410                           ; BSR set to: 0
+   411                           ;main.c: 82: mk_msg(&dados, 1, msg);
+   412  007E7A  0E80               	movlw	low main@dados
+   413  007E7C  6E01               	movwf	mk_msg@data,c
+   414  007E7E  0E00               	movlw	high main@dados
+   415  007E80  6E02               	movwf	mk_msg@data+1,c
+   416  007E82  0E01               	movlw	1
+   417  007E84  6E03               	movwf	mk_msg@count,c
+   418  007E86  0E60               	movlw	low main@msg
+   419  007E88  6E04               	movwf	mk_msg@string,c
+   420  007E8A  0E00               	movlw	high main@msg
+   421  007E8C  6E05               	movwf	mk_msg@string+1,c
+   422  007E8E  EC5B  F03D         	call	_mk_msg	;wreg free
+   423                           
+   424                           ;main.c: 83: write_cmd(&dados, dados.addr_from);
+   425  007E92  0E80               	movlw	low main@dados
+   426  007E94  6E05               	movwf	write_cmd@data,c
+   427  007E96  0E00               	movlw	high main@dados
+   428  007E98  6E06               	movwf	write_cmd@data+1,c
+   429  007E9A  C0C3  F007         	movff	main@dados+67,write_cmd@addr_to
+   430  007E9E  ECB7  F03D         	call	_write_cmd	;wreg free
+   431                           
+   432                           ;main.c: 85: break;
+   433  007EA2  D0A7               	goto	l42
+   434  007EA4                     l47:
+   435                           
+   436                           ;main.c: 87: PORTDbits.RD0 = 1;
+   437  007EA4  8083               	bsf	3971,0,c	;volatile
+   438                           
+   439                           ;main.c: 89: msg[0] = 0x06;
+   440  007EA6  0E06               	movlw	6
+   441  007EA8  0100               	movlb	0	; () banked
+   442  007EAA  6F60               	movwf	main@msg& (0+255),b
+   443                           
+   444                           ; BSR set to: 0
+   445                           ;main.c: 90: mk_msg(&dados, 1, msg);
+   446  007EAC  0E80               	movlw	low main@dados
+   447  007EAE  6E01               	movwf	mk_msg@data,c
+   448  007EB0  0E00               	movlw	high main@dados
+   449  007EB2  6E02               	movwf	mk_msg@data+1,c
+   450  007EB4  0E01               	movlw	1
+   451  007EB6  6E03               	movwf	mk_msg@count,c
+   452  007EB8  0E60               	movlw	low main@msg
+   453  007EBA  6E04               	movwf	mk_msg@string,c
+   454  007EBC  0E00               	movlw	high main@msg
+   455  007EBE  6E05               	movwf	mk_msg@string+1,c
+   456  007EC0  EC5B  F03D         	call	_mk_msg	;wreg free
+   457                           
+   458                           ;main.c: 91: write_cmd(&dados, dados.addr_from);
+   459  007EC4  0E80               	movlw	low main@dados
+   460  007EC6  6E05               	movwf	write_cmd@data,c
+   461  007EC8  0E00               	movlw	high main@dados
+   462  007ECA  6E06               	movwf	write_cmd@data+1,c
+   463  007ECC  C0C3  F007         	movff	main@dados+67,write_cmd@addr_to
+   464  007ED0  ECB7  F03D         	call	_write_cmd	;wreg free
+   465                           
+   466                           ;main.c: 93: break;
+   467  007ED4  D08E               	goto	l42
+   468  007ED6                     l48:
+   469                           
+   470                           ;main.c: 95: PORTDbits.RD1 = 0;
+   471  007ED6  9283               	bcf	3971,1,c	;volatile
+   472                           
+   473                           ;main.c: 97: msg[0] = 0x06;
+   474  007ED8  0E06               	movlw	6
+   475  007EDA  0100               	movlb	0	; () banked
+   476  007EDC  6F60               	movwf	main@msg& (0+255),b
+   477                           
+   478                           ; BSR set to: 0
+   479                           ;main.c: 98: mk_msg(&dados, 1, msg);
+   480  007EDE  0E80               	movlw	low main@dados
+   481  007EE0  6E01               	movwf	mk_msg@data,c
+   482  007EE2  0E00               	movlw	high main@dados
+   483  007EE4  6E02               	movwf	mk_msg@data+1,c
+   484  007EE6  0E01               	movlw	1
+   485  007EE8  6E03               	movwf	mk_msg@count,c
+   486  007EEA  0E60               	movlw	low main@msg
+   487  007EEC  6E04               	movwf	mk_msg@string,c
+   488  007EEE  0E00               	movlw	high main@msg
+   489  007EF0  6E05               	movwf	mk_msg@string+1,c
+   490  007EF2  EC5B  F03D         	call	_mk_msg	;wreg free
+   491                           
+   492                           ;main.c: 99: write_cmd(&dados, dados.addr_from);
+   493  007EF6  0E80               	movlw	low main@dados
+   494  007EF8  6E05               	movwf	write_cmd@data,c
+   495  007EFA  0E00               	movlw	high main@dados
+   496  007EFC  6E06               	movwf	write_cmd@data+1,c
+   497  007EFE  C0C3  F007         	movff	main@dados+67,write_cmd@addr_to
+   498  007F02  ECB7  F03D         	call	_write_cmd	;wreg free
+   499                           
+   500                           ;main.c: 101: break;
+   501  007F06  D075               	goto	l42
+   502  007F08                     l49:
+   503                           
+   504                           ;main.c: 103: PORTDbits.RD1 = 1;
+   505  007F08  8283               	bsf	3971,1,c	;volatile
+   506                           
+   507                           ;main.c: 105: msg[0] = 0x06;
+   508  007F0A  0E06               	movlw	6
+   509  007F0C  0100               	movlb	0	; () banked
+   510  007F0E  6F60               	movwf	main@msg& (0+255),b
+   511                           
+   512                           ; BSR set to: 0
+   513                           ;main.c: 106: mk_msg(&dados, 1, msg);
+   514  007F10  0E80               	movlw	low main@dados
+   515  007F12  6E01               	movwf	mk_msg@data,c
+   516  007F14  0E00               	movlw	high main@dados
+   517  007F16  6E02               	movwf	mk_msg@data+1,c
+   518  007F18  0E01               	movlw	1
+   519  007F1A  6E03               	movwf	mk_msg@count,c
+   520  007F1C  0E60               	movlw	low main@msg
+   521  007F1E  6E04               	movwf	mk_msg@string,c
+   522  007F20  0E00               	movlw	high main@msg
+   523  007F22  6E05               	movwf	mk_msg@string+1,c
+   524  007F24  EC5B  F03D         	call	_mk_msg	;wreg free
+   525                           
+   526                           ;main.c: 107: write_cmd(&dados, dados.addr_from);
+   527  007F28  0E80               	movlw	low main@dados
+   528  007F2A  6E05               	movwf	write_cmd@data,c
+   529  007F2C  0E00               	movlw	high main@dados
+   530  007F2E  6E06               	movwf	write_cmd@data+1,c
+   531  007F30  C0C3  F007         	movff	main@dados+67,write_cmd@addr_to
+   532  007F34  ECB7  F03D         	call	_write_cmd	;wreg free
+   533                           
+   534                           ;main.c: 109: break;
+   535  007F38  D05C               	goto	l42
+   536  007F3A                     
+   537                           ;main.c: 111: msg[0] = 0x06;
+   538  007F3A  0E06               	movlw	6
+   539  007F3C  0100               	movlb	0	; () banked
+   540  007F3E  6F60               	movwf	main@msg& (0+255),b
+   541                           
+   542                           ; BSR set to: 0
+   543                           ;main.c: 112: msg[1] = (char) PORTDbits.RD2;
+   544  007F40  0E00               	movlw	0
+   545  007F42  B483               	btfsc	3971,2,c	;volatile
+   546  007F44  0E01               	movlw	1
+   547  007F46  6F61               	movwf	(main@msg+1)& (0+255),b
+   548                           
+   549                           ; BSR set to: 0
+   550                           ;main.c: 113: mk_msg(&dados, 2, msg);
+   551  007F48  0E80               	movlw	low main@dados
+   552  007F4A  6E01               	movwf	mk_msg@data,c
+   553  007F4C  0E00               	movlw	high main@dados
+   554  007F4E  6E02               	movwf	mk_msg@data+1,c
+   555  007F50  0E02               	movlw	2
+   556  007F52  6E03               	movwf	mk_msg@count,c
+   557  007F54  0E60               	movlw	low main@msg
+   558  007F56  6E04               	movwf	mk_msg@string,c
+   559  007F58  0E00               	movlw	high main@msg
+   560  007F5A  6E05               	movwf	mk_msg@string+1,c
+   561  007F5C  EC5B  F03D         	call	_mk_msg	;wreg free
+   562                           
+   563                           ;main.c: 114: write_cmd(&dados, dados.addr_from);
+   564  007F60  0E80               	movlw	low main@dados
+   565  007F62  6E05               	movwf	write_cmd@data,c
+   566  007F64  0E00               	movlw	high main@dados
+   567  007F66  6E06               	movwf	write_cmd@data+1,c
+   568  007F68  C0C3  F007         	movff	main@dados+67,write_cmd@addr_to
+   569  007F6C  ECB7  F03D         	call	_write_cmd	;wreg free
+   570                           
+   571                           ;main.c: 116: break;
+   572  007F70  D040               	goto	l42
+   573  007F72                     
+   574                           ;main.c: 118: msg[0] = 0x06;
+   575  007F72  0E06               	movlw	6
+   576  007F74  0100               	movlb	0	; () banked
+   577  007F76  6F60               	movwf	main@msg& (0+255),b
+   578                           
+   579                           ; BSR set to: 0
+   580                           ;main.c: 119: msg[1] = (char) PORTDbits.RD3;
+   581  007F78  0E00               	movlw	0
+   582  007F7A  B683               	btfsc	3971,3,c	;volatile
+   583  007F7C  0E01               	movlw	1
+   584  007F7E  6F61               	movwf	(main@msg+1)& (0+255),b
+   585                           
+   586                           ; BSR set to: 0
+   587                           ;main.c: 120: mk_msg(&dados, 2, msg);
+   588  007F80  0E80               	movlw	low main@dados
+   589  007F82  6E01               	movwf	mk_msg@data,c
+   590  007F84  0E00               	movlw	high main@dados
+   591  007F86  6E02               	movwf	mk_msg@data+1,c
+   592  007F88  0E02               	movlw	2
+   593  007F8A  6E03               	movwf	mk_msg@count,c
+   594  007F8C  0E60               	movlw	low main@msg
+   595  007F8E  6E04               	movwf	mk_msg@string,c
+   596  007F90  0E00               	movlw	high main@msg
+   597  007F92  6E05               	movwf	mk_msg@string+1,c
+   598  007F94  EC5B  F03D         	call	_mk_msg	;wreg free
+   599                           
+   600                           ;main.c: 121: write_cmd(&dados, dados.addr_from);
+   601  007F98  0E80               	movlw	low main@dados
+   602  007F9A  6E05               	movwf	write_cmd@data,c
+   603  007F9C  0E00               	movlw	high main@dados
+   604  007F9E  6E06               	movwf	write_cmd@data+1,c
+   605  007FA0  C0C3  F007         	movff	main@dados+67,write_cmd@addr_to
+   606  007FA4  ECB7  F03D         	call	_write_cmd	;wreg free
+   607                           
+   608                           ;main.c: 127: }
+   609                           
+   610                           ;main.c: 126: break;
+   611                           
+   612                           ;main.c: 124: default:
+   613                           
+   614                           ;main.c: 123: break;
+   615  007FA8  D024               	goto	l42
+   616  007FAA                     l40:
+   617  007FAA  0E80               	movlw	low main@dados
+   618  007FAC  6E05               	movwf	check_data@data,c
+   619  007FAE  0E00               	movlw	high main@dados
+   620  007FB0  6E06               	movwf	check_data@data+1,c
+   621  007FB2  EC35  F03E         	call	_check_data	;wreg free
+   622                           
+   623                           ; Switch size 1, requested type "space"
+   624                           ; Number of cases is 10, Range of values is 0 to 9
+   625                           ; switch strategies available:
+   626                           ; Name         Instructions Cycles
+   627                           ; simple_byte           31    16 (average)
+   628                           ;	Chosen strategy is simple_byte
+   629  007FB6  0A00               	xorlw	0	; case 0
+   630  007FB8  B4D8               	btfsc	status,2,c
+   631  007FBA  D01B               	goto	l42
+   632  007FBC  0A01               	xorlw	1	; case 1
+   633  007FBE  B4D8               	btfsc	status,2,c
+   634  007FC0  D018               	goto	l42
+   635  007FC2  0A03               	xorlw	3	; case 2
+   636  007FC4  B4D8               	btfsc	status,2,c
+   637  007FC6  D015               	goto	l42
+   638  007FC8  0A01               	xorlw	1	; case 3
+   639  007FCA  B4D8               	btfsc	status,2,c
+   640  007FCC  D73A               	goto	l45
+   641  007FCE  0A07               	xorlw	7	; case 4
+   642  007FD0  B4D8               	btfsc	status,2,c
+   643  007FD2  D74F               	goto	l46
+   644  007FD4  0A01               	xorlw	1	; case 5
+   645  007FD6  B4D8               	btfsc	status,2,c
+   646  007FD8  D77E               	goto	l48
+   647  007FDA  0A03               	xorlw	3	; case 6
+   648  007FDC  B4D8               	btfsc	status,2,c
+   649  007FDE  D762               	goto	l47
+   650  007FE0  0A01               	xorlw	1	; case 7
+   651  007FE2  B4D8               	btfsc	status,2,c
+   652  007FE4  D791               	goto	l49
+   653  007FE6  0A0F               	xorlw	15	; case 8
+   654  007FE8  B4D8               	btfsc	status,2,c
+   655  007FEA  D7A7               	goto	l50
+   656  007FEC  0A01               	xorlw	1	; case 9
+   657  007FEE  B4D8               	btfsc	status,2,c
+   658  007FF0  D7C0               	goto	l51
+   659  007FF2                     l42:
    660                           
-   661                           ;comunicacao.c: 73: aux[2] = 0x09;
-   662  007CFE  0E09               	movlw	9
-   663  007D00  6E0F               	movwf	write_cmd@aux+2,c
-   664                           
-   665                           ;comunicacao.c: 74: aux[3] = data->command;
-   666  007D02  EE20 F044          	lfsr	2,68
-   667  007D06  5005               	movf	write_cmd@data,w,c
-   668  007D08  26D9               	addwf	fsr2l,f,c
-   669  007D0A  5006               	movf	write_cmd@data+1,w,c
-   670  007D0C  22DA               	addwfc	fsr2h,f,c
-   671  007D0E  50DF               	movf	indf2,w,c
-   672  007D10  6E10               	movwf	write_cmd@aux+3,c
-   673                           
-   674                           ;comunicacao.c: 75: aux[4] = data->count;
-   675  007D12  C005  FFD9         	movff	write_cmd@data,fsr2l
-   676  007D16  C006  FFDA         	movff	write_cmd@data+1,fsr2h
-   677  007D1A  50DF               	movf	indf2,w,c
-   678  007D1C  6E11               	movwf	write_cmd@aux+4,c
-   679                           
-   680                           ;comunicacao.c: 77: uint8_t i = 0;
-   681  007D1E  0E00               	movlw	0
-   682  007D20  6E4E               	movwf	write_cmd@i,c
-   683                           
-   684                           ;comunicacao.c: 78: while (i < data->count) {
-   685  007D22  D01C               	goto	l109
-   686  007D24                     
-   687                           ;comunicacao.c: 79: aux[i + 5] = data->buff[i++];
-   688  007D24  504E               	movf	write_cmd@i,w,c
-   689  007D26  0D01               	mullw	1
-   690  007D28  0E01               	movlw	1
-   691  007D2A  26F3               	addwf	prodl,f,c
-   692  007D2C  0E00               	movlw	0
-   693  007D2E  22F4               	addwfc	prodh,f,c
-   694  007D30  50F3               	movf	prodl,w,c
-   695  007D32  2405               	addwf	write_cmd@data,w,c
-   696  007D34  6ED9               	movwf	fsr2l,c
-   697  007D36  50F4               	movf	prodh,w,c
-   698  007D38  2006               	addwfc	write_cmd@data+1,w,c
-   699  007D3A  6EDA               	movwf	fsr2h,c
-   700  007D3C  504E               	movf	write_cmd@i,w,c
-   701  007D3E  6E08               	movwf	??_write_cmd& (0+255),c
-   702  007D40  6A09               	clrf	(??_write_cmd+1)& (0+255),c
-   703  007D42  0E05               	movlw	5
-   704  007D44  2608               	addwf	??_write_cmd,f,c
-   705  007D46  0E00               	movlw	0
-   706  007D48  2209               	addwfc	??_write_cmd+1,f,c
-   707  007D4A  0E0D               	movlw	low write_cmd@aux
-   708  007D4C  2408               	addwf	??_write_cmd,w,c
-   709  007D4E  6EE1               	movwf	fsr1l,c
-   710  007D50  0E00               	movlw	high write_cmd@aux
-   711  007D52  2009               	addwfc	??_write_cmd+1,w,c
-   712  007D54  6EE2               	movwf	fsr1h,c
-   713  007D56  CFDF FFE7          	movff	indf2,indf1
-   714  007D5A  2A4E               	incf	write_cmd@i,f,c
-   715  007D5C                     l109:
-   716  007D5C  C005  FFD9         	movff	write_cmd@data,fsr2l
-   717  007D60  C006  FFDA         	movff	write_cmd@data+1,fsr2h
-   718  007D64  50DE               	movf	postinc2,w,c
-   719  007D66  5C4E               	subwf	write_cmd@i,w,c
-   720  007D68  A0D8               	btfss	status,0,c
-   721  007D6A  D7DC               	goto	l110
-   722                           
-   723                           ;comunicacao.c: 80: }
-   724                           ;comunicacao.c: 82: aux[i + 5] = calc_bcc(data);
-   725  007D6C  C005  F001         	movff	write_cmd@data,calc_bcc@data
-   726  007D70  C006  F002         	movff	write_cmd@data+1,calc_bcc@data+1
-   727  007D74  ECDD  F03D         	call	_calc_bcc	;wreg free
-   728  007D78  6E08               	movwf	??_write_cmd& (0+255),c
-   729  007D7A  504E               	movf	write_cmd@i,w,c
-   730  007D7C  6E09               	movwf	(??_write_cmd+1)& (0+255),c
-   731  007D7E  6A0A               	clrf	(??_write_cmd+2)& (0+255),c
-   732  007D80  0E05               	movlw	5
-   733  007D82  2609               	addwf	??_write_cmd+1,f,c
-   734  007D84  0E00               	movlw	0
-   735  007D86  220A               	addwfc	??_write_cmd+2,f,c
-   736  007D88  0E0D               	movlw	low write_cmd@aux
-   737  007D8A  2409               	addwf	??_write_cmd+1,w,c
-   738  007D8C  6ED9               	movwf	fsr2l,c
-   739  007D8E  0E00               	movlw	high write_cmd@aux
-   740  007D90  200A               	addwfc	??_write_cmd+2,w,c
-   741  007D92  6EDA               	movwf	fsr2h,c
-   742  007D94  C008  FFDF         	movff	??_write_cmd,indf2
-   743                           
-   744                           ;comunicacao.c: 84: for (uint8_t t = 0; t < i + 6; t++) {
-   745  007D98  0E00               	movlw	0
-   746  007D9A  6E4D               	movwf	write_cmd@t,c
-   747  007D9C  D00C               	goto	l112
-   748  007D9E                     
-   749                           ;comunicacao.c: 85: uart_send_byte(aux[t]);
-   750  007D9E  504D               	movf	write_cmd@t,w,c
-   751  007DA0  0D01               	mullw	1
-   752  007DA2  0E0D               	movlw	low write_cmd@aux
-   753  007DA4  24F3               	addwf	prodl,w,c
-   754  007DA6  6ED9               	movwf	fsr2l,c
-   755  007DA8  0E00               	movlw	high write_cmd@aux
-   756  007DAA  20F4               	addwfc	prodh,w,c
-   757  007DAC  6EDA               	movwf	fsr2h,c
-   758  007DAE  50DF               	movf	indf2,w,c
-   759  007DB0  ECC4  F03D         	call	_uart_send_byte
-   760  007DB4  2A4D               	incf	write_cmd@t,f,c
-   761  007DB6                     l112:
-   762  007DB6  504E               	movf	write_cmd@i,w,c
-   763  007DB8  6E08               	movwf	??_write_cmd& (0+255),c
-   764  007DBA  6A09               	clrf	(??_write_cmd+1)& (0+255),c
-   765  007DBC  0E06               	movlw	6
-   766  007DBE  2608               	addwf	??_write_cmd,f,c
-   767  007DC0  0E00               	movlw	0
-   768  007DC2  2209               	addwfc	??_write_cmd+1,f,c
-   769  007DC4  504D               	movf	write_cmd@t,w,c
-   770  007DC6  6E0A               	movwf	(??_write_cmd+2)& (0+255),c
-   771  007DC8  6A0B               	clrf	(??_write_cmd+3)& (0+255),c
-   772  007DCA  5008               	movf	??_write_cmd,w,c
-   773  007DCC  5C0A               	subwf	??_write_cmd+2,w,c
-   774  007DCE  500B               	movf	??_write_cmd+3,w,c
-   775  007DD0  0A80               	xorlw	128
-   776  007DD2  6E0C               	movwf	(??_write_cmd+4)& (0+255),c
-   777  007DD4  5009               	movf	??_write_cmd+1,w,c
-   778  007DD6  0A80               	xorlw	128
-   779  007DD8  580C               	subwfb	(??_write_cmd+4)& (0+255),w,c
-   780  007DDA  B0D8               	btfsc	status,0,c
-   781  007DDC  0012               	return	
-   782  007DDE  D7DF               	goto	l113
-   783  007DE0                     __end_of_write_cmd:
-   784                           	opt stack 0
-   785                           tblptru	equ	0xFF8
-   786                           prodh	equ	0xFF4
-   787                           prodl	equ	0xFF3
-   788                           postinc0	equ	0xFEE
-   789                           wreg	equ	0xFE8
-   790                           indf1	equ	0xFE7
-   791                           plusw1	equ	0xFE3
-   792                           fsr1h	equ	0xFE2
-   793                           fsr1l	equ	0xFE1
-   794                           indf2	equ	0xFDF
-   795                           postinc2	equ	0xFDE
-   796                           postdec2	equ	0xFDD
-   797                           plusw2	equ	0xFDB
-   798                           fsr2h	equ	0xFDA
-   799                           fsr2l	equ	0xFD9
-   800                           status	equ	0xFD8
-   801                           
-   802 ;; *************** function _uart_send_byte *****************
-   803 ;; Defined at:
-   804 ;;		line 50 in file "comunicacao.c"
-   805 ;; Parameters:    Size  Location     Type
-   806 ;;  byte            1    wreg     unsigned char 
-   807 ;; Auto vars:     Size  Location     Type
-   808 ;;  byte            1    0[COMRAM] unsigned char 
-   809 ;; Return value:  Size  Location     Type
-   810 ;;                  1    wreg      void 
-   811 ;; Registers used:
-   812 ;;		wreg
-   813 ;; Tracked objects:
-   814 ;;		On entry : 0/0
-   815 ;;		On exit  : 0/0
-   816 ;;		Unchanged: 0/0
-   817 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
-   818 ;;      Params:         0       0       0       0       0       0       0       0       0
-   819 ;;      Locals:         1       0       0       0       0       0       0       0       0
-   820 ;;      Temps:          0       0       0       0       0       0       0       0       0
-   821 ;;      Totals:         1       0       0       0       0       0       0       0       0
-   822 ;;Total ram usage:        1 bytes
-   823 ;; Hardware stack levels used:    1
-   824 ;; This function calls:
-   825 ;;		Nothing
-   826 ;; This function is called by:
-   827 ;;		_write_cmd
-   828 ;; This function uses a non-reentrant model
-   829 ;;
-   830                           
-   831                           	psect	text3
-   832  007B88                     __ptext3:
-   833                           	opt stack 0
-   834  007B88                     _uart_send_byte:
-   835                           	opt stack 29
-   836                           
-   837                           ;incstack = 0
-   838                           ;uart_send_byte@byte stored from wreg
-   839  007B88  6E01               	movwf	uart_send_byte@byte,c
-   840  007B8A                     
-   841                           ;comunicacao.c: 53: while (TXIF == 0);
-   842  007B8A  A89E               	btfss	3998,4,c	;volatile
-   843  007B8C  D7FE               	goto	l970
-   844                           
-   845                           ;comunicacao.c: 54: TXREG = byte;
-   846  007B8E  C001  FFAD         	movff	uart_send_byte@byte,4013	;volatile
-   847  007B92  B2AC               	btfsc	4012,1,c	;volatile
-   848  007B94  0012               	return	
-   849  007B96  D7FD               	goto	l96
-   850  007B98                     __end_of_uart_send_byte:
-   851                           	opt stack 0
-   852                           tblptru	equ	0xFF8
-   853                           prodh	equ	0xFF4
-   854                           prodl	equ	0xFF3
-   855                           postinc0	equ	0xFEE
-   856                           wreg	equ	0xFE8
-   857                           indf1	equ	0xFE7
-   858                           plusw1	equ	0xFE3
-   859                           fsr1h	equ	0xFE2
-   860                           fsr1l	equ	0xFE1
-   861                           indf2	equ	0xFDF
-   862                           postinc2	equ	0xFDE
-   863                           postdec2	equ	0xFDD
-   864                           plusw2	equ	0xFDB
-   865                           fsr2h	equ	0xFDA
-   866                           fsr2l	equ	0xFD9
-   867                           status	equ	0xFD8
-   868                           
-   869 ;; *************** function _uart_init *****************
-   870 ;; Defined at:
-   871 ;;		line 9 in file "comunicacao.c"
-   872 ;; Parameters:    Size  Location     Type
-   873 ;;		None
-   874 ;; Auto vars:     Size  Location     Type
-   875 ;;		None
-   876 ;; Return value:  Size  Location     Type
-   877 ;;                  1    wreg      void 
-   878 ;; Registers used:
-   879 ;;		wreg, status,2
-   880 ;; Tracked objects:
-   881 ;;		On entry : 0/0
-   882 ;;		On exit  : 0/0
-   883 ;;		Unchanged: 0/0
-   884 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
-   885 ;;      Params:         0       0       0       0       0       0       0       0       0
-   886 ;;      Locals:         0       0       0       0       0       0       0       0       0
-   887 ;;      Temps:          0       0       0       0       0       0       0       0       0
-   888 ;;      Totals:         0       0       0       0       0       0       0       0       0
-   889 ;;Total ram usage:        0 bytes
-   890 ;; Hardware stack levels used:    1
-   891 ;; This function calls:
-   892 ;;		Nothing
-   893 ;; This function is called by:
-   894 ;;		_main
-   895 ;; This function uses a non-reentrant model
-   896 ;;
-   897                           
-   898                           	psect	text4
-   899  007B7A                     __ptext4:
-   900                           	opt stack 0
-   901  007B7A                     _uart_init:
-   902                           	opt stack 30
-   903                           
-   904                           ;comunicacao.c: 11: RCSTA = 0x90;
-   905                           
-   906                           ;incstack = 0
-   907  007B7A  0E90               	movlw	144
-   908  007B7C  6EAB               	movwf	4011,c	;volatile
-   909                           
-   910                           ;comunicacao.c: 12: TXSTA = 0x24;
-   911  007B7E  0E24               	movlw	36
-   912  007B80  6EAC               	movwf	4012,c	;volatile
-   913                           
-   914                           ;comunicacao.c: 19: SPBRG = 51;
-   915  007B82  0E33               	movlw	51
-   916  007B84  6EAF               	movwf	4015,c	;volatile
-   917  007B86  0012               	return		;funcret
-   918  007B88                     __end_of_uart_init:
-   919                           	opt stack 0
-   920                           tblptru	equ	0xFF8
-   921                           prodh	equ	0xFF4
-   922                           prodl	equ	0xFF3
-   923                           postinc0	equ	0xFEE
-   924                           wreg	equ	0xFE8
-   925                           indf1	equ	0xFE7
-   926                           plusw1	equ	0xFE3
-   927                           fsr1h	equ	0xFE2
-   928                           fsr1l	equ	0xFE1
-   929                           indf2	equ	0xFDF
-   930                           postinc2	equ	0xFDE
-   931                           postdec2	equ	0xFDD
-   932                           plusw2	equ	0xFDB
-   933                           fsr2h	equ	0xFDA
-   934                           fsr2l	equ	0xFD9
-   935                           status	equ	0xFD8
-   936                           
-   937 ;; *************** function _uart_check_rx *****************
-   938 ;; Defined at:
-   939 ;;		line 22 in file "comunicacao.c"
-   940 ;; Parameters:    Size  Location     Type
-   941 ;;		None
-   942 ;; Auto vars:     Size  Location     Type
-   943 ;;  tempo           2    2[COMRAM] unsigned int 
-   944 ;; Return value:  Size  Location     Type
-   945 ;;                  2    0[COMRAM] short 
-   946 ;; Registers used:
-   947 ;;		wreg, status,2, status,0
-   948 ;; Tracked objects:
-   949 ;;		On entry : 0/0
-   950 ;;		On exit  : 0/0
-   951 ;;		Unchanged: 0/0
-   952 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
-   953 ;;      Params:         2       0       0       0       0       0       0       0       0
-   954 ;;      Locals:         2       0       0       0       0       0       0       0       0
-   955 ;;      Temps:          0       0       0       0       0       0       0       0       0
-   956 ;;      Totals:         4       0       0       0       0       0       0       0       0
-   957 ;;Total ram usage:        4 bytes
-   958 ;; Hardware stack levels used:    1
-   959 ;; This function calls:
-   960 ;;		Nothing
-   961 ;; This function is called by:
-   962 ;;		_main
-   963 ;; This function uses a non-reentrant model
-   964 ;;
-   965                           
-   966                           	psect	text5
-   967  007BF0                     __ptext5:
-   968                           	opt stack 0
-   969  007BF0                     _uart_check_rx:
-   970                           	opt stack 30
-   971                           
-   972                           ;comunicacao.c: 24: uint16_t tempo;
-   973                           ;comunicacao.c: 26: RCSTAbits.OERR = 0;
-   974                           
-   975                           ;incstack = 0
-   976  007BF0  92AB               	bcf	4011,1,c	;volatile
-   977                           
-   978                           ;comunicacao.c: 27: RCSTAbits.CREN = 0;
-   979  007BF2  98AB               	bcf	4011,4,c	;volatile
-   980                           
-   981                           ;comunicacao.c: 28: __nop();
-   982  007BF4  F000               	nop	
-   983                           
-   984                           ;comunicacao.c: 29: RCSTAbits.CREN = 1;
-   985  007BF6  88AB               	bsf	4011,4,c	;volatile
-   986                           
-   987                           ;comunicacao.c: 31: tempo = 0xFFF;
-   988  007BF8  0E0F               	movlw	15
-   989  007BFA  6E04               	movwf	uart_check_rx@tempo+1,c
-   990  007BFC  6803               	setf	uart_check_rx@tempo,c
-   991  007BFE                     
-   992                           ;comunicacao.c: 34: --tempo;
-   993  007BFE  0603               	decf	uart_check_rx@tempo,f,c
-   994  007C00  A0D8               	btfss	status,0,c
-   995  007C02  0604               	decf	uart_check_rx@tempo+1,f,c
-   996                           
-   997                           ;comunicacao.c: 35: } while (!RCIF && tempo > 0);
-   998  007C04  BA9E               	btfsc	3998,5,c	;volatile
-   999  007C06  D004               	goto	u340
-  1000  007C08  5003               	movf	uart_check_rx@tempo,w,c
-  1001  007C0A  1004               	iorwf	uart_check_rx@tempo+1,w,c
-  1002  007C0C  A4D8               	btfss	status,2,c
-  1003  007C0E  D7F7               	goto	l81
-  1004  007C10                     u340:
-  1005                           
-  1006                           ;comunicacao.c: 37: if (tempo > 0) {
-  1007  007C10  5003               	movf	uart_check_rx@tempo,w,c
-  1008  007C12  1004               	iorwf	uart_check_rx@tempo+1,w,c
-  1009  007C14  B4D8               	btfsc	status,2,c
-  1010  007C16  D005               	goto	l85
-  1011                           
-  1012                           ;comunicacao.c: 38: return(0);
-  1013  007C18  0E00               	movlw	0
-  1014  007C1A  6E02               	movwf	?_uart_check_rx+1,c
-  1015  007C1C  0E00               	movlw	0
-  1016  007C1E  6E01               	movwf	?_uart_check_rx,c
-  1017  007C20  0012               	return	
-  1018  007C22                     l85:
-  1019                           
-  1020                           ;comunicacao.c: 39: }
-  1021                           ;comunicacao.c: 41: return(1);
-  1022  007C22  0E00               	movlw	0
-  1023  007C24  6E02               	movwf	?_uart_check_rx+1,c
-  1024  007C26  0E01               	movlw	1
-  1025  007C28  6E01               	movwf	?_uart_check_rx,c
-  1026  007C2A  0012               	return	
-  1027  007C2C                     __end_of_uart_check_rx:
-  1028                           	opt stack 0
-  1029                           tblptru	equ	0xFF8
-  1030                           prodh	equ	0xFF4
-  1031                           prodl	equ	0xFF3
-  1032                           postinc0	equ	0xFEE
-  1033                           wreg	equ	0xFE8
-  1034                           indf1	equ	0xFE7
-  1035                           plusw1	equ	0xFE3
-  1036                           fsr1h	equ	0xFE2
-  1037                           fsr1l	equ	0xFE1
-  1038                           indf2	equ	0xFDF
-  1039                           postinc2	equ	0xFDE
-  1040                           postdec2	equ	0xFDD
-  1041                           plusw2	equ	0xFDB
-  1042                           fsr2h	equ	0xFDA
-  1043                           fsr2l	equ	0xFD9
-  1044                           status	equ	0xFD8
-  1045                           
-  1046 ;; *************** function _mk_msg *****************
-  1047 ;; Defined at:
-  1048 ;;		line 58 in file "comunicacao.c"
-  1049 ;; Parameters:    Size  Location     Type
-  1050 ;;  data            2    0[COMRAM] PTR struct .
-  1051 ;;		 -> main@dados(69), 
-  1052 ;;  count           1    2[COMRAM] unsigned char 
-  1053 ;;  string          2    3[COMRAM] PTR unsigned char 
-  1054 ;;		 -> main@msg(32), 
-  1055 ;; Auto vars:     Size  Location     Type
-  1056 ;;  i               1    5[COMRAM] unsigned char 
-  1057 ;; Return value:  Size  Location     Type
-  1058 ;;                  1    wreg      void 
-  1059 ;; Registers used:
-  1060 ;;		wreg, fsr1l, fsr1h, fsr2l, fsr2h, status,2, status,0, prodl, prodh
-  1061 ;; Tracked objects:
-  1062 ;;		On entry : 0/0
-  1063 ;;		On exit  : 0/0
-  1064 ;;		Unchanged: 0/0
-  1065 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
-  1066 ;;      Params:         5       0       0       0       0       0       0       0       0
-  1067 ;;      Locals:         1       0       0       0       0       0       0       0       0
-  1068 ;;      Temps:          0       0       0       0       0       0       0       0       0
-  1069 ;;      Totals:         6       0       0       0       0       0       0       0       0
-  1070 ;;Total ram usage:        6 bytes
-  1071 ;; Hardware stack levels used:    1
-  1072 ;; This function calls:
-  1073 ;;		Nothing
-  1074 ;; This function is called by:
-  1075 ;;		_main
-  1076 ;; This function uses a non-reentrant model
-  1077 ;;
-  1078                           
-  1079                           	psect	text6
-  1080  007C2C                     __ptext6:
-  1081                           	opt stack 0
-  1082  007C2C                     _mk_msg:
-  1083                           	opt stack 30
-  1084                           
-  1085                           ;comunicacao.c: 60: data->count = count;
-  1086                           
-  1087                           ;incstack = 0
-  1088  007C2C  C001  FFD9         	movff	mk_msg@data,fsr2l
-  1089  007C30  C002  FFDA         	movff	mk_msg@data+1,fsr2h
-  1090  007C34  C003  FFDF         	movff	mk_msg@count,indf2
-  1091                           
-  1092                           ;comunicacao.c: 62: for (uint8_t i = 0; i < count; i++) {
-  1093  007C38  0E00               	movlw	0
-  1094  007C3A  6E06               	movwf	mk_msg@i,c
-  1095  007C3C  D017               	goto	l101
-  1096  007C3E                     
-  1097                           ;comunicacao.c: 63: data->buff[i] = string[i];
-  1098  007C3E  5006               	movf	mk_msg@i,w,c
-  1099  007C40  0D01               	mullw	1
-  1100  007C42  50F3               	movf	prodl,w,c
-  1101  007C44  2404               	addwf	mk_msg@string,w,c
-  1102  007C46  6ED9               	movwf	fsr2l,c
-  1103  007C48  50F4               	movf	prodh,w,c
-  1104  007C4A  2005               	addwfc	mk_msg@string+1,w,c
-  1105  007C4C  6EDA               	movwf	fsr2h,c
-  1106  007C4E  5006               	movf	mk_msg@i,w,c
-  1107  007C50  0D01               	mullw	1
-  1108  007C52  0E01               	movlw	1
-  1109  007C54  26F3               	addwf	prodl,f,c
-  1110  007C56  0E00               	movlw	0
-  1111  007C58  22F4               	addwfc	prodh,f,c
-  1112  007C5A  50F3               	movf	prodl,w,c
-  1113  007C5C  2401               	addwf	mk_msg@data,w,c
-  1114  007C5E  6EE1               	movwf	fsr1l,c
-  1115  007C60  50F4               	movf	prodh,w,c
-  1116  007C62  2002               	addwfc	mk_msg@data+1,w,c
-  1117  007C64  6EE2               	movwf	fsr1h,c
-  1118  007C66  CFDF FFE7          	movff	indf2,indf1
-  1119  007C6A  2A06               	incf	mk_msg@i,f,c
-  1120  007C6C                     l101:
-  1121  007C6C  5003               	movf	mk_msg@count,w,c
-  1122  007C6E  5C06               	subwf	mk_msg@i,w,c
-  1123  007C70  B0D8               	btfsc	status,0,c
-  1124  007C72  0012               	return	
-  1125  007C74  D7E4               	goto	l102
-  1126  007C76                     __end_of_mk_msg:
-  1127                           	opt stack 0
-  1128                           tblptru	equ	0xFF8
-  1129                           prodh	equ	0xFF4
-  1130                           prodl	equ	0xFF3
-  1131                           postinc0	equ	0xFEE
-  1132                           wreg	equ	0xFE8
-  1133                           indf1	equ	0xFE7
-  1134                           plusw1	equ	0xFE3
-  1135                           fsr1h	equ	0xFE2
-  1136                           fsr1l	equ	0xFE1
-  1137                           indf2	equ	0xFDF
-  1138                           postinc2	equ	0xFDE
-  1139                           postdec2	equ	0xFDD
-  1140                           plusw2	equ	0xFDB
-  1141                           fsr2h	equ	0xFDA
-  1142                           fsr2l	equ	0xFD9
-  1143                           status	equ	0xFD8
-  1144                           
-  1145 ;; *************** function _check_data *****************
-  1146 ;; Defined at:
-  1147 ;;		line 101 in file "comunicacao.c"
-  1148 ;; Parameters:    Size  Location     Type
-  1149 ;;  data            2    4[COMRAM] PTR struct .
-  1150 ;;		 -> main@dados(69), 
-  1151 ;; Auto vars:     Size  Location     Type
-  1152 ;;		None
-  1153 ;; Return value:  Size  Location     Type
-  1154 ;;                  1    wreg      enum E3818
-  1155 ;; Registers used:
-  1156 ;;		wreg, fsr1l, fsr1h, fsr2l, fsr2h, status,2, status,0, prodl, prodh, cstack
-  1157 ;; Tracked objects:
-  1158 ;;		On entry : 0/0
-  1159 ;;		On exit  : 0/0
-  1160 ;;		Unchanged: 0/0
-  1161 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
-  1162 ;;      Params:         2       0       0       0       0       0       0       0       0
-  1163 ;;      Locals:         4       0       0       0       0       0       0       0       0
-  1164 ;;      Temps:          1       0       0       0       0       0       0       0       0
-  1165 ;;      Totals:         7       0       0       0       0       0       0       0       0
-  1166 ;;Total ram usage:        7 bytes
-  1167 ;; Hardware stack levels used:    1
-  1168 ;; Hardware stack levels required when called:    1
-  1169 ;; This function calls:
-  1170 ;;		_calc_bcc
-  1171 ;; This function is called by:
-  1172 ;;		_main
-  1173 ;; This function uses a non-reentrant model
-  1174 ;;
-  1175                           
-  1176                           	psect	text7
-  1177  007EE4                     __ptext7:
-  1178                           	opt stack 0
-  1179  007EE4                     _check_data:
-  1180                           	opt stack 29
-  1181                           
-  1182                           ;comunicacao.c: 103: if (data->buff[0] != 0x02) {
-  1183                           
-  1184                           ;incstack = 0
-  1185  007EE4  EE20 F001          	lfsr	2,1
-  1186  007EE8  5005               	movf	check_data@data,w,c
-  1187  007EEA  26D9               	addwf	fsr2l,f,c
-  1188  007EEC  5006               	movf	check_data@data+1,w,c
-  1189  007EEE  22DA               	addwfc	fsr2h,f,c
-  1190  007EF0  0E02               	movlw	2
-  1191  007EF2  18DE               	xorwf	postinc2,w,c
-  1192  007EF4  B4D8               	btfsc	status,2,c
-  1193  007EF6  D002               	goto	l123
-  1194                           
-  1195                           ;comunicacao.c: 104: return ERR_STX;
-  1196  007EF8  0E00               	movlw	0
-  1197  007EFA  0012               	return	
-  1198  007EFC                     l123:
-  1199                           
-  1200                           ;comunicacao.c: 105: }
-  1201                           ;comunicacao.c: 107: if (data->buff[1] != 0x09) {
-  1202  007EFC  EE20 F002          	lfsr	2,2
-  1203  007F00  5005               	movf	check_data@data,w,c
-  1204  007F02  26D9               	addwf	fsr2l,f,c
-  1205  007F04  5006               	movf	check_data@data+1,w,c
-  1206  007F06  22DA               	addwfc	fsr2h,f,c
-  1207  007F08  0E09               	movlw	9
-  1208  007F0A  18DE               	xorwf	postinc2,w,c
-  1209  007F0C  B4D8               	btfsc	status,2,c
-  1210  007F0E  D002               	goto	l125
-  1211                           
-  1212                           ;comunicacao.c: 108: return ERR_IGNORE_MSG;
-  1213  007F10  0E01               	movlw	1
-  1214  007F12  0012               	return	
-  1215  007F14                     l125:
-  1216                           
-  1217                           ;comunicacao.c: 109: }
-  1218                           ;comunicacao.c: 111: if (calc_bcc(data->buff) != 0) {
-  1219  007F14  0E01               	movlw	1
-  1220  007F16  2405               	addwf	check_data@data,w,c
-  1221  007F18  6E01               	movwf	calc_bcc@data,c
-  1222  007F1A  0E00               	movlw	0
-  1223  007F1C  2006               	addwfc	check_data@data+1,w,c
-  1224  007F1E  6E02               	movwf	calc_bcc@data+1,c
-  1225  007F20  ECDD  F03D         	call	_calc_bcc	;wreg free
-  1226  007F24  0900               	iorlw	0
-  1227  007F26  B4D8               	btfsc	status,2,c
-  1228  007F28  D002               	goto	l126
-  1229                           
-  1230                           ;comunicacao.c: 112: return ERR_BCC;
-  1231  007F2A  0E02               	movlw	2
-  1232  007F2C  0012               	return	
-  1233  007F2E                     l126:
-  1234                           
-  1235                           ;comunicacao.c: 113: }
-  1236                           ;comunicacao.c: 115: data->addr_from = data->buff[2];
-  1237  007F2E  EE20 F003          	lfsr	2,3
-  1238  007F32  5005               	movf	check_data@data,w,c
-  1239  007F34  26D9               	addwf	fsr2l,f,c
-  1240  007F36  5006               	movf	check_data@data+1,w,c
-  1241  007F38  22DA               	addwfc	fsr2h,f,c
-  1242  007F3A  EE10 F043          	lfsr	1,67
-  1243  007F3E  5005               	movf	check_data@data,w,c
-  1244  007F40  26E1               	addwf	fsr1l,f,c
-  1245  007F42  5006               	movf	check_data@data+1,w,c
-  1246  007F44  22E2               	addwfc	fsr1h,f,c
-  1247  007F46  CFDF FFE7          	movff	indf2,indf1
-  1248                           
-  1249                           ;comunicacao.c: 116: data->command = data->buff[3];
-  1250  007F4A  EE20 F004          	lfsr	2,4
-  1251  007F4E  5005               	movf	check_data@data,w,c
-  1252  007F50  26D9               	addwf	fsr2l,f,c
-  1253  007F52  5006               	movf	check_data@data+1,w,c
-  1254  007F54  22DA               	addwfc	fsr2h,f,c
-  1255  007F56  EE10 F044          	lfsr	1,68
-  1256  007F5A  5005               	movf	check_data@data,w,c
-  1257  007F5C  26E1               	addwf	fsr1l,f,c
-  1258  007F5E  5006               	movf	check_data@data+1,w,c
-  1259  007F60  22E2               	addwfc	fsr1h,f,c
-  1260  007F62  CFDF FFE7          	movff	indf2,indf1
-  1261                           
-  1262                           ;comunicacao.c: 117: data->count = data->buff[4];
-  1263  007F66  EE20 F005          	lfsr	2,5
-  1264  007F6A  5005               	movf	check_data@data,w,c
-  1265  007F6C  26D9               	addwf	fsr2l,f,c
-  1266  007F6E  5006               	movf	check_data@data+1,w,c
-  1267  007F70  22DA               	addwfc	fsr2h,f,c
-  1268  007F72  C005  FFE1         	movff	check_data@data,fsr1l
-  1269  007F76  C006  FFE2         	movff	check_data@data+1,fsr1h
-  1270  007F7A  CFDF FFE7          	movff	indf2,indf1
-  1271                           
-  1272                           ;comunicacao.c: 119: if (data->count == 1) {
-  1273  007F7E  C005  FFD9         	movff	check_data@data,fsr2l
-  1274  007F82  C006  FFDA         	movff	check_data@data+1,fsr2h
-  1275  007F86  04DE               	decf	postinc2,w,c
-  1276  007F88  A4D8               	btfss	status,2,c
-  1277  007F8A  0012               	return	
-  1278                           
-  1279                           ;comunicacao.c: 120: if (data->buff[3] == 0x21) {
-  1280  007F8C  EE20 F004          	lfsr	2,4
-  1281  007F90  5005               	movf	check_data@data,w,c
-  1282  007F92  26D9               	addwf	fsr2l,f,c
-  1283  007F94  5006               	movf	check_data@data+1,w,c
-  1284  007F96  22DA               	addwfc	fsr2h,f,c
-  1285  007F98  0E21               	movlw	33
-  1286  007F9A  18DE               	xorwf	postinc2,w,c
-  1287  007F9C  A4D8               	btfss	status,2,c
-  1288  007F9E  D012               	goto	l128
-  1289                           
-  1290                           ;comunicacao.c: 121: return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
-  1291  007FA0  EE20 F006          	lfsr	2,6
-  1292  007FA4  5005               	movf	check_data@data,w,c
-  1293  007FA6  26D9               	addwf	fsr2l,f,c
-  1294  007FA8  5006               	movf	check_data@data+1,w,c
-  1295  007FAA  22DA               	addwfc	fsr2h,f,c
-  1296  007FAC  B0DF               	btfsc	indf2,0,c
-  1297  007FAE  D004               	goto	l130
-  1298  007FB0  0E00               	movlw	0
-  1299  007FB2  6E09               	movwf	_check_data$331+1,c
-  1300  007FB4  0E06               	movlw	6
-  1301  007FB6  D003               	goto	L1
-  1302  007FB8                     l130:
-  1303  007FB8  0E00               	movlw	0
-  1304  007FBA  6E09               	movwf	_check_data$331+1,c
-  1305  007FBC  0E04               	movlw	4
-  1306  007FBE                     L1:
-  1307  007FBE  6E08               	movwf	_check_data$331,c
-  1308  007FC0  5008               	movf	_check_data$331,w,c
-  1309                           
-  1310                           ;comunicacao.c: 122: } else if (data->buff[3] == 0x22) {
-  1311  007FC2  0012               	return	
-  1312  007FC4                     l128:
-  1313  007FC4  EE20 F004          	lfsr	2,4
-  1314  007FC8  5005               	movf	check_data@data,w,c
-  1315  007FCA  26D9               	addwf	fsr2l,f,c
-  1316  007FCC  5006               	movf	check_data@data+1,w,c
-  1317  007FCE  22DA               	addwfc	fsr2h,f,c
-  1318  007FD0  0E22               	movlw	34
-  1319  007FD2  18DE               	xorwf	postinc2,w,c
-  1320  007FD4  A4D8               	btfss	status,2,c
-  1321  007FD6  D012               	goto	l134
-  1322                           
-  1323                           ;comunicacao.c: 123: return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
-  1324  007FD8  EE20 F006          	lfsr	2,6
-  1325  007FDC  5005               	movf	check_data@data,w,c
-  1326  007FDE  26D9               	addwf	fsr2l,f,c
-  1327  007FE0  5006               	movf	check_data@data+1,w,c
-  1328  007FE2  22DA               	addwfc	fsr2h,f,c
-  1329  007FE4  B0DF               	btfsc	indf2,0,c
-  1330  007FE6  D004               	goto	l136
-  1331  007FE8  0E00               	movlw	0
-  1332  007FEA  6E0B               	movwf	_check_data$332+1,c
-  1333  007FEC  0E07               	movlw	7
-  1334  007FEE  D003               	goto	L2
-  1335  007FF0                     l136:
-  1336  007FF0  0E00               	movlw	0
-  1337  007FF2  6E0B               	movwf	_check_data$332+1,c
-  1338  007FF4  0E05               	movlw	5
-  1339  007FF6                     L2:
-  1340  007FF6  6E0A               	movwf	_check_data$332,c
-  1341  007FF8  500A               	movf	_check_data$332,w,c
-  1342                           
-  1343                           ;comunicacao.c: 124: } else {
-  1344  007FFA  0012               	return	
-  1345  007FFC                     l134:
-  1346                           
-  1347                           ;comunicacao.c: 125: return ERR_NAK;
-  1348  007FFC  0E03               	movlw	3
-  1349  007FFE  0012               	return	
-  1350  008000                     __end_of_check_data:
-  1351                           	opt stack 0
-  1352                           tblptru	equ	0xFF8
-  1353                           prodh	equ	0xFF4
-  1354                           prodl	equ	0xFF3
-  1355                           postinc0	equ	0xFEE
-  1356                           wreg	equ	0xFE8
-  1357                           indf1	equ	0xFE7
-  1358                           plusw1	equ	0xFE3
-  1359                           fsr1h	equ	0xFE2
-  1360                           fsr1l	equ	0xFE1
-  1361                           indf2	equ	0xFDF
-  1362                           postinc2	equ	0xFDE
-  1363                           postdec2	equ	0xFDD
-  1364                           plusw2	equ	0xFDB
-  1365                           fsr2h	equ	0xFDA
-  1366                           fsr2l	equ	0xFD9
-  1367                           status	equ	0xFD8
-  1368                           
-  1369 ;; *************** function _calc_bcc *****************
-  1370 ;; Defined at:
-  1371 ;;		line 89 in file "comunicacao.c"
-  1372 ;; Parameters:    Size  Location     Type
-  1373 ;;  data            2    0[COMRAM] PTR unsigned char 
-  1374 ;;		 -> main@dados(69), 
-  1375 ;; Auto vars:     Size  Location     Type
-  1376 ;;  i               1    3[COMRAM] unsigned char 
-  1377 ;;  bcc             1    2[COMRAM] unsigned char 
-  1378 ;; Return value:  Size  Location     Type
-  1379 ;;                  1    wreg      unsigned char 
-  1380 ;; Registers used:
-  1381 ;;		wreg, fsr2l, fsr2h, status,2, status,0, prodl, prodh
-  1382 ;; Tracked objects:
-  1383 ;;		On entry : 0/0
-  1384 ;;		On exit  : 0/0
-  1385 ;;		Unchanged: 0/0
-  1386 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
-  1387 ;;      Params:         2       0       0       0       0       0       0       0       0
-  1388 ;;      Locals:         2       0       0       0       0       0       0       0       0
-  1389 ;;      Temps:          0       0       0       0       0       0       0       0       0
-  1390 ;;      Totals:         4       0       0       0       0       0       0       0       0
-  1391 ;;Total ram usage:        4 bytes
-  1392 ;; Hardware stack levels used:    1
-  1393 ;; This function calls:
-  1394 ;;		Nothing
-  1395 ;; This function is called by:
-  1396 ;;		_write_cmd
-  1397 ;;		_check_data
-  1398 ;; This function uses a non-reentrant model
-  1399 ;;
-  1400                           
-  1401                           	psect	text8
-  1402  007BBA                     __ptext8:
-  1403                           	opt stack 0
-  1404  007BBA                     _calc_bcc:
-  1405                           	opt stack 29
-  1406                           
-  1407                           ;comunicacao.c: 91: uint8_t bcc = data[0];
-  1408                           
-  1409                           ;incstack = 0
-  1410  007BBA  C001  FFD9         	movff	calc_bcc@data,fsr2l
-  1411  007BBE  C002  FFDA         	movff	calc_bcc@data+1,fsr2h
-  1412  007BC2  50DF               	movf	indf2,w,c
-  1413  007BC4  6E03               	movwf	calc_bcc@bcc,c
-  1414                           
-  1415                           ;comunicacao.c: 94: for (uint8_t i = 1; i < 64; i++) {
-  1416  007BC6  0E01               	movlw	1
-  1417  007BC8  6E04               	movwf	calc_bcc@i,c
-  1418  007BCA                     l978:
-  1419  007BCA  0E3F               	movlw	63
-  1420  007BCC  6404               	cpfsgt	calc_bcc@i,c
-  1421  007BCE  D001               	goto	l118
-  1422  007BD0  D00D               	goto	u300
-  1423  007BD2                     l118:
-  1424                           
-  1425                           ;comunicacao.c: 95: bcc = (uint8_t) (bcc ^ data[i]);
-  1426  007BD2  5004               	movf	calc_bcc@i,w,c
-  1427  007BD4  0D01               	mullw	1
-  1428  007BD6  50F3               	movf	prodl,w,c
-  1429  007BD8  2401               	addwf	calc_bcc@data,w,c
-  1430  007BDA  6ED9               	movwf	fsr2l,c
-  1431  007BDC  50F4               	movf	prodh,w,c
-  1432  007BDE  2002               	addwfc	calc_bcc@data+1,w,c
-  1433  007BE0  6EDA               	movwf	fsr2h,c
-  1434  007BE2  50DF               	movf	indf2,w,c
-  1435  007BE4  1803               	xorwf	calc_bcc@bcc,w,c
-  1436  007BE6  6E03               	movwf	calc_bcc@bcc,c
-  1437  007BE8  2A04               	incf	calc_bcc@i,f,c
-  1438  007BEA  D7EF               	goto	l978
-  1439  007BEC                     u300:
-  1440                           
-  1441                           ;comunicacao.c: 96: }
-  1442                           ;comunicacao.c: 98: return(bcc);
-  1443  007BEC  5003               	movf	calc_bcc@bcc,w,c
-  1444  007BEE  0012               	return	
-  1445  007BF0                     __end_of_calc_bcc:
-  1446                           	opt stack 0
-  1447  0000                     tblptru	equ	0xFF8
-  1448                           prodh	equ	0xFF4
-  1449                           prodl	equ	0xFF3
-  1450                           postinc0	equ	0xFEE
-  1451                           wreg	equ	0xFE8
-  1452                           indf1	equ	0xFE7
-  1453                           plusw1	equ	0xFE3
-  1454                           fsr1h	equ	0xFE2
-  1455                           fsr1l	equ	0xFE1
-  1456                           indf2	equ	0xFDF
-  1457                           postinc2	equ	0xFDE
-  1458                           postdec2	equ	0xFDD
-  1459                           plusw2	equ	0xFDB
-  1460                           fsr2h	equ	0xFDA
-  1461                           fsr2l	equ	0xFD9
-  1462                           status	equ	0xFD8
-  1463                           tblptru	equ	0xFF8
-  1464                           prodh	equ	0xFF4
-  1465                           prodl	equ	0xFF3
-  1466                           postinc0	equ	0xFEE
-  1467                           wreg	equ	0xFE8
-  1468                           indf1	equ	0xFE7
-  1469                           plusw1	equ	0xFE3
-  1470                           fsr1h	equ	0xFE2
-  1471                           fsr1l	equ	0xFE1
-  1472                           indf2	equ	0xFDF
-  1473                           postinc2	equ	0xFDE
-  1474                           postdec2	equ	0xFDD
-  1475                           plusw2	equ	0xFDB
-  1476                           fsr2h	equ	0xFDA
-  1477                           fsr2l	equ	0xFD9
-  1478                           status	equ	0xFD8
-  1479                           
-  1480                           	psect	rparam
-  1481  0000                     tblptru	equ	0xFF8
-  1482                           prodh	equ	0xFF4
-  1483                           prodl	equ	0xFF3
-  1484                           postinc0	equ	0xFEE
-  1485                           wreg	equ	0xFE8
-  1486                           indf1	equ	0xFE7
-  1487                           plusw1	equ	0xFE3
-  1488                           fsr1h	equ	0xFE2
-  1489                           fsr1l	equ	0xFE1
-  1490                           indf2	equ	0xFDF
-  1491                           postinc2	equ	0xFDE
-  1492                           postdec2	equ	0xFDD
-  1493                           plusw2	equ	0xFDB
-  1494                           fsr2h	equ	0xFDA
-  1495                           fsr2l	equ	0xFD9
-  1496                           status	equ	0xFD8
+   661                           ;main.c: 129: write_zero(&dados);
+   662  007FF2  0E80               	movlw	low main@dados
+   663  007FF4  6E01               	movwf	write_zero@dados,c
+   664  007FF6  0E00               	movlw	high main@dados
+   665  007FF8  6E02               	movwf	write_zero@dados+1,c
+   666  007FFA  EC80  F03D         	call	_write_zero	;wreg free
+   667  007FFE  D6FA               	goto	l35
+   668  008000                     __end_of_main:
+   669                           	opt stack 0
+   670                           tblptru	equ	0xFF8
+   671                           prodh	equ	0xFF4
+   672                           prodl	equ	0xFF3
+   673                           postinc0	equ	0xFEE
+   674                           wreg	equ	0xFE8
+   675                           plusw1	equ	0xFE3
+   676                           indf2	equ	0xFDF
+   677                           plusw2	equ	0xFDB
+   678                           fsr2h	equ	0xFDA
+   679                           fsr2l	equ	0xFD9
+   680                           status	equ	0xFD8
+   681                           
+   682 ;; *************** function _write_zero *****************
+   683 ;; Defined at:
+   684 ;;		line 139 in file "comunicacao.c"
+   685 ;; Parameters:    Size  Location     Type
+   686 ;;  dados           2    0[COMRAM] PTR struct .
+   687 ;;		 -> main@dados(69), 
+   688 ;; Auto vars:     Size  Location     Type
+   689 ;;  i               1    2[COMRAM] unsigned char 
+   690 ;; Return value:  Size  Location     Type
+   691 ;;                  1    wreg      void 
+   692 ;; Registers used:
+   693 ;;		wreg, fsr2l, fsr2h, status,2, status,0, prodl, prodh
+   694 ;; Tracked objects:
+   695 ;;		On entry : 0/0
+   696 ;;		On exit  : 0/0
+   697 ;;		Unchanged: 0/0
+   698 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+   699 ;;      Params:         2       0       0       0       0       0       0       0       0
+   700 ;;      Locals:         1       0       0       0       0       0       0       0       0
+   701 ;;      Temps:          0       0       0       0       0       0       0       0       0
+   702 ;;      Totals:         3       0       0       0       0       0       0       0       0
+   703 ;;Total ram usage:        3 bytes
+   704 ;; Hardware stack levels used:    1
+   705 ;; This function calls:
+   706 ;;		Nothing
+   707 ;; This function is called by:
+   708 ;;		_main
+   709 ;; This function uses a non-reentrant model
+   710 ;;
+   711                           
+   712                           	psect	text1
+   713  007B00                     __ptext1:
+   714                           	opt stack 0
+   715  007B00                     _write_zero:
+   716                           	opt stack 30
+   717                           
+   718                           ;comunicacao.c: 141: for (uint8_t i = 0; i < 64; i++) {
+   719                           
+   720                           ;incstack = 0
+   721  007B00  0E00               	movlw	0
+   722  007B02  6E03               	movwf	write_zero@i,c
+   723  007B04                     l1055:
+   724  007B04  0E3F               	movlw	63
+   725  007B06  6403               	cpfsgt	write_zero@i,c
+   726  007B08  D001               	goto	l147
+   727  007B0A  D010               	goto	u350
+   728  007B0C                     l147:
+   729                           
+   730                           ;comunicacao.c: 142: dados->buff[i] = 0x00;
+   731  007B0C  5003               	movf	write_zero@i,w,c
+   732  007B0E  0D01               	mullw	1
+   733  007B10  0E01               	movlw	1
+   734  007B12  26F3               	addwf	prodl,f,c
+   735  007B14  0E00               	movlw	0
+   736  007B16  22F4               	addwfc	prodh,f,c
+   737  007B18  50F3               	movf	prodl,w,c
+   738  007B1A  2401               	addwf	write_zero@dados,w,c
+   739  007B1C  6ED9               	movwf	fsr2l,c
+   740  007B1E  50F4               	movf	prodh,w,c
+   741  007B20  2002               	addwfc	write_zero@dados+1,w,c
+   742  007B22  6EDA               	movwf	fsr2h,c
+   743  007B24  0E00               	movlw	0
+   744  007B26  6EDF               	movwf	indf2,c
+   745  007B28  2A03               	incf	write_zero@i,f,c
+   746  007B2A  D7EC               	goto	l1055
+   747  007B2C                     u350:
+   748                           
+   749                           ;comunicacao.c: 143: }
+   750                           ;comunicacao.c: 145: dados->count = 0;
+   751  007B2C  C001  FFD9         	movff	write_zero@dados,fsr2l
+   752  007B30  C002  FFDA         	movff	write_zero@dados+1,fsr2h
+   753  007B34  0E00               	movlw	0
+   754  007B36  6EDF               	movwf	indf2,c
+   755                           
+   756                           ;comunicacao.c: 146: dados->command = 0;
+   757  007B38  EE20 F044          	lfsr	2,68
+   758  007B3C  5001               	movf	write_zero@dados,w,c
+   759  007B3E  26D9               	addwf	fsr2l,f,c
+   760  007B40  5002               	movf	write_zero@dados+1,w,c
+   761  007B42  22DA               	addwfc	fsr2h,f,c
+   762  007B44  0E00               	movlw	0
+   763  007B46  6EDF               	movwf	indf2,c
+   764                           
+   765                           ;comunicacao.c: 147: dados->data_flag = 0;
+   766  007B48  EE20 F041          	lfsr	2,65
+   767  007B4C  5001               	movf	write_zero@dados,w,c
+   768  007B4E  26D9               	addwf	fsr2l,f,c
+   769  007B50  5002               	movf	write_zero@dados+1,w,c
+   770  007B52  22DA               	addwfc	fsr2h,f,c
+   771  007B54  0E00               	movlw	0
+   772  007B56  6EDE               	movwf	postinc2,c
+   773  007B58  0E00               	movlw	0
+   774  007B5A  6EDD               	movwf	postdec2,c
+   775                           
+   776                           ;comunicacao.c: 148: dados->addr_from = 0;
+   777  007B5C  EE20 F043          	lfsr	2,67
+   778  007B60  5001               	movf	write_zero@dados,w,c
+   779  007B62  26D9               	addwf	fsr2l,f,c
+   780  007B64  5002               	movf	write_zero@dados+1,w,c
+   781  007B66  22DA               	addwfc	fsr2h,f,c
+   782  007B68  0E00               	movlw	0
+   783  007B6A  6EDF               	movwf	indf2,c
+   784  007B6C  0012               	return		;funcret
+   785  007B6E                     __end_of_write_zero:
+   786                           	opt stack 0
+   787                           tblptru	equ	0xFF8
+   788                           prodh	equ	0xFF4
+   789                           prodl	equ	0xFF3
+   790                           postinc0	equ	0xFEE
+   791                           wreg	equ	0xFE8
+   792                           plusw1	equ	0xFE3
+   793                           indf2	equ	0xFDF
+   794                           postinc2	equ	0xFDE
+   795                           postdec2	equ	0xFDD
+   796                           plusw2	equ	0xFDB
+   797                           fsr2h	equ	0xFDA
+   798                           fsr2l	equ	0xFD9
+   799                           status	equ	0xFD8
+   800                           
+   801 ;; *************** function _write_cmd *****************
+   802 ;; Defined at:
+   803 ;;		line 67 in file "comunicacao.c"
+   804 ;; Parameters:    Size  Location     Type
+   805 ;;  data            2    4[COMRAM] PTR struct .
+   806 ;;		 -> main@dados(69), 
+   807 ;;  addr_to         1    6[COMRAM] unsigned char 
+   808 ;; Auto vars:     Size  Location     Type
+   809 ;;  t               1   76[COMRAM] unsigned char 
+   810 ;;  aux            64   12[COMRAM] unsigned char [64]
+   811 ;;  i               1   77[COMRAM] unsigned char 
+   812 ;; Return value:  Size  Location     Type
+   813 ;;                  1    wreg      void 
+   814 ;; Registers used:
+   815 ;;		wreg, fsr1l, fsr1h, fsr2l, fsr2h, status,2, status,0, prodl, prodh, cstack
+   816 ;; Tracked objects:
+   817 ;;		On entry : 0/0
+   818 ;;		On exit  : 0/0
+   819 ;;		Unchanged: 0/0
+   820 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+   821 ;;      Params:         3       0       0       0       0       0       0       0       0
+   822 ;;      Locals:        66       0       0       0       0       0       0       0       0
+   823 ;;      Temps:          5       0       0       0       0       0       0       0       0
+   824 ;;      Totals:        74       0       0       0       0       0       0       0       0
+   825 ;;Total ram usage:       74 bytes
+   826 ;; Hardware stack levels used:    1
+   827 ;; Hardware stack levels required when called:    1
+   828 ;; This function calls:
+   829 ;;		_calc_bcc
+   830 ;;		_uart_send_byte
+   831 ;; This function is called by:
+   832 ;;		_main
+   833 ;; This function uses a non-reentrant model
+   834 ;;
+   835                           
+   836                           	psect	text2
+   837  007B6E                     __ptext2:
+   838                           	opt stack 0
+   839  007B6E                     _write_cmd:
+   840                           	opt stack 29
+   841                           
+   842                           ;comunicacao.c: 69: uint8_t aux[64] = {0};
+   843                           
+   844                           ;incstack = 0
+   845  007B6E  EE21  F000         	lfsr	2,write_cmd@F3875
+   846  007B72  EE10  F00D         	lfsr	1,write_cmd@aux
+   847  007B76  0E3F               	movlw	63
+   848  007B78                     u401:
+   849  007B78  CFDB FFE3          	movff	plusw2,plusw1
+   850  007B7C  06E8               	decf	wreg,f,c
+   851  007B7E  E2FC               	bc	u401
+   852                           
+   853                           ;comunicacao.c: 71: aux[0] = 0x02;
+   854  007B80  0E02               	movlw	2
+   855  007B82  6E0D               	movwf	write_cmd@aux,c
+   856                           
+   857                           ;comunicacao.c: 72: aux[1] = addr_to;
+   858  007B84  C007  F00E         	movff	write_cmd@addr_to,write_cmd@aux+1
+   859                           
+   860                           ;comunicacao.c: 73: aux[2] = 0x09;
+   861  007B88  0E09               	movlw	9
+   862  007B8A  6E0F               	movwf	write_cmd@aux+2,c
+   863                           
+   864                           ;comunicacao.c: 74: aux[3] = data->command;
+   865  007B8C  EE20 F044          	lfsr	2,68
+   866  007B90  5005               	movf	write_cmd@data,w,c
+   867  007B92  26D9               	addwf	fsr2l,f,c
+   868  007B94  5006               	movf	write_cmd@data+1,w,c
+   869  007B96  22DA               	addwfc	fsr2h,f,c
+   870  007B98  50DF               	movf	indf2,w,c
+   871  007B9A  6E10               	movwf	write_cmd@aux+3,c
+   872                           
+   873                           ;comunicacao.c: 75: aux[4] = data->count;
+   874  007B9C  C005  FFD9         	movff	write_cmd@data,fsr2l
+   875  007BA0  C006  FFDA         	movff	write_cmd@data+1,fsr2h
+   876  007BA4  50DF               	movf	indf2,w,c
+   877  007BA6  6E11               	movwf	write_cmd@aux+4,c
+   878                           
+   879                           ;comunicacao.c: 77: uint8_t i = 0;
+   880  007BA8  0E00               	movlw	0
+   881  007BAA  6E4E               	movwf	write_cmd@i,c
+   882                           
+   883                           ;comunicacao.c: 78: while (i < data->count) {
+   884  007BAC  D01C               	goto	l111
+   885  007BAE                     
+   886                           ;comunicacao.c: 79: aux[i + 5] = data->buff[i++];
+   887  007BAE  504E               	movf	write_cmd@i,w,c
+   888  007BB0  0D01               	mullw	1
+   889  007BB2  0E01               	movlw	1
+   890  007BB4  26F3               	addwf	prodl,f,c
+   891  007BB6  0E00               	movlw	0
+   892  007BB8  22F4               	addwfc	prodh,f,c
+   893  007BBA  50F3               	movf	prodl,w,c
+   894  007BBC  2405               	addwf	write_cmd@data,w,c
+   895  007BBE  6ED9               	movwf	fsr2l,c
+   896  007BC0  50F4               	movf	prodh,w,c
+   897  007BC2  2006               	addwfc	write_cmd@data+1,w,c
+   898  007BC4  6EDA               	movwf	fsr2h,c
+   899  007BC6  504E               	movf	write_cmd@i,w,c
+   900  007BC8  6E08               	movwf	??_write_cmd& (0+255),c
+   901  007BCA  6A09               	clrf	(??_write_cmd+1)& (0+255),c
+   902  007BCC  0E05               	movlw	5
+   903  007BCE  2608               	addwf	??_write_cmd,f,c
+   904  007BD0  0E00               	movlw	0
+   905  007BD2  2209               	addwfc	??_write_cmd+1,f,c
+   906  007BD4  0E0D               	movlw	low write_cmd@aux
+   907  007BD6  2408               	addwf	??_write_cmd,w,c
+   908  007BD8  6EE1               	movwf	fsr1l,c
+   909  007BDA  0E00               	movlw	high write_cmd@aux
+   910  007BDC  2009               	addwfc	??_write_cmd+1,w,c
+   911  007BDE  6EE2               	movwf	fsr1h,c
+   912  007BE0  CFDF FFE7          	movff	indf2,indf1
+   913  007BE4  2A4E               	incf	write_cmd@i,f,c
+   914  007BE6                     l111:
+   915  007BE6  C005  FFD9         	movff	write_cmd@data,fsr2l
+   916  007BEA  C006  FFDA         	movff	write_cmd@data+1,fsr2h
+   917  007BEE  50DE               	movf	postinc2,w,c
+   918  007BF0  5C4E               	subwf	write_cmd@i,w,c
+   919  007BF2  A0D8               	btfss	status,0,c
+   920  007BF4  D7DC               	goto	l112
+   921                           
+   922                           ;comunicacao.c: 80: }
+   923                           ;comunicacao.c: 82: aux[i + 5] = calc_bcc(data);
+   924  007BF6  C005  F001         	movff	write_cmd@data,calc_bcc@data
+   925  007BFA  C006  F002         	movff	write_cmd@data+1,calc_bcc@data+1
+   926  007BFE  EC22  F03D         	call	_calc_bcc	;wreg free
+   927  007C02  6E08               	movwf	??_write_cmd& (0+255),c
+   928  007C04  504E               	movf	write_cmd@i,w,c
+   929  007C06  6E09               	movwf	(??_write_cmd+1)& (0+255),c
+   930  007C08  6A0A               	clrf	(??_write_cmd+2)& (0+255),c
+   931  007C0A  0E05               	movlw	5
+   932  007C0C  2609               	addwf	??_write_cmd+1,f,c
+   933  007C0E  0E00               	movlw	0
+   934  007C10  220A               	addwfc	??_write_cmd+2,f,c
+   935  007C12  0E0D               	movlw	low write_cmd@aux
+   936  007C14  2409               	addwf	??_write_cmd+1,w,c
+   937  007C16  6ED9               	movwf	fsr2l,c
+   938  007C18  0E00               	movlw	high write_cmd@aux
+   939  007C1A  200A               	addwfc	??_write_cmd+2,w,c
+   940  007C1C  6EDA               	movwf	fsr2h,c
+   941  007C1E  C008  FFDF         	movff	??_write_cmd,indf2
+   942                           
+   943                           ;comunicacao.c: 84: for (uint8_t t = 0; t < i + 6; t++) {
+   944  007C22  0E00               	movlw	0
+   945  007C24  6E4D               	movwf	write_cmd@t,c
+   946  007C26  D00C               	goto	l114
+   947  007C28                     
+   948                           ;comunicacao.c: 85: uart_send_byte(aux[t]);
+   949  007C28  504D               	movf	write_cmd@t,w,c
+   950  007C2A  0D01               	mullw	1
+   951  007C2C  0E0D               	movlw	low write_cmd@aux
+   952  007C2E  24F3               	addwf	prodl,w,c
+   953  007C30  6ED9               	movwf	fsr2l,c
+   954  007C32  0E00               	movlw	high write_cmd@aux
+   955  007C34  20F4               	addwfc	prodh,w,c
+   956  007C36  6EDA               	movwf	fsr2h,c
+   957  007C38  50DF               	movf	indf2,w,c
+   958  007C3A  EC09  F03D         	call	_uart_send_byte
+   959  007C3E  2A4D               	incf	write_cmd@t,f,c
+   960  007C40                     l114:
+   961  007C40  504E               	movf	write_cmd@i,w,c
+   962  007C42  6E08               	movwf	??_write_cmd& (0+255),c
+   963  007C44  6A09               	clrf	(??_write_cmd+1)& (0+255),c
+   964  007C46  0E06               	movlw	6
+   965  007C48  2608               	addwf	??_write_cmd,f,c
+   966  007C4A  0E00               	movlw	0
+   967  007C4C  2209               	addwfc	??_write_cmd+1,f,c
+   968  007C4E  504D               	movf	write_cmd@t,w,c
+   969  007C50  6E0A               	movwf	(??_write_cmd+2)& (0+255),c
+   970  007C52  6A0B               	clrf	(??_write_cmd+3)& (0+255),c
+   971  007C54  5008               	movf	??_write_cmd,w,c
+   972  007C56  5C0A               	subwf	??_write_cmd+2,w,c
+   973  007C58  500B               	movf	??_write_cmd+3,w,c
+   974  007C5A  0A80               	xorlw	128
+   975  007C5C  6E0C               	movwf	(??_write_cmd+4)& (0+255),c
+   976  007C5E  5009               	movf	??_write_cmd+1,w,c
+   977  007C60  0A80               	xorlw	128
+   978  007C62  580C               	subwfb	(??_write_cmd+4)& (0+255),w,c
+   979  007C64  B0D8               	btfsc	status,0,c
+   980  007C66  0012               	return	
+   981  007C68  D7DF               	goto	l115
+   982  007C6A                     __end_of_write_cmd:
+   983                           	opt stack 0
+   984                           tblptru	equ	0xFF8
+   985                           prodh	equ	0xFF4
+   986                           prodl	equ	0xFF3
+   987                           postinc0	equ	0xFEE
+   988                           wreg	equ	0xFE8
+   989                           indf1	equ	0xFE7
+   990                           plusw1	equ	0xFE3
+   991                           fsr1h	equ	0xFE2
+   992                           fsr1l	equ	0xFE1
+   993                           indf2	equ	0xFDF
+   994                           postinc2	equ	0xFDE
+   995                           postdec2	equ	0xFDD
+   996                           plusw2	equ	0xFDB
+   997                           fsr2h	equ	0xFDA
+   998                           fsr2l	equ	0xFD9
+   999                           status	equ	0xFD8
+  1000                           
+  1001 ;; *************** function _uart_send_byte *****************
+  1002 ;; Defined at:
+  1003 ;;		line 50 in file "comunicacao.c"
+  1004 ;; Parameters:    Size  Location     Type
+  1005 ;;  byte            1    wreg     unsigned char 
+  1006 ;; Auto vars:     Size  Location     Type
+  1007 ;;  byte            1    0[COMRAM] unsigned char 
+  1008 ;; Return value:  Size  Location     Type
+  1009 ;;                  1    wreg      void 
+  1010 ;; Registers used:
+  1011 ;;		wreg
+  1012 ;; Tracked objects:
+  1013 ;;		On entry : 0/0
+  1014 ;;		On exit  : 0/0
+  1015 ;;		Unchanged: 0/0
+  1016 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1017 ;;      Params:         0       0       0       0       0       0       0       0       0
+  1018 ;;      Locals:         1       0       0       0       0       0       0       0       0
+  1019 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1020 ;;      Totals:         1       0       0       0       0       0       0       0       0
+  1021 ;;Total ram usage:        1 bytes
+  1022 ;; Hardware stack levels used:    1
+  1023 ;; This function calls:
+  1024 ;;		Nothing
+  1025 ;; This function is called by:
+  1026 ;;		_write_cmd
+  1027 ;; This function uses a non-reentrant model
+  1028 ;;
+  1029                           
+  1030                           	psect	text3
+  1031  007A12                     __ptext3:
+  1032                           	opt stack 0
+  1033  007A12                     _uart_send_byte:
+  1034                           	opt stack 29
+  1035                           
+  1036                           ;incstack = 0
+  1037                           ;uart_send_byte@byte stored from wreg
+  1038  007A12  6E01               	movwf	uart_send_byte@byte,c
+  1039  007A14                     
+  1040                           ;comunicacao.c: 53: while (TXIF == 0);
+  1041  007A14  A89E               	btfss	3998,4,c	;volatile
+  1042  007A16  D7FE               	goto	l1029
+  1043                           
+  1044                           ;comunicacao.c: 54: TXREG = byte;
+  1045  007A18  C001  FFAD         	movff	uart_send_byte@byte,4013	;volatile
+  1046  007A1C  B2AC               	btfsc	4012,1,c	;volatile
+  1047  007A1E  0012               	return	
+  1048  007A20  D7FD               	goto	l98
+  1049  007A22                     __end_of_uart_send_byte:
+  1050                           	opt stack 0
+  1051                           tblptru	equ	0xFF8
+  1052                           prodh	equ	0xFF4
+  1053                           prodl	equ	0xFF3
+  1054                           postinc0	equ	0xFEE
+  1055                           wreg	equ	0xFE8
+  1056                           indf1	equ	0xFE7
+  1057                           plusw1	equ	0xFE3
+  1058                           fsr1h	equ	0xFE2
+  1059                           fsr1l	equ	0xFE1
+  1060                           indf2	equ	0xFDF
+  1061                           postinc2	equ	0xFDE
+  1062                           postdec2	equ	0xFDD
+  1063                           plusw2	equ	0xFDB
+  1064                           fsr2h	equ	0xFDA
+  1065                           fsr2l	equ	0xFD9
+  1066                           status	equ	0xFD8
+  1067                           
+  1068 ;; *************** function _uart_init *****************
+  1069 ;; Defined at:
+  1070 ;;		line 9 in file "comunicacao.c"
+  1071 ;; Parameters:    Size  Location     Type
+  1072 ;;		None
+  1073 ;; Auto vars:     Size  Location     Type
+  1074 ;;		None
+  1075 ;; Return value:  Size  Location     Type
+  1076 ;;                  1    wreg      void 
+  1077 ;; Registers used:
+  1078 ;;		wreg, status,2
+  1079 ;; Tracked objects:
+  1080 ;;		On entry : 0/0
+  1081 ;;		On exit  : 0/0
+  1082 ;;		Unchanged: 0/0
+  1083 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1084 ;;      Params:         0       0       0       0       0       0       0       0       0
+  1085 ;;      Locals:         0       0       0       0       0       0       0       0       0
+  1086 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1087 ;;      Totals:         0       0       0       0       0       0       0       0       0
+  1088 ;;Total ram usage:        0 bytes
+  1089 ;; Hardware stack levels used:    1
+  1090 ;; This function calls:
+  1091 ;;		Nothing
+  1092 ;; This function is called by:
+  1093 ;;		_main
+  1094 ;; This function uses a non-reentrant model
+  1095 ;;
+  1096                           
+  1097                           	psect	text4
+  1098  007A04                     __ptext4:
+  1099                           	opt stack 0
+  1100  007A04                     _uart_init:
+  1101                           	opt stack 30
+  1102                           
+  1103                           ;comunicacao.c: 11: RCSTA = 0x90;
+  1104                           
+  1105                           ;incstack = 0
+  1106  007A04  0E90               	movlw	144
+  1107  007A06  6EAB               	movwf	4011,c	;volatile
+  1108                           
+  1109                           ;comunicacao.c: 12: TXSTA = 0x24;
+  1110  007A08  0E24               	movlw	36
+  1111  007A0A  6EAC               	movwf	4012,c	;volatile
+  1112                           
+  1113                           ;comunicacao.c: 19: SPBRG = 51;
+  1114  007A0C  0E33               	movlw	51
+  1115  007A0E  6EAF               	movwf	4015,c	;volatile
+  1116  007A10  0012               	return		;funcret
+  1117  007A12                     __end_of_uart_init:
+  1118                           	opt stack 0
+  1119                           tblptru	equ	0xFF8
+  1120                           prodh	equ	0xFF4
+  1121                           prodl	equ	0xFF3
+  1122                           postinc0	equ	0xFEE
+  1123                           wreg	equ	0xFE8
+  1124                           indf1	equ	0xFE7
+  1125                           plusw1	equ	0xFE3
+  1126                           fsr1h	equ	0xFE2
+  1127                           fsr1l	equ	0xFE1
+  1128                           indf2	equ	0xFDF
+  1129                           postinc2	equ	0xFDE
+  1130                           postdec2	equ	0xFDD
+  1131                           plusw2	equ	0xFDB
+  1132                           fsr2h	equ	0xFDA
+  1133                           fsr2l	equ	0xFD9
+  1134                           status	equ	0xFD8
+  1135                           
+  1136 ;; *************** function _uart_check_rx *****************
+  1137 ;; Defined at:
+  1138 ;;		line 22 in file "comunicacao.c"
+  1139 ;; Parameters:    Size  Location     Type
+  1140 ;;		None
+  1141 ;; Auto vars:     Size  Location     Type
+  1142 ;;  tempo           2    2[COMRAM] unsigned int 
+  1143 ;; Return value:  Size  Location     Type
+  1144 ;;                  2    0[COMRAM] short 
+  1145 ;; Registers used:
+  1146 ;;		wreg, status,2, status,0
+  1147 ;; Tracked objects:
+  1148 ;;		On entry : 0/0
+  1149 ;;		On exit  : 0/0
+  1150 ;;		Unchanged: 0/0
+  1151 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1152 ;;      Params:         2       0       0       0       0       0       0       0       0
+  1153 ;;      Locals:         2       0       0       0       0       0       0       0       0
+  1154 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1155 ;;      Totals:         4       0       0       0       0       0       0       0       0
+  1156 ;;Total ram usage:        4 bytes
+  1157 ;; Hardware stack levels used:    1
+  1158 ;; This function calls:
+  1159 ;;		Nothing
+  1160 ;; This function is called by:
+  1161 ;;		_main
+  1162 ;; This function uses a non-reentrant model
+  1163 ;;
+  1164                           
+  1165                           	psect	text5
+  1166  007A7A                     __ptext5:
+  1167                           	opt stack 0
+  1168  007A7A                     _uart_check_rx:
+  1169                           	opt stack 30
+  1170                           
+  1171                           ;comunicacao.c: 24: uint16_t tempo;
+  1172                           ;comunicacao.c: 26: RCSTAbits.OERR = 0;
+  1173                           
+  1174                           ;incstack = 0
+  1175  007A7A  92AB               	bcf	4011,1,c	;volatile
+  1176                           
+  1177                           ;comunicacao.c: 27: RCSTAbits.CREN = 0;
+  1178  007A7C  98AB               	bcf	4011,4,c	;volatile
+  1179                           
+  1180                           ;comunicacao.c: 28: __nop();
+  1181  007A7E  F000               	nop	
+  1182                           
+  1183                           ;comunicacao.c: 29: RCSTAbits.CREN = 1;
+  1184  007A80  88AB               	bsf	4011,4,c	;volatile
+  1185                           
+  1186                           ;comunicacao.c: 31: tempo = 0xFFF;
+  1187  007A82  0E0F               	movlw	15
+  1188  007A84  6E04               	movwf	uart_check_rx@tempo+1,c
+  1189  007A86  6803               	setf	uart_check_rx@tempo,c
+  1190  007A88                     
+  1191                           ;comunicacao.c: 34: --tempo;
+  1192  007A88  0603               	decf	uart_check_rx@tempo,f,c
+  1193  007A8A  A0D8               	btfss	status,0,c
+  1194  007A8C  0604               	decf	uart_check_rx@tempo+1,f,c
+  1195                           
+  1196                           ;comunicacao.c: 35: } while (!RCIF && tempo > 0);
+  1197  007A8E  BA9E               	btfsc	3998,5,c	;volatile
+  1198  007A90  D004               	goto	u370
+  1199  007A92  5003               	movf	uart_check_rx@tempo,w,c
+  1200  007A94  1004               	iorwf	uart_check_rx@tempo+1,w,c
+  1201  007A96  A4D8               	btfss	status,2,c
+  1202  007A98  D7F7               	goto	l83
+  1203  007A9A                     u370:
+  1204                           
+  1205                           ;comunicacao.c: 37: if (tempo > 0) {
+  1206  007A9A  5003               	movf	uart_check_rx@tempo,w,c
+  1207  007A9C  1004               	iorwf	uart_check_rx@tempo+1,w,c
+  1208  007A9E  B4D8               	btfsc	status,2,c
+  1209  007AA0  D005               	goto	l87
+  1210                           
+  1211                           ;comunicacao.c: 38: return(0);
+  1212  007AA2  0E00               	movlw	0
+  1213  007AA4  6E02               	movwf	?_uart_check_rx+1,c
+  1214  007AA6  0E00               	movlw	0
+  1215  007AA8  6E01               	movwf	?_uart_check_rx,c
+  1216  007AAA  0012               	return	
+  1217  007AAC                     l87:
+  1218                           
+  1219                           ;comunicacao.c: 39: }
+  1220                           ;comunicacao.c: 41: return(1);
+  1221  007AAC  0E00               	movlw	0
+  1222  007AAE  6E02               	movwf	?_uart_check_rx+1,c
+  1223  007AB0  0E01               	movlw	1
+  1224  007AB2  6E01               	movwf	?_uart_check_rx,c
+  1225  007AB4  0012               	return	
+  1226  007AB6                     __end_of_uart_check_rx:
+  1227                           	opt stack 0
+  1228                           tblptru	equ	0xFF8
+  1229                           prodh	equ	0xFF4
+  1230                           prodl	equ	0xFF3
+  1231                           postinc0	equ	0xFEE
+  1232                           wreg	equ	0xFE8
+  1233                           indf1	equ	0xFE7
+  1234                           plusw1	equ	0xFE3
+  1235                           fsr1h	equ	0xFE2
+  1236                           fsr1l	equ	0xFE1
+  1237                           indf2	equ	0xFDF
+  1238                           postinc2	equ	0xFDE
+  1239                           postdec2	equ	0xFDD
+  1240                           plusw2	equ	0xFDB
+  1241                           fsr2h	equ	0xFDA
+  1242                           fsr2l	equ	0xFD9
+  1243                           status	equ	0xFD8
+  1244                           
+  1245 ;; *************** function _mk_msg *****************
+  1246 ;; Defined at:
+  1247 ;;		line 58 in file "comunicacao.c"
+  1248 ;; Parameters:    Size  Location     Type
+  1249 ;;  data            2    0[COMRAM] PTR struct .
+  1250 ;;		 -> main@dados(69), 
+  1251 ;;  count           1    2[COMRAM] unsigned char 
+  1252 ;;  string          2    3[COMRAM] PTR unsigned char 
+  1253 ;;		 -> main@msg(32), 
+  1254 ;; Auto vars:     Size  Location     Type
+  1255 ;;  i               1    5[COMRAM] unsigned char 
+  1256 ;; Return value:  Size  Location     Type
+  1257 ;;                  1    wreg      void 
+  1258 ;; Registers used:
+  1259 ;;		wreg, fsr1l, fsr1h, fsr2l, fsr2h, status,2, status,0, prodl, prodh
+  1260 ;; Tracked objects:
+  1261 ;;		On entry : 0/0
+  1262 ;;		On exit  : 0/0
+  1263 ;;		Unchanged: 0/0
+  1264 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1265 ;;      Params:         5       0       0       0       0       0       0       0       0
+  1266 ;;      Locals:         1       0       0       0       0       0       0       0       0
+  1267 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1268 ;;      Totals:         6       0       0       0       0       0       0       0       0
+  1269 ;;Total ram usage:        6 bytes
+  1270 ;; Hardware stack levels used:    1
+  1271 ;; This function calls:
+  1272 ;;		Nothing
+  1273 ;; This function is called by:
+  1274 ;;		_main
+  1275 ;; This function uses a non-reentrant model
+  1276 ;;
+  1277                           
+  1278                           	psect	text6
+  1279  007AB6                     __ptext6:
+  1280                           	opt stack 0
+  1281  007AB6                     _mk_msg:
+  1282                           	opt stack 30
+  1283                           
+  1284                           ;comunicacao.c: 60: data->count = count;
+  1285                           
+  1286                           ;incstack = 0
+  1287  007AB6  C001  FFD9         	movff	mk_msg@data,fsr2l
+  1288  007ABA  C002  FFDA         	movff	mk_msg@data+1,fsr2h
+  1289  007ABE  C003  FFDF         	movff	mk_msg@count,indf2
+  1290                           
+  1291                           ;comunicacao.c: 62: for (uint8_t i = 0; i < count; i++) {
+  1292  007AC2  0E00               	movlw	0
+  1293  007AC4  6E06               	movwf	mk_msg@i,c
+  1294  007AC6  D017               	goto	l103
+  1295  007AC8                     
+  1296                           ;comunicacao.c: 63: data->buff[i] = string[i];
+  1297  007AC8  5006               	movf	mk_msg@i,w,c
+  1298  007ACA  0D01               	mullw	1
+  1299  007ACC  50F3               	movf	prodl,w,c
+  1300  007ACE  2404               	addwf	mk_msg@string,w,c
+  1301  007AD0  6ED9               	movwf	fsr2l,c
+  1302  007AD2  50F4               	movf	prodh,w,c
+  1303  007AD4  2005               	addwfc	mk_msg@string+1,w,c
+  1304  007AD6  6EDA               	movwf	fsr2h,c
+  1305  007AD8  5006               	movf	mk_msg@i,w,c
+  1306  007ADA  0D01               	mullw	1
+  1307  007ADC  0E01               	movlw	1
+  1308  007ADE  26F3               	addwf	prodl,f,c
+  1309  007AE0  0E00               	movlw	0
+  1310  007AE2  22F4               	addwfc	prodh,f,c
+  1311  007AE4  50F3               	movf	prodl,w,c
+  1312  007AE6  2401               	addwf	mk_msg@data,w,c
+  1313  007AE8  6EE1               	movwf	fsr1l,c
+  1314  007AEA  50F4               	movf	prodh,w,c
+  1315  007AEC  2002               	addwfc	mk_msg@data+1,w,c
+  1316  007AEE  6EE2               	movwf	fsr1h,c
+  1317  007AF0  CFDF FFE7          	movff	indf2,indf1
+  1318  007AF4  2A06               	incf	mk_msg@i,f,c
+  1319  007AF6                     l103:
+  1320  007AF6  5003               	movf	mk_msg@count,w,c
+  1321  007AF8  5C06               	subwf	mk_msg@i,w,c
+  1322  007AFA  B0D8               	btfsc	status,0,c
+  1323  007AFC  0012               	return	
+  1324  007AFE  D7E4               	goto	l104
+  1325  007B00                     __end_of_mk_msg:
+  1326                           	opt stack 0
+  1327                           tblptru	equ	0xFF8
+  1328                           prodh	equ	0xFF4
+  1329                           prodl	equ	0xFF3
+  1330                           postinc0	equ	0xFEE
+  1331                           wreg	equ	0xFE8
+  1332                           indf1	equ	0xFE7
+  1333                           plusw1	equ	0xFE3
+  1334                           fsr1h	equ	0xFE2
+  1335                           fsr1l	equ	0xFE1
+  1336                           indf2	equ	0xFDF
+  1337                           postinc2	equ	0xFDE
+  1338                           postdec2	equ	0xFDD
+  1339                           plusw2	equ	0xFDB
+  1340                           fsr2h	equ	0xFDA
+  1341                           fsr2l	equ	0xFD9
+  1342                           status	equ	0xFD8
+  1343                           
+  1344 ;; *************** function _check_data *****************
+  1345 ;; Defined at:
+  1346 ;;		line 101 in file "comunicacao.c"
+  1347 ;; Parameters:    Size  Location     Type
+  1348 ;;  data            2    4[COMRAM] PTR struct .
+  1349 ;;		 -> main@dados(69), 
+  1350 ;; Auto vars:     Size  Location     Type
+  1351 ;;		None
+  1352 ;; Return value:  Size  Location     Type
+  1353 ;;                  1    wreg      enum E3818
+  1354 ;; Registers used:
+  1355 ;;		wreg, fsr1l, fsr1h, fsr2l, fsr2h, status,2, status,0, prodl, prodh, cstack
+  1356 ;; Tracked objects:
+  1357 ;;		On entry : 0/0
+  1358 ;;		On exit  : 0/0
+  1359 ;;		Unchanged: 0/0
+  1360 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1361 ;;      Params:         2       0       0       0       0       0       0       0       0
+  1362 ;;      Locals:         4       0       0       0       0       0       0       0       0
+  1363 ;;      Temps:          1       0       0       0       0       0       0       0       0
+  1364 ;;      Totals:         7       0       0       0       0       0       0       0       0
+  1365 ;;Total ram usage:        7 bytes
+  1366 ;; Hardware stack levels used:    1
+  1367 ;; Hardware stack levels required when called:    1
+  1368 ;; This function calls:
+  1369 ;;		_calc_bcc
+  1370 ;; This function is called by:
+  1371 ;;		_main
+  1372 ;; This function uses a non-reentrant model
+  1373 ;;
+  1374                           
+  1375                           	psect	text7
+  1376  007C6A                     __ptext7:
+  1377                           	opt stack 0
+  1378  007C6A                     _check_data:
+  1379                           	opt stack 29
+  1380                           
+  1381                           ;comunicacao.c: 103: if (data->buff[0] != 0x02) {
+  1382                           
+  1383                           ;incstack = 0
+  1384  007C6A  EE20 F001          	lfsr	2,1
+  1385  007C6E  5005               	movf	check_data@data,w,c
+  1386  007C70  26D9               	addwf	fsr2l,f,c
+  1387  007C72  5006               	movf	check_data@data+1,w,c
+  1388  007C74  22DA               	addwfc	fsr2h,f,c
+  1389  007C76  0E02               	movlw	2
+  1390  007C78  18DE               	xorwf	postinc2,w,c
+  1391  007C7A  B4D8               	btfsc	status,2,c
+  1392  007C7C  D002               	goto	l125
+  1393                           
+  1394                           ;comunicacao.c: 104: return ERR_STX;
+  1395  007C7E  0E00               	movlw	0
+  1396  007C80  0012               	return	
+  1397  007C82                     l125:
+  1398                           
+  1399                           ;comunicacao.c: 105: }
+  1400                           ;comunicacao.c: 107: if (data->buff[1] != 0x09) {
+  1401  007C82  EE20 F002          	lfsr	2,2
+  1402  007C86  5005               	movf	check_data@data,w,c
+  1403  007C88  26D9               	addwf	fsr2l,f,c
+  1404  007C8A  5006               	movf	check_data@data+1,w,c
+  1405  007C8C  22DA               	addwfc	fsr2h,f,c
+  1406  007C8E  0E09               	movlw	9
+  1407  007C90  18DE               	xorwf	postinc2,w,c
+  1408  007C92  B4D8               	btfsc	status,2,c
+  1409  007C94  D002               	goto	l127
+  1410                           
+  1411                           ;comunicacao.c: 108: return ERR_IGNORE_MSG;
+  1412  007C96  0E01               	movlw	1
+  1413  007C98  0012               	return	
+  1414  007C9A                     l127:
+  1415                           
+  1416                           ;comunicacao.c: 109: }
+  1417                           ;comunicacao.c: 111: if (calc_bcc(data->buff) != 0) {
+  1418  007C9A  0E01               	movlw	1
+  1419  007C9C  2405               	addwf	check_data@data,w,c
+  1420  007C9E  6E01               	movwf	calc_bcc@data,c
+  1421  007CA0  0E00               	movlw	0
+  1422  007CA2  2006               	addwfc	check_data@data+1,w,c
+  1423  007CA4  6E02               	movwf	calc_bcc@data+1,c
+  1424  007CA6  EC22  F03D         	call	_calc_bcc	;wreg free
+  1425  007CAA  0900               	iorlw	0
+  1426  007CAC  B4D8               	btfsc	status,2,c
+  1427  007CAE  D002               	goto	l128
+  1428                           
+  1429                           ;comunicacao.c: 112: return ERR_BCC;
+  1430  007CB0  0E02               	movlw	2
+  1431  007CB2  0012               	return	
+  1432  007CB4                     l128:
+  1433                           
+  1434                           ;comunicacao.c: 113: }
+  1435                           ;comunicacao.c: 115: data->addr_from = data->buff[2];
+  1436  007CB4  EE20 F003          	lfsr	2,3
+  1437  007CB8  5005               	movf	check_data@data,w,c
+  1438  007CBA  26D9               	addwf	fsr2l,f,c
+  1439  007CBC  5006               	movf	check_data@data+1,w,c
+  1440  007CBE  22DA               	addwfc	fsr2h,f,c
+  1441  007CC0  EE10 F043          	lfsr	1,67
+  1442  007CC4  5005               	movf	check_data@data,w,c
+  1443  007CC6  26E1               	addwf	fsr1l,f,c
+  1444  007CC8  5006               	movf	check_data@data+1,w,c
+  1445  007CCA  22E2               	addwfc	fsr1h,f,c
+  1446  007CCC  CFDF FFE7          	movff	indf2,indf1
+  1447                           
+  1448                           ;comunicacao.c: 116: data->command = data->buff[3];
+  1449  007CD0  EE20 F004          	lfsr	2,4
+  1450  007CD4  5005               	movf	check_data@data,w,c
+  1451  007CD6  26D9               	addwf	fsr2l,f,c
+  1452  007CD8  5006               	movf	check_data@data+1,w,c
+  1453  007CDA  22DA               	addwfc	fsr2h,f,c
+  1454  007CDC  EE10 F044          	lfsr	1,68
+  1455  007CE0  5005               	movf	check_data@data,w,c
+  1456  007CE2  26E1               	addwf	fsr1l,f,c
+  1457  007CE4  5006               	movf	check_data@data+1,w,c
+  1458  007CE6  22E2               	addwfc	fsr1h,f,c
+  1459  007CE8  CFDF FFE7          	movff	indf2,indf1
+  1460                           
+  1461                           ;comunicacao.c: 117: data->count = data->buff[4];
+  1462  007CEC  EE20 F005          	lfsr	2,5
+  1463  007CF0  5005               	movf	check_data@data,w,c
+  1464  007CF2  26D9               	addwf	fsr2l,f,c
+  1465  007CF4  5006               	movf	check_data@data+1,w,c
+  1466  007CF6  22DA               	addwfc	fsr2h,f,c
+  1467  007CF8  C005  FFE1         	movff	check_data@data,fsr1l
+  1468  007CFC  C006  FFE2         	movff	check_data@data+1,fsr1h
+  1469  007D00  CFDF FFE7          	movff	indf2,indf1
+  1470                           
+  1471                           ;comunicacao.c: 120: if (data->count == 0) {
+  1472  007D04  C005  FFD9         	movff	check_data@data,fsr2l
+  1473  007D08  C006  FFDA         	movff	check_data@data+1,fsr2h
+  1474  007D0C  50DF               	movf	indf2,w,c
+  1475  007D0E  A4D8               	btfss	status,2,c
+  1476  007D10  D017               	goto	l129
+  1477                           
+  1478                           ;comunicacao.c: 121: if (data->buff[3] == 0x01) {
+  1479  007D12  EE20 F004          	lfsr	2,4
+  1480  007D16  5005               	movf	check_data@data,w,c
+  1481  007D18  26D9               	addwf	fsr2l,f,c
+  1482  007D1A  5006               	movf	check_data@data+1,w,c
+  1483  007D1C  22DA               	addwfc	fsr2h,f,c
+  1484  007D1E  04DE               	decf	postinc2,w,c
+  1485  007D20  A4D8               	btfss	status,2,c
+  1486  007D22  D002               	goto	l130
+  1487                           
+  1488                           ;comunicacao.c: 122: return LE_BOTAO1;
+  1489  007D24  0E08               	movlw	8
+  1490  007D26  0012               	return	
+  1491  007D28                     l130:
+  1492                           
+  1493                           ;comunicacao.c: 123: }
+  1494                           ;comunicacao.c: 124: if (data->buff[3] == 0x02) {
+  1495  007D28  EE20 F004          	lfsr	2,4
+  1496  007D2C  5005               	movf	check_data@data,w,c
+  1497  007D2E  26D9               	addwf	fsr2l,f,c
+  1498  007D30  5006               	movf	check_data@data+1,w,c
+  1499  007D32  22DA               	addwfc	fsr2h,f,c
+  1500  007D34  0E02               	movlw	2
+  1501  007D36  18DE               	xorwf	postinc2,w,c
+  1502  007D38  A4D8               	btfss	status,2,c
+  1503  007D3A  0012               	return	
+  1504                           
+  1505                           ;comunicacao.c: 125: return LE_BOTAO2;
+  1506  007D3C  0E09               	movlw	9
+  1507                           
+  1508                           ;comunicacao.c: 126: }
+  1509                           ;comunicacao.c: 127: } else if (data->count == 1) {
+  1510  007D3E  0012               	return	
+  1511  007D40                     l129:
+  1512  007D40  C005  FFD9         	movff	check_data@data,fsr2l
+  1513  007D44  C006  FFDA         	movff	check_data@data+1,fsr2h
+  1514  007D48  04DE               	decf	postinc2,w,c
+  1515  007D4A  A4D8               	btfss	status,2,c
+  1516  007D4C  D038               	goto	l133
+  1517                           
+  1518                           ;comunicacao.c: 128: if (data->buff[3] == 0x21) {
+  1519  007D4E  EE20 F004          	lfsr	2,4
+  1520  007D52  5005               	movf	check_data@data,w,c
+  1521  007D54  26D9               	addwf	fsr2l,f,c
+  1522  007D56  5006               	movf	check_data@data+1,w,c
+  1523  007D58  22DA               	addwfc	fsr2h,f,c
+  1524  007D5A  0E21               	movlw	33
+  1525  007D5C  18DE               	xorwf	postinc2,w,c
+  1526  007D5E  A4D8               	btfss	status,2,c
+  1527  007D60  D012               	goto	l134
+  1528                           
+  1529                           ;comunicacao.c: 129: return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
+  1530  007D62  EE20 F006          	lfsr	2,6
+  1531  007D66  5005               	movf	check_data@data,w,c
+  1532  007D68  26D9               	addwf	fsr2l,f,c
+  1533  007D6A  5006               	movf	check_data@data+1,w,c
+  1534  007D6C  22DA               	addwfc	fsr2h,f,c
+  1535  007D6E  B0DF               	btfsc	indf2,0,c
+  1536  007D70  D004               	goto	l136
+  1537  007D72  0E00               	movlw	0
+  1538  007D74  6E09               	movwf	_check_data$335+1,c
+  1539  007D76  0E06               	movlw	6
+  1540  007D78  D003               	goto	L1
+  1541  007D7A                     l136:
+  1542  007D7A  0E00               	movlw	0
+  1543  007D7C  6E09               	movwf	_check_data$335+1,c
+  1544  007D7E  0E04               	movlw	4
+  1545  007D80                     L1:
+  1546  007D80  6E08               	movwf	_check_data$335,c
+  1547  007D82  5008               	movf	_check_data$335,w,c
+  1548  007D84  0012               	return	
+  1549  007D86                     l134:
+  1550                           
+  1551                           ;comunicacao.c: 130: }
+  1552                           ;comunicacao.c: 131: if (data->buff[3] == 0x22) {
+  1553  007D86  EE20 F004          	lfsr	2,4
+  1554  007D8A  5005               	movf	check_data@data,w,c
+  1555  007D8C  26D9               	addwf	fsr2l,f,c
+  1556  007D8E  5006               	movf	check_data@data+1,w,c
+  1557  007D90  22DA               	addwfc	fsr2h,f,c
+  1558  007D92  0E22               	movlw	34
+  1559  007D94  18DE               	xorwf	postinc2,w,c
+  1560  007D96  A4D8               	btfss	status,2,c
+  1561  007D98  0012               	return	
+  1562                           
+  1563                           ;comunicacao.c: 132: return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
+  1564  007D9A  EE20 F006          	lfsr	2,6
+  1565  007D9E  5005               	movf	check_data@data,w,c
+  1566  007DA0  26D9               	addwf	fsr2l,f,c
+  1567  007DA2  5006               	movf	check_data@data+1,w,c
+  1568  007DA4  22DA               	addwfc	fsr2h,f,c
+  1569  007DA6  B0DF               	btfsc	indf2,0,c
+  1570  007DA8  D004               	goto	l141
+  1571  007DAA  0E00               	movlw	0
+  1572  007DAC  6E0B               	movwf	_check_data$336+1,c
+  1573  007DAE  0E07               	movlw	7
+  1574  007DB0  D003               	goto	L2
+  1575  007DB2                     l141:
+  1576  007DB2  0E00               	movlw	0
+  1577  007DB4  6E0B               	movwf	_check_data$336+1,c
+  1578  007DB6  0E05               	movlw	5
+  1579  007DB8                     L2:
+  1580  007DB8  6E0A               	movwf	_check_data$336,c
+  1581  007DBA  500A               	movf	_check_data$336,w,c
+  1582                           
+  1583                           ;comunicacao.c: 133: }
+  1584                           ;comunicacao.c: 134: } else {
+  1585  007DBC  0012               	return	
+  1586  007DBE                     l133:
+  1587                           
+  1588                           ;comunicacao.c: 135: return ERR_NAK;
+  1589  007DBE  0E03               	movlw	3
+  1590  007DC0  0012               	return	
+  1591  007DC2                     __end_of_check_data:
+  1592                           	opt stack 0
+  1593                           tblptru	equ	0xFF8
+  1594                           prodh	equ	0xFF4
+  1595                           prodl	equ	0xFF3
+  1596                           postinc0	equ	0xFEE
+  1597                           wreg	equ	0xFE8
+  1598                           indf1	equ	0xFE7
+  1599                           plusw1	equ	0xFE3
+  1600                           fsr1h	equ	0xFE2
+  1601                           fsr1l	equ	0xFE1
+  1602                           indf2	equ	0xFDF
+  1603                           postinc2	equ	0xFDE
+  1604                           postdec2	equ	0xFDD
+  1605                           plusw2	equ	0xFDB
+  1606                           fsr2h	equ	0xFDA
+  1607                           fsr2l	equ	0xFD9
+  1608                           status	equ	0xFD8
+  1609                           
+  1610 ;; *************** function _calc_bcc *****************
+  1611 ;; Defined at:
+  1612 ;;		line 89 in file "comunicacao.c"
+  1613 ;; Parameters:    Size  Location     Type
+  1614 ;;  data            2    0[COMRAM] PTR unsigned char 
+  1615 ;;		 -> main@dados(69), 
+  1616 ;; Auto vars:     Size  Location     Type
+  1617 ;;  i               1    3[COMRAM] unsigned char 
+  1618 ;;  bcc             1    2[COMRAM] unsigned char 
+  1619 ;; Return value:  Size  Location     Type
+  1620 ;;                  1    wreg      unsigned char 
+  1621 ;; Registers used:
+  1622 ;;		wreg, fsr2l, fsr2h, status,2, status,0, prodl, prodh
+  1623 ;; Tracked objects:
+  1624 ;;		On entry : 0/0
+  1625 ;;		On exit  : 0/0
+  1626 ;;		Unchanged: 0/0
+  1627 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+  1628 ;;      Params:         2       0       0       0       0       0       0       0       0
+  1629 ;;      Locals:         2       0       0       0       0       0       0       0       0
+  1630 ;;      Temps:          0       0       0       0       0       0       0       0       0
+  1631 ;;      Totals:         4       0       0       0       0       0       0       0       0
+  1632 ;;Total ram usage:        4 bytes
+  1633 ;; Hardware stack levels used:    1
+  1634 ;; This function calls:
+  1635 ;;		Nothing
+  1636 ;; This function is called by:
+  1637 ;;		_write_cmd
+  1638 ;;		_check_data
+  1639 ;; This function uses a non-reentrant model
+  1640 ;;
+  1641                           
+  1642                           	psect	text8
+  1643  007A44                     __ptext8:
+  1644                           	opt stack 0
+  1645  007A44                     _calc_bcc:
+  1646                           	opt stack 29
+  1647                           
+  1648                           ;comunicacao.c: 91: uint8_t bcc = data[0];
+  1649                           
+  1650                           ;incstack = 0
+  1651  007A44  C001  FFD9         	movff	calc_bcc@data,fsr2l
+  1652  007A48  C002  FFDA         	movff	calc_bcc@data+1,fsr2h
+  1653  007A4C  50DF               	movf	indf2,w,c
+  1654  007A4E  6E03               	movwf	calc_bcc@bcc,c
+  1655                           
+  1656                           ;comunicacao.c: 94: for (uint8_t i = 1; i < 64; i++) {
+  1657  007A50  0E01               	movlw	1
+  1658  007A52  6E04               	movwf	calc_bcc@i,c
+  1659  007A54                     l1037:
+  1660  007A54  0E3F               	movlw	63
+  1661  007A56  6404               	cpfsgt	calc_bcc@i,c
+  1662  007A58  D001               	goto	l120
+  1663  007A5A  D00D               	goto	u330
+  1664  007A5C                     l120:
+  1665                           
+  1666                           ;comunicacao.c: 95: bcc = (uint8_t) (bcc ^ data[i]);
+  1667  007A5C  5004               	movf	calc_bcc@i,w,c
+  1668  007A5E  0D01               	mullw	1
+  1669  007A60  50F3               	movf	prodl,w,c
+  1670  007A62  2401               	addwf	calc_bcc@data,w,c
+  1671  007A64  6ED9               	movwf	fsr2l,c
+  1672  007A66  50F4               	movf	prodh,w,c
+  1673  007A68  2002               	addwfc	calc_bcc@data+1,w,c
+  1674  007A6A  6EDA               	movwf	fsr2h,c
+  1675  007A6C  50DF               	movf	indf2,w,c
+  1676  007A6E  1803               	xorwf	calc_bcc@bcc,w,c
+  1677  007A70  6E03               	movwf	calc_bcc@bcc,c
+  1678  007A72  2A04               	incf	calc_bcc@i,f,c
+  1679  007A74  D7EF               	goto	l1037
+  1680  007A76                     u330:
+  1681                           
+  1682                           ;comunicacao.c: 96: }
+  1683                           ;comunicacao.c: 98: return(bcc);
+  1684  007A76  5003               	movf	calc_bcc@bcc,w,c
+  1685  007A78  0012               	return	
+  1686  007A7A                     __end_of_calc_bcc:
+  1687                           	opt stack 0
+  1688  0000                     tblptru	equ	0xFF8
+  1689                           prodh	equ	0xFF4
+  1690                           prodl	equ	0xFF3
+  1691                           postinc0	equ	0xFEE
+  1692                           wreg	equ	0xFE8
+  1693                           indf1	equ	0xFE7
+  1694                           plusw1	equ	0xFE3
+  1695                           fsr1h	equ	0xFE2
+  1696                           fsr1l	equ	0xFE1
+  1697                           indf2	equ	0xFDF
+  1698                           postinc2	equ	0xFDE
+  1699                           postdec2	equ	0xFDD
+  1700                           plusw2	equ	0xFDB
+  1701                           fsr2h	equ	0xFDA
+  1702                           fsr2l	equ	0xFD9
+  1703                           status	equ	0xFD8
+  1704                           tblptru	equ	0xFF8
+  1705                           prodh	equ	0xFF4
+  1706                           prodl	equ	0xFF3
+  1707                           postinc0	equ	0xFEE
+  1708                           wreg	equ	0xFE8
+  1709                           indf1	equ	0xFE7
+  1710                           plusw1	equ	0xFE3
+  1711                           fsr1h	equ	0xFE2
+  1712                           fsr1l	equ	0xFE1
+  1713                           indf2	equ	0xFDF
+  1714                           postinc2	equ	0xFDE
+  1715                           postdec2	equ	0xFDD
+  1716                           plusw2	equ	0xFDB
+  1717                           fsr2h	equ	0xFDA
+  1718                           fsr2l	equ	0xFD9
+  1719                           status	equ	0xFD8
+  1720                           
+  1721                           	psect	rparam
+  1722  0000                     tblptru	equ	0xFF8
+  1723                           prodh	equ	0xFF4
+  1724                           prodl	equ	0xFF3
+  1725                           postinc0	equ	0xFEE
+  1726                           wreg	equ	0xFE8
+  1727                           indf1	equ	0xFE7
+  1728                           plusw1	equ	0xFE3
+  1729                           fsr1h	equ	0xFE2
+  1730                           fsr1l	equ	0xFE1
+  1731                           indf2	equ	0xFDF
+  1732                           postinc2	equ	0xFDE
+  1733                           postdec2	equ	0xFDD
+  1734                           plusw2	equ	0xFDB
+  1735                           fsr2h	equ	0xFDA
+  1736                           fsr2l	equ	0xFD9
+  1737                           status	equ	0xFD8
 
 
 Data Sizes:
@@ -1594,7 +1835,7 @@ Call Graph Tables:
  ---------------------------------------------------------------------------------
  (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
  ---------------------------------------------------------------------------------
- (0) _main                                               101   101      0    2755
+ (0) _main                                               101   101      0    5692
                                               0 BANK0    101   101      0
                          _check_data
                              _mk_msg
@@ -1606,7 +1847,7 @@ Call Graph Tables:
  (1) _write_zero                                           3     1      2     330
                                               0 COMRAM     3     1      2
  ---------------------------------------------------------------------------------
- (1) _write_cmd                                           74    71      3     943
+ (1) _write_cmd                                           74    71      3    1855
                                               4 COMRAM    74    71      3
                            _calc_bcc
                      _uart_send_byte
@@ -1619,10 +1860,10 @@ Call Graph Tables:
  (1) _uart_check_rx                                        4     2      2      46
                                               0 COMRAM     4     2      2
  ---------------------------------------------------------------------------------
- (1) _mk_msg                                               6     1      5     406
+ (1) _mk_msg                                               6     1      5    1774
                                               0 COMRAM     6     1      5
  ---------------------------------------------------------------------------------
- (1) _check_data                                           7     5      2     742
+ (1) _check_data                                           7     5      2     808
                                               4 COMRAM     7     5      2
                            _calc_bcc
  ---------------------------------------------------------------------------------
@@ -1677,72 +1918,74 @@ CODE                 0      0       0       0        0.0%
 
 
 Microchip Technology PIC18 Macro Assembler V1.45 build -152302408 
-Symbol Table                                                                                   Sun Jun 03 22:09:17 2018
+Symbol Table                                                                                   Sun Jun 03 23:23:26 2018
 
-                     l40 7E9A                       l42 7ED6                       l35 7E0E  
-                     l36 7E50                       l46 7E5C                       l47 7E8E  
-                     l48 7E92                       l81 7BFE                       l49 7E96  
-                     l85 7C22                       l96 7B92              __CFG_BORV$3 000000  
+                     l40 7FAA                       l42 7FF2                       l50 7F3A  
+                     l51 7F72                       l35 7DF4                       l36 7E36  
+                     l45 7E42                       l46 7E72                       l47 7EA4  
+                     l48 7ED6                       l49 7F08                       l83 7A88  
+                     l87 7AAC                       l98 7A1C              __CFG_BORV$3 000000  
            __CFG_CP0$OFF 000000             __CFG_CP1$OFF 000000             __CFG_CP2$OFF 000000  
-           __CFG_CP3$OFF 000000              __CFG_LVP$ON 000000                      l101 7C6C  
-                    l102 7C3E                      l110 7D24                      l112 7DB6  
-                    l113 7D9E                      l130 7FB8                      l123 7EFC  
-                    l125 7F14                      l109 7D5C                      l118 7BD2  
-                    l134 7FFC                      l126 7F2E                      l142 7C82  
-                    l136 7FF0                      l128 7FC4                      l970 7B8A  
-                    l978 7BCA                      l996 7C7A             __CFG_CPB$OFF 000000  
-                    u300 7BEC                      u320 7CA2                      u340 7C10  
-           __CFG_CPD$OFF 000000                      u371 7CEE                      u481 7DF6  
-                    u490 7E1A             __CFG_BOR$OFF 000000                      prod 000FF3  
-                    wreg 000FE8            write_cmd@data 0005             __CFG_FOSC$HS 000000  
-         write_cmd@F3873 0100             __CFG_WDT$OFF 000000                     _RCIF 007CF5  
-                   _TRMT 007D61                     _TXIF 007CF4                     _main 7DE0  
-                   fsr1h 000FE2                     fsr2h 000FDA                     indf1 000FE7  
-                   indf2 000FDF                     fsr1l 000FE1                     fsr2l 000FD9  
-                   prodh 000FF4                     prodl 000FF3                     start 0000  
-          __CFG_IESO$OFF 000000            __CFG_MCLRE$ON 000000             ___param_bank 000000  
-       ??_uart_send_byte 0001            __CFG_PLLDIV$2 000000                    ?_main 0001  
-                  _RCREG 000FAE                    _RCSTA 000FAB                    _SPBRG 000FAF  
-          __CFG_USBDIV$1 000000                    _TXREG 000FAD                    _TXSTA 000FAC  
-          __CFG_PWRT$OFF 000000            __CFG_WRT0$OFF 000000            __CFG_WRT1$OFF 000000  
-          __CFG_WRT2$OFF 000000            __CFG_WRT3$OFF 000000           __CFG_EBTR0$OFF 000000  
-         __CFG_FCMEN$OFF 000000           __CFG_EBTR1$OFF 000000           __CFG_EBTR2$OFF 000000  
-         __CFG_EBTR3$OFF 000000            __CFG_WRTB$OFF 000000            __CFG_WRTC$OFF 000000  
-          __CFG_WRTD$OFF 000000           __CFG_EBTRB$OFF 000000                    plusw1 000FE3  
-                  plusw2 000FDB                    status 000FD8           __CFG_ICPRT$OFF 000000  
-        __initialization 7B98             __end_of_main 7EE4                   ??_main 004F  
-          __activetblptr 000002          __CFG_CCP2MX$OFF 000000                   _ADCON1 000FC1  
-       __end_of_calc_bcc 7BF0           __CFG_XINST$OFF 000000              mk_msg@count 0003  
-                 _mk_msg 7C2C                   clear_0 7B9E                   clear_1 7BAA  
-                 tblptru 000FF8         write_cmd@addr_to 0007               __accesstop 0060  
-__end_of__initialization 7BB0          __CFG_PBADEN$OFF 000000            ___rparam_used 000001  
-         __pcstackCOMRAM 0001               __pbssBANK0 00C5               __pbssBANK1 0100  
-             _check_data 7EE4    __end_of_uart_check_rx 7C2C          write_zero@dados 0001  
-                ?_mk_msg 0001                ?_calc_bcc 0001       __size_of_uart_init 000E  
-        __CFG_VREGEN$OFF 000000       __size_of_write_cmd 00FC                  __Hparam 0000  
-                __Lparam 0000          __CFG_STVREN$OFF 000000                  __pcinit 7B98  
-        __size_of_mk_msg 004A                  __ramtop 0800                  __ptext0 7DE0  
-                __ptext1 7C76                  __ptext2 7CE4                  __ptext3 7B88  
-                __ptext4 7B7A                  __ptext5 7BF0                  __ptext6 7C2C  
-                __ptext7 7EE4                  __ptext8 7BBA               ??_calc_bcc 0003  
-           mk_msg@string 0004                  main@msg 0060     end_of_initialization 7BB0  
-            ?_check_data 0005                  mk_msg@i 0006            __Lmediumconst 0000  
-      __end_of_uart_init 7B88             calc_bcc@data 0001                _RCSTAbits 000FAB  
-                postdec2 000FDD                  postinc0 000FEE                  postinc2 000FDE  
-              _PORTDbits 000F83        __end_of_write_cmd 7DE0  __size_of_uart_send_byte 0010  
-              _TRISDbits 000F95             write_cmd@aux 000D           check_data@data 0005  
-    __size_of_check_data 011C               _write_zero 7C76           __end_of_mk_msg 7C76  
-    start_initialization 7B98       uart_check_rx@tempo 0003               mk_msg@data 0001  
-       __CFG_LPT1OSC$OFF 000000                 ??_mk_msg 0006            __pcstackBANK0 0060  
-      __size_of_calc_bcc 0036                calc_bcc@i 0004              ?_write_zero 0001  
-         _uart_send_byte 7B88             ??_check_data 0007   __size_of_uart_check_rx 003C  
-            calc_bcc@bcc 0003         __CFG_WDTPS$32768 000000                main@F3868 00C5  
-              _uart_init 7B7A   __end_of_uart_send_byte 7B98       __end_of_check_data 8000  
-              main@dados 0080              write_zero@i 0003                _write_cmd 7CE4  
-     uart_send_byte@byte 0001      __size_of_write_zero 006E                 __Hrparam 0000  
-               __Lrparam 0000               ?_uart_init 0001            _uart_check_rx 7BF0  
-        ?_uart_send_byte 0001                 _calc_bcc 7BBA               ?_write_cmd 0005  
-          __size_of_main 0104           ?_uart_check_rx 0001               write_cmd@i 004E  
-             write_cmd@t 004D    __CFG_CPUDIV$OSC1_PLL2 000000              ??_uart_init 0001  
-           ??_write_zero 0003              ??_write_cmd 0008       __end_of_write_zero 7CE4  
-         _check_data$331 0008           _check_data$332 000A          ??_uart_check_rx 0003  
+           __CFG_CP3$OFF 000000              __CFG_LVP$ON 000000                      l103 7AF6  
+                    l111 7BE6                      l120 7A5C                      l104 7AC8  
+                    l112 7BAE                      l130 7D28                      l114 7C40  
+                    l115 7C28                      l133 7DBE                      l141 7DB2  
+                    l125 7C82                      l134 7D86                      l127 7C9A  
+                    l136 7D7A                      l128 7CB4                      l129 7D40  
+                    l147 7B0C             __CFG_CPB$OFF 000000                      u401 7B78  
+                    u330 7A76                      u350 7B2C                      u370 7A9A  
+           __CFG_CPD$OFF 000000                      u541 7DDC                      u550 7E00  
+           __CFG_BOR$OFF 000000                      prod 000FF3                      wreg 000FE8  
+          write_cmd@data 0005             __CFG_FOSC$HS 000000           write_cmd@F3875 0100  
+           __CFG_WDT$OFF 000000                     l1037 7A54                     l1029 7A14  
+                   l1055 7B04                     _RCIF 007CF5                     _TRMT 007D61  
+                   _TXIF 007CF4                     _main 7DC2                     fsr1h 000FE2  
+                   fsr2h 000FDA                     indf1 000FE7                     indf2 000FDF  
+                   fsr1l 000FE1                     fsr2l 000FD9                     prodh 000FF4  
+                   prodl 000FF3                     start 0000            __CFG_IESO$OFF 000000  
+          __CFG_MCLRE$ON 000000             ___param_bank 000000         ??_uart_send_byte 0001  
+          __CFG_PLLDIV$2 000000                    ?_main 0001                    _RCREG 000FAE  
+                  _RCSTA 000FAB                    _SPBRG 000FAF            __CFG_USBDIV$1 000000  
+                  _TXREG 000FAD                    _TXSTA 000FAC            __CFG_PWRT$OFF 000000  
+          __CFG_WRT0$OFF 000000            __CFG_WRT1$OFF 000000            __CFG_WRT2$OFF 000000  
+          __CFG_WRT3$OFF 000000           __CFG_EBTR0$OFF 000000           __CFG_FCMEN$OFF 000000  
+         __CFG_EBTR1$OFF 000000           __CFG_EBTR2$OFF 000000           __CFG_EBTR3$OFF 000000  
+          __CFG_WRTB$OFF 000000            __CFG_WRTC$OFF 000000            __CFG_WRTD$OFF 000000  
+         __CFG_EBTRB$OFF 000000                    plusw1 000FE3                    plusw2 000FDB  
+                  status 000FD8           __CFG_ICPRT$OFF 000000          __initialization 7A22  
+           __end_of_main 8000                   ??_main 004F            __activetblptr 000002  
+        __CFG_CCP2MX$OFF 000000                   _ADCON1 000FC1         __end_of_calc_bcc 7A7A  
+         __CFG_XINST$OFF 000000              mk_msg@count 0003                   _mk_msg 7AB6  
+                 clear_0 7A28                   clear_1 7A34                   tblptru 000FF8  
+       write_cmd@addr_to 0007               __accesstop 0060  __end_of__initialization 7A3A  
+        __CFG_PBADEN$OFF 000000            ___rparam_used 000001           __pcstackCOMRAM 0001  
+             __pbssBANK0 00C5               __pbssBANK1 0100               _check_data 7C6A  
+  __end_of_uart_check_rx 7AB6          write_zero@dados 0001                  ?_mk_msg 0001  
+              ?_calc_bcc 0001       __size_of_uart_init 000E          __CFG_VREGEN$OFF 000000  
+     __size_of_write_cmd 00FC                  __Hparam 0000                  __Lparam 0000  
+        __CFG_STVREN$OFF 000000                  __pcinit 7A22          __size_of_mk_msg 004A  
+                __ramtop 0800                  __ptext0 7DC2                  __ptext1 7B00  
+                __ptext2 7B6E                  __ptext3 7A12                  __ptext4 7A04  
+                __ptext5 7A7A                  __ptext6 7AB6                  __ptext7 7C6A  
+                __ptext8 7A44               ??_calc_bcc 0003             mk_msg@string 0004  
+                main@msg 0060     end_of_initialization 7A3A              ?_check_data 0005  
+                mk_msg@i 0006            __Lmediumconst 0000        __end_of_uart_init 7A12  
+           calc_bcc@data 0001                _RCSTAbits 000FAB                  postdec2 000FDD  
+                postinc0 000FEE                  postinc2 000FDE                _PORTDbits 000F83  
+      __end_of_write_cmd 7C6A  __size_of_uart_send_byte 0010                _TRISDbits 000F95  
+           write_cmd@aux 000D           check_data@data 0005      __size_of_check_data 0158  
+             _write_zero 7B00           __end_of_mk_msg 7B00      start_initialization 7A22  
+     uart_check_rx@tempo 0003               mk_msg@data 0001         __CFG_LPT1OSC$OFF 000000  
+               ??_mk_msg 0006            __pcstackBANK0 0060        __size_of_calc_bcc 0036  
+              calc_bcc@i 0004              ?_write_zero 0001           _uart_send_byte 7A12  
+           ??_check_data 0007   __size_of_uart_check_rx 003C              calc_bcc@bcc 0003  
+       __CFG_WDTPS$32768 000000                main@F3870 00C5                _uart_init 7A04  
+ __end_of_uart_send_byte 7A22       __end_of_check_data 7DC2                main@dados 0080  
+            write_zero@i 0003                _write_cmd 7B6E       uart_send_byte@byte 0001  
+    __size_of_write_zero 006E                 __Hrparam 0000                 __Lrparam 0000  
+             ?_uart_init 0001            _uart_check_rx 7A7A          ?_uart_send_byte 0001  
+               _calc_bcc 7A44               ?_write_cmd 0005            __size_of_main 023E  
+         ?_uart_check_rx 0001               write_cmd@i 004E               write_cmd@t 004D  
+  __CFG_CPUDIV$OSC1_PLL2 000000              ??_uart_init 0001             ??_write_zero 0003  
+            ??_write_cmd 0008       __end_of_write_zero 7B6E           _check_data$335 0008  
+         _check_data$336 000A          ??_uart_check_rx 0003  

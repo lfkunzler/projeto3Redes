@@ -21,7 +21,9 @@ void main(void)
     ADCON1 = 0x0F; // all pins [an12:an0] digital
 
     TRISDbits.RD0 = 0; // saida
-    TRISDbits.RD1 = 0; // saida
+    TRISDbits.RD1 = 0; 
+    TRISDbits.RD2 = 1; // entrada
+    TRISDbits.RD3 = 1; 
     /* end init reg*/
 
     /* init UART */
@@ -33,7 +35,7 @@ void main(void)
     //uint8_t count; // counter of how many data was stored
     //short __data_flag; // if received all data
     dados_t dados;
-    char msg[32] = { 0 };
+    char msg[32] = {0};
     /* end variables declaration */
 
 
@@ -59,68 +61,74 @@ void main(void)
         if (dados.data_flag) {
             switch (check_data(&dados)) {
             case ERR_STX:
-                //send_string_data((char *)"erro no stx\0", &dados);
-
+                
                 break;
             case ERR_IGNORE_MSG:
-                //send_string_data((char *)"nao eh para mim\0", &dados);
-
+                
                 break;
             case ERR_BCC:
-                //send_string_data((char *)"BCCERR\0", &dados);
+                
                 break;
             case ERR_NAK:
-                //send_string_data((char *)"oi nak\0", &dados);
+                msg[0] = CMD_NAK;                
+                mk_msg(&dados, 1, msg);
+                write_cmd(&dados, dados.addr_from);
+                
                 break;
             case LIGA_LED1:
                 LED1 = 0;
-                msg[0] = 0x06;
+                
+                msg[0] = CMD_ACK;
                 mk_msg(&dados, 1, msg);
                 write_cmd(&dados, dados.addr_from);
-                //send_string_data("liguei o led1\0", &dados);
+                
                 break;
             case DESLIGA_LED1:
                 LED1 = 1;
+                
+                msg[0] = CMD_ACK;
+                mk_msg(&dados, 1, msg);
+                write_cmd(&dados, dados.addr_from);
+                
                 break;
             case LIGA_LED2:
                 LED2 = 0;
+                
+                msg[0] = CMD_ACK;
+                mk_msg(&dados, 1, msg);
+                write_cmd(&dados, dados.addr_from);
+                
                 break;
             case DESLIGA_LED2:
                 LED2 = 1;
+                
+                msg[0] = CMD_ACK;
+                mk_msg(&dados, 1, msg);
+                write_cmd(&dados, dados.addr_from);
+                
+                break;
+            case LE_BOTAO1:                
+                msg[0] = CMD_ACK;
+                msg[1] = (char) BT1;
+                mk_msg(&dados, 2, msg);
+                write_cmd(&dados, dados.addr_from);
+                
+                break;
+            case LE_BOTAO2:          
+                msg[0] = CMD_ACK;
+                msg[1] = (char) BT2;
+                mk_msg(&dados, 2, msg);
+                write_cmd(&dados, dados.addr_from);
+                    
                 break;
             default:
-                //send_string_data((char *)"nao sei o que houve\0", &dados);
+
                 break;
             }
             
             write_zero(&dados);
             /* end sent byte */
         }
-
-        //        if (__dados) { // muitos ciclos sem dados, recebeu tudo
-        //            uint8_t retorno = check_data(dados);
-        //            switch (retorno) {                
-        //                case LIGA_LED1:
-        //                    LED1 = 0;
-        //                    break;
-        //                case DESLIGA_LED1:
-        //                    LED1 = 1;
-        //                    break;
-        //                case LIGA_LED2:
-        //                    LED2 = 0;
-        //                    break;
-        //                case DESLIGA_LED2:
-        //                    LED2 = 1;
-        //                    break;
-        //                default:
-        //                    //lcd_clean_all(&lcd);
-        //                    lcd_write(&lcd, 1, 1, dados);
-        //                    break;
-        //            }
-        //            zera_dados(dados, LEN_DADOS);
-        //            count = 0;
-        //            __dados = 0;
-        //        }
     }
     /* end infinity loop */
 

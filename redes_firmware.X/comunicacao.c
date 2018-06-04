@@ -66,7 +66,7 @@ void mk_msg(dados_t *data, uint8_t count, char *string)
 
 void write_cmd(dados_t *data, uint8_t addr_to)
 {
-    char aux[DATA_LEN] = {0};
+    uint8_t aux[DATA_LEN] = {0};
 
     aux[0] = STX; // cabecalho
     aux[1] = addr_to; // destino da mensagem
@@ -98,7 +98,7 @@ uint8_t calc_bcc(uint8_t *data)
     return(bcc);
 }
 
-en_comunicacao_t check_data(dados_t *data)
+comunicacao_en check_data(dados_t *data)
 {
     if (data->buff[0] != STX) {
         return ERR_STX; // stx invalido
@@ -116,14 +116,23 @@ en_comunicacao_t check_data(dados_t *data)
     data->command = data->buff[3]; // salva o comando recebido
     data->count = data->buff[4]; // quantos bytes de dados ha na mensagem
 
-    if (data->count == 1) { // comandos com 1 byte
+
+    if (data->count == 0) { // comandos com nenhum byte de dados
+        if (data->buff[3] == RD_BUT1) {
+            return LE_BOTAO1;
+        }
+        if (data->buff[3] == RD_BUT2) {
+            return LE_BOTAO2;
+        }
+    } else if (data->count == 1) { // comandos com 1 byte
         if (data->buff[3] == WR_LED1) { // se for acionar o led1
             return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
-        } else if (data->buff[3] == WR_LED2) { // se for para acionar o led2
-            return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
-        } else {
-            return ERR_NAK; // comando nao reconhecido
         }
+        if (data->buff[3] == WR_LED2) { // se for para acionar o led2
+            return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
+        }
+    } else {
+        return ERR_NAK; // comando nao reconhecido
     }
 }
 

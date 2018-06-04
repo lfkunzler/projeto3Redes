@@ -4968,8 +4968,11 @@ LIGA_LED1,
 LIGA_LED2,
 DESLIGA_LED1,
 DESLIGA_LED2,
+LE_BOTAO1,
+LE_BOTAO2,
 ERR_UNDETECTED
-} en_comunicacao_t;
+} comunicacao_en;
+
 
 
 typedef struct {
@@ -4986,7 +4989,7 @@ uint8_t uart_receive_byte(void);
 void uart_send_byte(uint8_t dbyte);
 
 void send_string_data(char *string, dados_t *dados);
-en_comunicacao_t check_data(dados_t *data);
+comunicacao_en check_data(dados_t *data);
 uint8_t calc_bcc(uint8_t *data);
 void write_zero(dados_t *dados);
 
@@ -5051,7 +5054,7 @@ data->buff[i] = string[i];
 
 void write_cmd(dados_t *data, uint8_t addr_to)
 {
-char aux[64] = {0};
+uint8_t aux[64] = {0};
 
 aux[0] = 0x02;
 aux[1] = addr_to;
@@ -5083,7 +5086,7 @@ bcc = (uint8_t) (bcc ^ data[i]);
 return(bcc);
 }
 
-en_comunicacao_t check_data(dados_t *data)
+comunicacao_en check_data(dados_t *data)
 {
 if (data->buff[0] != 0x02) {
 return ERR_STX;
@@ -5101,14 +5104,23 @@ data->addr_from = data->buff[2];
 data->command = data->buff[3];
 data->count = data->buff[4];
 
-if (data->count == 1) {
+
+if (data->count == 0) {
+if (data->buff[3] == 0x01) {
+return LE_BOTAO1;
+}
+if (data->buff[3] == 0x02) {
+return LE_BOTAO2;
+}
+} else if (data->count == 1) {
 if (data->buff[3] == 0x21) {
 return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
-} else if (data->buff[3] == 0x22) {
+}
+if (data->buff[3] == 0x22) {
 return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
+}
 } else {
 return ERR_NAK;
-}
 }
 }
 
