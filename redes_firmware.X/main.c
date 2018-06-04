@@ -15,18 +15,8 @@ void my_delay(uint16_t milis)
     }
 }
 
-void zera_dados(dados_t *dados)
-{
-    for (uint8_t i = 0; i < DATA_LEN; i++) {
-        dados->buff[i] = 0x00;
-    }
-    dados->count = 0;
-    dados->data_flag = 0;
-}
-
 void main(void)
 {
-
     /* init reg */
     ADCON1 = 0x0F; // all pins [an12:an0] digital
 
@@ -43,13 +33,14 @@ void main(void)
     //uint8_t count; // counter of how many data was stored
     //short __data_flag; // if received all data
     dados_t dados;
+    char msg[32] = { 0 };
     /* end variables declaration */
 
 
     /* init variables*/
     LED1 = 1;
     LED2 = 1;
-    zera_dados(&dados);
+    write_zero(&dados);
 
     /* end init variables*/
 
@@ -66,25 +57,27 @@ void main(void)
         /* end of receive byte */
 
         if (dados.data_flag) {
-            /* send byte */
             switch (check_data(&dados)) {
             case ERR_STX:
-                send_string_data((char *)"erro no stx\0", &dados);
+                //send_string_data((char *)"erro no stx\0", &dados);
 
                 break;
             case ERR_IGNORE_MSG:
-                send_string_data((char *)"nao eh para mim\0", &dados);
+                //send_string_data((char *)"nao eh para mim\0", &dados);
 
                 break;
             case ERR_BCC:
-                send_string_data((char *)"BCCERR\0", &dados);
+                //send_string_data((char *)"BCCERR\0", &dados);
                 break;
             case ERR_NAK:
-                send_string_data((char *)"oi nak\0", &dados);
+                //send_string_data((char *)"oi nak\0", &dados);
                 break;
             case LIGA_LED1:
                 LED1 = 0;
-                send_string_data("liguei o led1\0", &dados);
+                msg[0] = 0x06;
+                mk_msg(&dados, 1, msg);
+                write_cmd(&dados, dados.addr_from);
+                //send_string_data("liguei o led1\0", &dados);
                 break;
             case DESLIGA_LED1:
                 LED1 = 1;
@@ -96,11 +89,11 @@ void main(void)
                 LED2 = 1;
                 break;
             default:
-                send_string_data((char *)"nao sei o que houve\0", &dados);
+                //send_string_data((char *)"nao sei o que houve\0", &dados);
                 break;
             }
-
-            zera_dados(&dados);
+            
+            write_zero(&dados);
             /* end sent byte */
         }
 

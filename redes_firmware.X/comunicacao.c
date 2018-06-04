@@ -55,38 +55,44 @@ void uart_send_byte(uint8_t byte)
     while (!TRMT); // enquanto estiver mandando (TST full))
 }
 
-void send_string_data(char *string, dados_t *dados)
+void mk_msg(dados_t *data, uint8_t count, char *string)
 {
-    uint8_t aux[DATA_LEN] = {0};
+    data->count = count;
 
-    aux[0] = STX; // cabecalho
-    aux[1] = dados->addr_from; // endereco destino
-    aux[2] = NET_ADDRESS; // meu endereco
-    aux[3] = WRT_MSG; // sinaliza o envio da mensagem
-    //aux[4] = count;
-    uint8_t count;
-
-    for (count = 0; count < string[count] != 0 && count+5 < DATA_LEN; count++) {
-        // passa a mensagem para o campo de dados
-        //uart_send_byte(string[count]);
-        aux[count + 5] = string[count]; 
-    }
-    aux[4] = count; // indica quantos bytes ha
-    aux[5 + count] = (uint8_t) 0; // garante um 0 na posicao do bcc
-    aux[5 + count] = (uint8_t) calc_bcc(dados); // recebe o calculo do bcc   
-    
-    for (uint8_t i = 0; i < count+5; i++) {
-        uart_send_byte(aux[i]);
+    for (uint8_t i = 0; i < count; i++) {
+        data->buff[i] = string[i];
     }
 }
 
-uint8_t calc_bcc(dados_t *data)
+void write_cmd(dados_t *data, uint8_t addr_to)
 {
-    uint8_t bcc = data->buff[0]; // recebe o primeiro byte
+    char aux[DATA_LEN] = {0};
+
+    aux[0] = STX; // cabecalho
+    aux[1] = addr_to; // destino da mensagem
+    aux[2] = NET_ADDRESS; // origem = sempre sai de mim
+    aux[3] = data->command; // comando efetuado
+    aux[4] = data->count; // tamanho do buffer
+
+    uint8_t i = 0;
+    while (i < data->count) {
+        aux[i + 5] = data->buff[i++]; // passa a mensagem do buffer para o aux
+    }
+
+    aux[i + 5] = calc_bcc(data);
+
+    for (uint8_t t = 0; t < i + 6; t++) {
+        uart_send_byte(aux[t]);
+    }
+}
+
+uint8_t calc_bcc(uint8_t *data)
+{
+    uint8_t bcc = data[0]; // recebe o primeiro byte
     //uart_send_byte(data->buff[0]);
     // do segundo byte até o ultimo
-    for (uint8_t i = 1; i < data->count; i++) {
-        bcc = (uint8_t) (bcc ^ data->buff[i]);
+    for (uint8_t i = 1; i < DATA_LEN; i++) {
+        bcc = (uint8_t) (bcc ^ data[i]);
     }
 
     return(bcc);
@@ -97,40 +103,38 @@ en_comunicacao_t check_data(dados_t *data)
     if (data->buff[0] != STX) {
         return ERR_STX; // stx invalido
     }
+
     if (data->buff[1] != NET_ADDRESS) {
         return ERR_IGNORE_MSG; // mensagem nao eh pra mim       
     }
-    if (calc_bcc(data) != 0) {
-        return ERR_BCC;
+
+    if (calc_bcc(data->buff) != 0) {
+        return ERR_BCC; // se o byte de verificacao dos dados estiver errado
     }
-    
+
     data->addr_from = data->buff[2]; // salva o end de origem da mensagem
-    
-    if (data->buff[3] == WR_LED1) { // se for acionar o led1
-        return(data->buff[4] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
-    } else if (data->buff[3] == WR_LED2) { // se for para acionar o led2
-        return(data->buff[4] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
-    } else {
-        return ERR_NAK;
+    data->command = data->buff[3]; // salva o comando recebido
+    data->count = data->buff[4]; // quantos bytes de dados ha na mensagem
+
+    if (data->count == 1) { // comandos com 1 byte
+        if (data->buff[3] == WR_LED1) { // se for acionar o led1
+            return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
+        } else if (data->buff[3] == WR_LED2) { // se for para acionar o led2
+            return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
+        } else {
+            return ERR_NAK; // comando nao reconhecido
+        }
+    }
+}
+
+void write_zero(dados_t *dados)
+{
+    for (uint8_t i = 0; i < DATA_LEN; i++) {
+        dados->buff[i] = 0x00;
     }
 
-
-#if 0
-    // se ha erro no inicio da mensagem
-
-    if (data[0] != STX) {
-        return(ERR_STX);
-    }
-    // se a mensagem nao for destinada para mim
-    if (data[1] != ENDERECO_REDE) {
-        return(ERR_IGNORE_MSG);
-    }
-    uint8_t count = 0;
-    uint8_t BCC = 0;
-
-    while (data[count + 1] != 0) {
-
-    }
-#endif
-//    return ERR_UNDETECTED;
+    dados->count = 0;
+    dados->command = 0;
+    dados->data_flag = 0;
+    dados->addr_from = 0;
 }

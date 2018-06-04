@@ -1,2 +1,2 @@
-02 09 0A 21 01 21 - liga led1
-02 09 0A 21 00 20 - desliga led1
+02 09 0A 21 01 01 20 - led1 on
+02 09 0A 21 01 00 21 - led1 off

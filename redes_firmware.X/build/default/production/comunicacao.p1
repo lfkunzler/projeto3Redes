@@ -41,12 +41,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _TXREG `Vuc ~T0 @X0 0 e@4013 ]
 "10281
 [v _TRMT `Vb ~T0 @X0 0 e@32097 ]
-"43 comunicacao.h
+"45 comunicacao.h
 [s S362 `uc 1 `uc -> 64 `i `s 1 `uc 1 `uc 1 ]
 [n S362 . count buff data_flag addr_from command ]
-"58
-[v _calc_bcc `(uc ~T0 @X0 0 ef1`*S362 ]
-"96 comunicacao.c
+"60
+[v _calc_bcc `(uc ~T0 @X0 0 ef1`*uc ]
+"102 comunicacao.c
 [c E3818 0 1 2 3 4 5 6 7 8 .. ]
 [n E3818 . ERR_STX ERR_IGNORE_MSG ERR_BCC ERR_NAK LIGA_LED1 LIGA_LED2 DESLIGA_LED1 DESLIGA_LED2 ERR_UNDETECTED  ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
@@ -3663,31 +3663,34 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x EBTR3=OFF ]
 "68
 [p x EBTRB=OFF ]
-[; ;comunicacao.h: 30: typedef enum {
-[; ;comunicacao.h: 31: ERR_STX,
-[; ;comunicacao.h: 32: ERR_IGNORE_MSG,
-[; ;comunicacao.h: 33: ERR_BCC,
-[; ;comunicacao.h: 34: ERR_NAK,
-[; ;comunicacao.h: 35: LIGA_LED1,
-[; ;comunicacao.h: 36: LIGA_LED2,
-[; ;comunicacao.h: 37: DESLIGA_LED1,
-[; ;comunicacao.h: 38: DESLIGA_LED2,
-[; ;comunicacao.h: 39: ERR_UNDETECTED
-[; ;comunicacao.h: 40: } en_comunicacao_t;
-[; ;comunicacao.h: 43: typedef struct {
-[; ;comunicacao.h: 44: uint8_t count;
-[; ;comunicacao.h: 45: uint8_t buff[64];
-[; ;comunicacao.h: 46: short data_flag;
-[; ;comunicacao.h: 47: uint8_t addr_from;
-[; ;comunicacao.h: 48: uint8_t command;
-[; ;comunicacao.h: 49: } dados_t;
-[; ;comunicacao.h: 51: void uart_init(void);
-[; ;comunicacao.h: 52: short uart_check_rx(void);
-[; ;comunicacao.h: 53: uint8_t uart_receive_byte(void);
-[; ;comunicacao.h: 54: void uart_send_byte(uint8_t dbyte);
-[; ;comunicacao.h: 56: void send_string_data(char *string, dados_t *dados);
-[; ;comunicacao.h: 57: en_comunicacao_t check_data(dados_t *data);
-[; ;comunicacao.h: 58: uint8_t calc_bcc(dados_t *data);
+[; ;comunicacao.h: 32: typedef enum {
+[; ;comunicacao.h: 33: ERR_STX,
+[; ;comunicacao.h: 34: ERR_IGNORE_MSG,
+[; ;comunicacao.h: 35: ERR_BCC,
+[; ;comunicacao.h: 36: ERR_NAK,
+[; ;comunicacao.h: 37: LIGA_LED1,
+[; ;comunicacao.h: 38: LIGA_LED2,
+[; ;comunicacao.h: 39: DESLIGA_LED1,
+[; ;comunicacao.h: 40: DESLIGA_LED2,
+[; ;comunicacao.h: 41: ERR_UNDETECTED
+[; ;comunicacao.h: 42: } en_comunicacao_t;
+[; ;comunicacao.h: 45: typedef struct {
+[; ;comunicacao.h: 46: uint8_t count;
+[; ;comunicacao.h: 47: uint8_t buff[64];
+[; ;comunicacao.h: 48: short data_flag;
+[; ;comunicacao.h: 49: uint8_t addr_from;
+[; ;comunicacao.h: 50: uint8_t command;
+[; ;comunicacao.h: 51: } dados_t;
+[; ;comunicacao.h: 53: void uart_init(void);
+[; ;comunicacao.h: 54: short uart_check_rx(void);
+[; ;comunicacao.h: 55: uint8_t uart_receive_byte(void);
+[; ;comunicacao.h: 56: void uart_send_byte(uint8_t dbyte);
+[; ;comunicacao.h: 58: void send_string_data(char *string, dados_t *dados);
+[; ;comunicacao.h: 59: en_comunicacao_t check_data(dados_t *data);
+[; ;comunicacao.h: 60: uint8_t calc_bcc(uint8_t *data);
+[; ;comunicacao.h: 61: void write_zero(dados_t *dados);
+[; ;comunicacao.h: 63: void mk_msg(dados_t *data, uint8_t count, char *string);
+[; ;comunicacao.h: 65: void write_cmd(dados_t *data, uint8_t addr_to);
 "9 comunicacao.c
 [v _uart_init `(v ~T0 @X0 1 ef ]
 "10
@@ -3820,225 +3823,321 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 370 ]
 }
 "58
-[v _send_string_data `(v ~T0 @X0 1 ef2`*uc`*S362 ]
+[v _mk_msg `(v ~T0 @X0 1 ef3`*S362`uc`*uc ]
 "59
 {
-[; ;comunicacao.c: 58: void send_string_data(char *string, dados_t *dados)
+[; ;comunicacao.c: 58: void mk_msg(dados_t *data, uint8_t count, char *string)
 [; ;comunicacao.c: 59: {
-[e :U _send_string_data ]
+[e :U _mk_msg ]
 "58
-[v _string `*uc ~T0 @X0 1 r1 ]
-[v _dados `*S362 ~T0 @X0 1 r2 ]
+[v _data `*S362 ~T0 @X0 1 r1 ]
+[v _count `uc ~T0 @X0 1 r2 ]
+[v _string `*uc ~T0 @X0 1 r3 ]
 "59
 [f ]
-[v F3860 `uc ~T0 @X0 -> 64 `i s ]
-[i F3860
-:U ..
+[; ;comunicacao.c: 60: data->count = count;
 "60
+[e = . *U _data 0 _count ]
+[; ;comunicacao.c: 62: for (uint8_t i = 0; i < count; i++) {
+"62
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $U 381  ]
+[e :U 378 ]
+{
+[; ;comunicacao.c: 63: data->buff[i] = string[i];
+"63
+[e = *U + &U . *U _data 1 * -> _i `ux -> -> # *U &U . *U _data 1 `ui `ux *U + _string * -> _i `ux -> -> # *U _string `ui `ux ]
+"64
+}
+"62
+[e ++ _i -> -> 1 `i `uc ]
+[e :U 381 ]
+[e $ < -> _i `i -> _count `i 378  ]
+[e :U 379 ]
+"64
+}
+[; ;comunicacao.c: 64: }
+[; ;comunicacao.c: 65: }
+"65
+[e :UE 377 ]
+}
+"67
+[v _write_cmd `(v ~T0 @X0 1 ef2`*S362`uc ]
+"68
+{
+[; ;comunicacao.c: 67: void write_cmd(dados_t *data, uint8_t addr_to)
+[; ;comunicacao.c: 68: {
+[e :U _write_cmd ]
+"67
+[v _data `*S362 ~T0 @X0 1 r1 ]
+[v _addr_to `uc ~T0 @X0 1 r2 ]
+"68
+[f ]
+[v F3873 `uc ~T0 @X0 -> 64 `i s ]
+[i F3873
+:U ..
+"69
 -> -> 0 `i `uc
 ..
 ]
 [v _aux `uc ~T0 @X0 -> 64 `i a ]
-[; ;comunicacao.c: 60: uint8_t aux[64] = {0};
-[e = _aux F3860 ]
-[; ;comunicacao.c: 62: aux[0] = 0x02;
-"62
+[; ;comunicacao.c: 69: char aux[64] = {0};
+[e = _aux F3873 ]
+[; ;comunicacao.c: 71: aux[0] = 0x02;
+"71
 [e = *U + &U _aux * -> -> -> 0 `i `ui `ux -> -> # *U &U _aux `ui `ux -> -> 2 `i `uc ]
-[; ;comunicacao.c: 63: aux[1] = dados->addr_from;
-"63
-[e = *U + &U _aux * -> -> -> 1 `i `ui `ux -> -> # *U &U _aux `ui `ux . *U _dados 3 ]
-[; ;comunicacao.c: 64: aux[2] = 0x09;
-"64
-[e = *U + &U _aux * -> -> -> 2 `i `ui `ux -> -> # *U &U _aux `ui `ux -> -> 9 `i `uc ]
-[; ;comunicacao.c: 65: aux[3] = 0x70;
-"65
-[e = *U + &U _aux * -> -> -> 3 `i `ui `ux -> -> # *U &U _aux `ui `ux -> -> 112 `i `uc ]
-"67
-[v _count `uc ~T0 @X0 1 a ]
-[; ;comunicacao.c: 67: uint8_t count;
-[; ;comunicacao.c: 69: for (count = 0; count < string[count] != 0 && count+5 < 64; count++) {
-"69
-{
-[e = _count -> -> 0 `i `uc ]
-[e $U 381  ]
-[e :U 378 ]
-{
-[; ;comunicacao.c: 72: aux[count + 5] = string[count];
+[; ;comunicacao.c: 72: aux[1] = addr_to;
 "72
-[e = *U + &U _aux * -> -> + -> _count `i -> 5 `i `ui `ux -> -> # *U &U _aux `ui `ux *U + _string * -> _count `ux -> -> # *U _string `ui `ux ]
+[e = *U + &U _aux * -> -> -> 1 `i `ui `ux -> -> # *U &U _aux `ui `ux _addr_to ]
+[; ;comunicacao.c: 73: aux[2] = 0x09;
 "73
-}
-"69
-[e ++ _count -> -> 1 `i `uc ]
-[e :U 381 ]
-[e $ && != -> < -> _count `i -> *U + _string * -> _count `ux -> -> # *U _string `ui `ux `i `i -> 0 `i < + -> _count `i -> 5 `i -> 64 `i 378  ]
-[e :U 379 ]
-"73
-}
-[; ;comunicacao.c: 73: }
-[; ;comunicacao.c: 74: aux[4] = count;
+[e = *U + &U _aux * -> -> -> 2 `i `ui `ux -> -> # *U &U _aux `ui `ux -> -> 9 `i `uc ]
+[; ;comunicacao.c: 74: aux[3] = data->command;
 "74
-[e = *U + &U _aux * -> -> -> 4 `i `ui `ux -> -> # *U &U _aux `ui `ux _count ]
-[; ;comunicacao.c: 75: aux[5 + count] = (uint8_t) 0;
+[e = *U + &U _aux * -> -> -> 3 `i `ui `ux -> -> # *U &U _aux `ui `ux . *U _data 4 ]
+[; ;comunicacao.c: 75: aux[4] = data->count;
 "75
-[e = *U + &U _aux * -> -> + -> 5 `i -> _count `i `ui `ux -> -> # *U &U _aux `ui `ux -> -> 0 `i `uc ]
-[; ;comunicacao.c: 76: aux[5 + count] = (uint8_t) calc_bcc(dados);
-"76
-[e = *U + &U _aux * -> -> + -> 5 `i -> _count `i `ui `ux -> -> # *U &U _aux `ui `ux ( _calc_bcc (1 _dados ]
-[; ;comunicacao.c: 78: for (uint8_t i = 0; i < count+5; i++) {
-"78
-{
+[e = *U + &U _aux * -> -> -> 4 `i `ui `ux -> -> # *U &U _aux `ui `ux . *U _data 0 ]
+"77
 [v _i `uc ~T0 @X0 1 a ]
+[; ;comunicacao.c: 77: uint8_t i = 0;
 [e = _i -> -> 0 `i `uc ]
-[e $U 385  ]
-[e :U 382 ]
-{
-[; ;comunicacao.c: 79: uart_send_byte(aux[i]);
-"79
-[e ( _uart_send_byte (1 *U + &U _aux * -> _i `ux -> -> # *U &U _aux `ui `ux ]
-"80
-}
+[; ;comunicacao.c: 78: while (i < data->count) {
 "78
-[e ++ _i -> -> 1 `i `uc ]
-[e :U 385 ]
-[e $ < -> _i `i + -> _count `i -> 5 `i 382  ]
-[e :U 383 ]
+[e $U 383  ]
+[e :U 384 ]
+{
+[; ;comunicacao.c: 79: aux[i + 5] = data->buff[i++];
+"79
+[e = *U + &U _aux * -> -> + -> _i `i -> 5 `i `ui `ux -> -> # *U &U _aux `ui `ux *U + &U . *U _data 1 * -> ++ _i -> -> 1 `i `uc `ux -> -> # *U &U . *U _data 1 `ui `ux ]
 "80
 }
+[e :U 383 ]
+"78
+[e $ < -> _i `i -> . *U _data 0 `i 384  ]
+[e :U 385 ]
 [; ;comunicacao.c: 80: }
-[; ;comunicacao.c: 81: }
-"81
-[e :UE 377 ]
-}
-"83
-[v _calc_bcc `(uc ~T0 @X0 1 ef1`*S362 ]
+[; ;comunicacao.c: 82: aux[i + 5] = calc_bcc(data);
+"82
+[e = *U + &U _aux * -> -> + -> _i `i -> 5 `i `ui `ux -> -> # *U &U _aux `ui `ux ( _calc_bcc (1 -> _data `*uc ]
+[; ;comunicacao.c: 84: for (uint8_t t = 0; t < i + 6; t++) {
 "84
 {
-[; ;comunicacao.c: 83: uint8_t calc_bcc(dados_t *data)
-[; ;comunicacao.c: 84: {
-[e :U _calc_bcc ]
-"83
-[v _data `*S362 ~T0 @X0 1 r1 ]
-"84
-[f ]
+[v _t `uc ~T0 @X0 1 a ]
+[e = _t -> -> 0 `i `uc ]
+[e $U 389  ]
+[e :U 386 ]
+{
+[; ;comunicacao.c: 85: uart_send_byte(aux[t]);
 "85
+[e ( _uart_send_byte (1 *U + &U _aux * -> _t `ux -> -> # *U &U _aux `ui `ux ]
+"86
+}
+"84
+[e ++ _t -> -> 1 `i `uc ]
+[e :U 389 ]
+[e $ < -> _t `i + -> _i `i -> 6 `i 386  ]
+[e :U 387 ]
+"86
+}
+[; ;comunicacao.c: 86: }
+[; ;comunicacao.c: 87: }
+"87
+[e :UE 382 ]
+}
+"89
+[v _calc_bcc `(uc ~T0 @X0 1 ef1`*uc ]
+"90
+{
+[; ;comunicacao.c: 89: uint8_t calc_bcc(uint8_t *data)
+[; ;comunicacao.c: 90: {
+[e :U _calc_bcc ]
+"89
+[v _data `*uc ~T0 @X0 1 r1 ]
+"90
+[f ]
+"91
 [v _bcc `uc ~T0 @X0 1 a ]
-[; ;comunicacao.c: 85: uint8_t bcc = data->buff[0];
-[e = _bcc *U + &U . *U _data 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux ]
-[; ;comunicacao.c: 88: for (uint8_t i = 1; i < data->count; i++) {
-"88
+[; ;comunicacao.c: 91: uint8_t bcc = data[0];
+[e = _bcc *U + _data * -> -> 0 `i `x -> -> # *U _data `i `x ]
+[; ;comunicacao.c: 94: for (uint8_t i = 1; i < 64; i++) {
+"94
 {
 [v _i `uc ~T0 @X0 1 a ]
 [e = _i -> -> 1 `i `uc ]
-[e $U 390  ]
-[e :U 387 ]
+[e $ < -> _i `i -> 64 `i 391  ]
+[e $U 392  ]
+[e :U 391 ]
 {
-[; ;comunicacao.c: 89: bcc = (uint8_t) (bcc ^ data->buff[i]);
-"89
-[e = _bcc -> ^ -> _bcc `i -> *U + &U . *U _data 1 * -> _i `ux -> -> # *U &U . *U _data 1 `ui `ux `i `uc ]
-"90
+[; ;comunicacao.c: 95: bcc = (uint8_t) (bcc ^ data[i]);
+"95
+[e = _bcc -> ^ -> _bcc `i -> *U + _data * -> _i `ux -> -> # *U _data `ui `ux `i `uc ]
+"96
 }
-"88
+"94
 [e ++ _i -> -> 1 `i `uc ]
-[e :U 390 ]
-[e $ < -> _i `i -> . *U _data 0 `i 387  ]
-[e :U 388 ]
-"90
-}
-[; ;comunicacao.c: 90: }
-[; ;comunicacao.c: 92: return(bcc);
-"92
-[e ) _bcc ]
-[e $UE 386  ]
-[; ;comunicacao.c: 93: }
-"93
-[e :UE 386 ]
-}
-"95
-[v _check_data `(E3818 ~T0 @X0 1 ef1`*S362 ]
-"96
-{
-[; ;comunicacao.c: 95: en_comunicacao_t check_data(dados_t *data)
-[; ;comunicacao.c: 96: {
-[e :U _check_data ]
-"95
-[v _data `*S362 ~T0 @X0 1 r1 ]
-"96
-[f ]
-[; ;comunicacao.c: 97: if (data->buff[0] != 0x02) {
-"97
-[e $ ! != -> *U + &U . *U _data 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 2 `i 392  ]
-{
-[; ;comunicacao.c: 98: return ERR_STX;
-"98
-[e ) . `E3818 0 ]
-[e $UE 391  ]
-"99
-}
+[e $ < -> _i `i -> 64 `i 391  ]
 [e :U 392 ]
-[; ;comunicacao.c: 99: }
-[; ;comunicacao.c: 100: if (data->buff[1] != 0x09) {
-"100
-[e $ ! != -> *U + &U . *U _data 1 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 9 `i 393  ]
-{
-[; ;comunicacao.c: 101: return ERR_IGNORE_MSG;
-"101
-[e ) . `E3818 1 ]
-[e $UE 391  ]
-"102
+"96
 }
-[e :U 393 ]
-[; ;comunicacao.c: 102: }
-[; ;comunicacao.c: 103: if (calc_bcc(data) != 0) {
-"103
-[e $ ! != -> ( _calc_bcc (1 _data `i -> 0 `i 394  ]
+[; ;comunicacao.c: 96: }
+[; ;comunicacao.c: 98: return(bcc);
+"98
+[e ) _bcc ]
+[e $UE 390  ]
+[; ;comunicacao.c: 99: }
+"99
+[e :UE 390 ]
+}
+"101
+[v _check_data `(E3818 ~T0 @X0 1 ef1`*S362 ]
+"102
 {
-[; ;comunicacao.c: 104: return ERR_BCC;
+[; ;comunicacao.c: 101: en_comunicacao_t check_data(dados_t *data)
+[; ;comunicacao.c: 102: {
+[e :U _check_data ]
+"101
+[v _data `*S362 ~T0 @X0 1 r1 ]
+"102
+[f ]
+[; ;comunicacao.c: 103: if (data->buff[0] != 0x02) {
+"103
+[e $ ! != -> *U + &U . *U _data 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 2 `i 395  ]
+{
+[; ;comunicacao.c: 104: return ERR_STX;
 "104
-[e ) . `E3818 2 ]
-[e $UE 391  ]
+[e ) . `E3818 0 ]
+[e $UE 394  ]
 "105
 }
-[e :U 394 ]
-[; ;comunicacao.c: 105: }
-[; ;comunicacao.c: 107: data->addr_from = data->buff[2];
-"107
-[e = . *U _data 3 *U + &U . *U _data 1 * -> -> -> 2 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux ]
-[; ;comunicacao.c: 109: if (data->buff[3] == 0x21) {
-"109
-[e $ ! == -> *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 33 `i 395  ]
-{
-[; ;comunicacao.c: 110: return(data->buff[4] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
-"110
-[e ) -> ? != & -> *U + &U . *U _data 1 * -> -> -> 4 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> == -> 1 `i -> 1 `i `i -> 0 `i : -> . `E3818 4 `i -> . `E3818 6 `i `E3818 ]
-[e $UE 391  ]
-"111
-}
-[; ;comunicacao.c: 111: } else if (data->buff[3] == 0x22) {
-[e $U 396  ]
 [e :U 395 ]
-[e $ ! == -> *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 34 `i 397  ]
+[; ;comunicacao.c: 105: }
+[; ;comunicacao.c: 107: if (data->buff[1] != 0x09) {
+"107
+[e $ ! != -> *U + &U . *U _data 1 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 9 `i 396  ]
 {
-[; ;comunicacao.c: 112: return(data->buff[4] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
+[; ;comunicacao.c: 108: return ERR_IGNORE_MSG;
+"108
+[e ) . `E3818 1 ]
+[e $UE 394  ]
+"109
+}
+[e :U 396 ]
+[; ;comunicacao.c: 109: }
+[; ;comunicacao.c: 111: if (calc_bcc(data->buff) != 0) {
+"111
+[e $ ! != -> ( _calc_bcc (1 &U . *U _data 1 `i -> 0 `i 397  ]
+{
+[; ;comunicacao.c: 112: return ERR_BCC;
 "112
-[e ) -> ? != & -> *U + &U . *U _data 1 * -> -> -> 4 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> == -> 1 `i -> 1 `i `i -> 0 `i : -> . `E3818 5 `i -> . `E3818 7 `i `E3818 ]
-[e $UE 391  ]
+[e ) . `E3818 2 ]
+[e $UE 394  ]
 "113
 }
-[; ;comunicacao.c: 113: } else {
-[e $U 398  ]
 [e :U 397 ]
-{
-[; ;comunicacao.c: 114: return ERR_NAK;
-"114
-[e ) . `E3818 3 ]
-[e $UE 391  ]
+[; ;comunicacao.c: 113: }
+[; ;comunicacao.c: 115: data->addr_from = data->buff[2];
 "115
+[e = . *U _data 3 *U + &U . *U _data 1 * -> -> -> 2 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux ]
+[; ;comunicacao.c: 116: data->command = data->buff[3];
+"116
+[e = . *U _data 4 *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux ]
+[; ;comunicacao.c: 117: data->count = data->buff[4];
+"117
+[e = . *U _data 0 *U + &U . *U _data 1 * -> -> -> 4 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux ]
+[; ;comunicacao.c: 119: if (data->count == 1) {
+"119
+[e $ ! == -> . *U _data 0 `i -> 1 `i 398  ]
+{
+[; ;comunicacao.c: 120: if (data->buff[3] == 0x21) {
+"120
+[e $ ! == -> *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 33 `i 399  ]
+{
+[; ;comunicacao.c: 121: return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
+"121
+[e ) -> ? != & -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> == -> 1 `i -> 1 `i `i -> 0 `i : -> . `E3818 4 `i -> . `E3818 6 `i `E3818 ]
+[e $UE 394  ]
+"122
+}
+[; ;comunicacao.c: 122: } else if (data->buff[3] == 0x22) {
+[e $U 400  ]
+[e :U 399 ]
+[e $ ! == -> *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 34 `i 401  ]
+{
+[; ;comunicacao.c: 123: return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
+"123
+[e ) -> ? != & -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> == -> 1 `i -> 1 `i `i -> 0 `i : -> . `E3818 5 `i -> . `E3818 7 `i `E3818 ]
+[e $UE 394  ]
+"124
+}
+[; ;comunicacao.c: 124: } else {
+[e $U 402  ]
+[e :U 401 ]
+{
+[; ;comunicacao.c: 125: return ERR_NAK;
+"125
+[e ) . `E3818 3 ]
+[e $UE 394  ]
+"126
+}
+[e :U 402 ]
+[e :U 400 ]
+"127
 }
 [e :U 398 ]
-[e :U 396 ]
-[; ;comunicacao.c: 115: }
-[; ;comunicacao.c: 136: }
+[; ;comunicacao.c: 126: }
+[; ;comunicacao.c: 127: }
+[; ;comunicacao.c: 128: }
+"128
+[e :UE 394 ]
+}
+"130
+[v _write_zero `(v ~T0 @X0 1 ef1`*S362 ]
+"131
+{
+[; ;comunicacao.c: 130: void write_zero(dados_t *dados)
+[; ;comunicacao.c: 131: {
+[e :U _write_zero ]
+"130
+[v _dados `*S362 ~T0 @X0 1 r1 ]
+"131
+[f ]
+[; ;comunicacao.c: 132: for (uint8_t i = 0; i < 64; i++) {
+"132
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 64 `i 404  ]
+[e $U 405  ]
+[e :U 404 ]
+{
+[; ;comunicacao.c: 133: dados->buff[i] = 0x00;
+"133
+[e = *U + &U . *U _dados 1 * -> _i `ux -> -> # *U &U . *U _dados 1 `ui `ux -> -> 0 `i `uc ]
+"134
+}
+"132
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 64 `i 404  ]
+[e :U 405 ]
+"134
+}
+[; ;comunicacao.c: 134: }
+[; ;comunicacao.c: 136: dados->count = 0;
 "136
-[e :UE 391 ]
+[e = . *U _dados 0 -> -> 0 `i `uc ]
+[; ;comunicacao.c: 137: dados->command = 0;
+"137
+[e = . *U _dados 4 -> -> 0 `i `uc ]
+[; ;comunicacao.c: 138: dados->data_flag = 0;
+"138
+[e = . *U _dados 2 -> -> 0 `i `s ]
+[; ;comunicacao.c: 139: dados->addr_from = 0;
+"139
+[e = . *U _dados 3 -> -> 0 `i `uc ]
+[; ;comunicacao.c: 140: }
+"140
+[e :UE 403 ]
 }

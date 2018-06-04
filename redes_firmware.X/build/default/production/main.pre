@@ -4958,7 +4958,7 @@ typedef int16_t intptr_t;
 
 typedef uint16_t uintptr_t;
 
-# 30 "comunicacao.h"
+# 32 "comunicacao.h"
 typedef enum {
 ERR_STX,
 ERR_IGNORE_MSG,
@@ -4987,7 +4987,12 @@ void uart_send_byte(uint8_t dbyte);
 
 void send_string_data(char *string, dados_t *dados);
 en_comunicacao_t check_data(dados_t *data);
-uint8_t calc_bcc(dados_t *data);
+uint8_t calc_bcc(uint8_t *data);
+void write_zero(dados_t *dados);
+
+void mk_msg(dados_t *data, uint8_t count, char *string);
+
+void write_cmd(dados_t *data, uint8_t addr_to);
 
 # 11 "main.c"
 void my_delay(uint16_t milis)
@@ -4997,18 +5002,8 @@ _delay((unsigned long)((1)*(8000000UL/4000.0)));
 }
 }
 
-void zera_dados(dados_t *dados)
-{
-for (uint8_t i = 0; i < 64; i++) {
-dados->buff[i] = 0x00;
-}
-dados->count = 0;
-dados->data_flag = 0;
-}
-
 void main(void)
 {
-
 
 ADCON1 = 0x0F;
 
@@ -5019,15 +5014,16 @@ TRISDbits.RD1 = 0;
 
 uart_init();
 
-# 45
+# 35
 dados_t dados;
+char msg[32] = { 0 };
 
 
 
 
 PORTDbits.RD0 = 1;
 PORTDbits.RD1 = 1;
-zera_dados(&dados);
+write_zero(&dados);
 
 
 
@@ -5044,25 +5040,28 @@ dados.data_flag = 1;
 
 
 if (dados.data_flag) {
-
 switch (check_data(&dados)) {
 case ERR_STX:
-send_string_data((char *)"erro no stx\0", &dados);
+
 
 break;
 case ERR_IGNORE_MSG:
-send_string_data((char *)"nao eh para mim\0", &dados);
+
 
 break;
 case ERR_BCC:
-send_string_data((char *)"BCCERR\0", &dados);
+
 break;
 case ERR_NAK:
-send_string_data((char *)"oi nak\0", &dados);
+
 break;
 case LIGA_LED1:
 PORTDbits.RD0 = 0;
-send_string_data("liguei o led1\0", &dados);
+msg[0] = 0x06;
+mk_msg(&dados, 1, msg);
+write_cmd(&dados, dados.addr_from);
+
+# 85
 break;
 case DESLIGA_LED1:
 PORTDbits.RD0 = 1;
@@ -5074,15 +5073,15 @@ case DESLIGA_LED2:
 PORTDbits.RD1 = 1;
 break;
 default:
-send_string_data((char *)"nao sei o que houve\0", &dados);
+
 break;
 }
 
-zera_dados(&dados);
+write_zero(&dados);
 
 }
 
-# 131
+# 128
 }
 
 
