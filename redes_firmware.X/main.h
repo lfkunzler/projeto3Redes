@@ -70,17 +70,14 @@
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
 
-#include <xc.h>
-#include <stdint.h>
-
-#include "comunicacao.h"
-
 #define LED1 PORTDbits.RD0
 #define LED2 PORTDbits.RD1
 #define BT1  PORTDbits.RD2
 #define BT2  PORTDbits.RD3
 
 #define _XTAL_FREQ 8000000UL
+
+void delay_ms(uint16_t milis);
 
 #ifdef	__cplusplus
 extern "C" {

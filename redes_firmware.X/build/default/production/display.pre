@@ -1,5 +1,5 @@
 
-# 1 "main.c"
+# 1 "display.c"
 
 # 26 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -5752,111 +5752,6 @@ typedef int16_t intptr_t;
 
 typedef uint16_t uintptr_t;
 
-
-# 9 "main.h"
-#pragma config PLLDIV = 2
-#pragma config CPUDIV = OSC1_PLL2
-#pragma config USBDIV = 1
-
-
-#pragma config FOSC = HS
-#pragma config FCMEN = OFF
-#pragma config IESO = OFF
-
-
-#pragma config PWRT = OFF
-#pragma config BOR = OFF
-#pragma config BORV = 3
-#pragma config VREGEN = OFF
-
-
-#pragma config WDT = OFF
-#pragma config WDTPS = 32768
-
-
-#pragma config CCP2MX = OFF
-#pragma config PBADEN = OFF
-#pragma config LPT1OSC = OFF
-#pragma config MCLRE = ON
-
-
-#pragma config STVREN = OFF
-#pragma config LVP = ON
-#pragma config ICPRT = OFF
-#pragma config XINST = OFF
-
-
-#pragma config CP0 = OFF
-#pragma config CP1 = OFF
-#pragma config CP2 = OFF
-#pragma config CP3 = OFF
-
-
-#pragma config CPB = OFF
-#pragma config CPD = OFF
-
-
-#pragma config WRT0 = OFF
-#pragma config WRT1 = OFF
-#pragma config WRT2 = OFF
-#pragma config WRT3 = OFF
-
-
-#pragma config WRTC = OFF
-#pragma config WRTB = OFF
-#pragma config WRTD = OFF
-
-
-#pragma config EBTR0 = OFF
-#pragma config EBTR1 = OFF
-#pragma config EBTR2 = OFF
-#pragma config EBTR3 = OFF
-
-
-#pragma config EBTRB = OFF
-
-# 80
-void delay_ms(uint16_t milis);
-
-# 27 "comunicacao.h"
-typedef enum {
-ERR_STX,
-ERR_IGNORE_MSG,
-ERR_BCC,
-ERR_NAK,
-LIGA_LED1,
-LIGA_LED2,
-DESLIGA_LED1,
-DESLIGA_LED2,
-LE_BOTAO1,
-LE_BOTAO2,
-LE_MSG,
-ERR_UNDETECTED
-} comunicacao_en;
-
-
-
-typedef struct {
-uint8_t count;
-uint8_t buff[64];
-short data_flag;
-uint8_t addr_from;
-uint8_t command;
-} dados_t;
-
-comunicacao_en check_data(dados_t *data);
-uint8_t calc_bcc(uint8_t *data);
-void write_zero(dados_t *dados);
-void mk_msg(dados_t *data, uint8_t count, char *string);
-void write_cmd(dados_t *data, uint8_t addr_to);
-void rcv_msg(dados_t *data, char *msg);
-
-# 13 "uart.h"
-void uart_init(void);
-short uart_check_rx(void);
-uint8_t uart_receive_byte(void);
-void uart_send_byte(uint8_t dbyte);
-
 # 7 "display.h"
 typedef struct {
 uint8_t NeedsRedraw;
@@ -5876,159 +5771,102 @@ void DelayXLCD(void);
 
 extern void delay_ms(uint16_t milis);
 
-# 16 "main.c"
-void main(void)
-{
+# 16 "display.c"
+void lcd_init(lcd_t *lcd) {
+OpenXLCD(0b00101100 & 0b00111000);
+while (BusyXLCD());
+WriteCmdXLCD(0x06);
+while (BusyXLCD());
+WriteCmdXLCD(0x0C);
+while (BusyXLCD());
 
-ADCON1 = 0x0F;
-
-TRISDbits.RD0 = 0;
-TRISDbits.RD1 = 0;
-TRISDbits.RD2 = 1;
-TRISDbits.RD3 = 1;
-
-
-
-uart_init();
-
-# 35
-dados_t dados;
-lcd_t lcd;
-
-
-lcd_init(&lcd);
-
-
-char msg[33] = {0};
-uint8_t pos = 0;
-
-
-
-
-PORTDbits.RD0 = 1;
-PORTDbits.RD1 = 1;
-write_zero(&dados);
-
-
-
-
-while (1) {
-
-if (!uart_check_rx()) {
-do {
-
-dados.buff[dados.count++] = RCREG;
-} while (!uart_check_rx());
-dados.data_flag = 1;
+lcd_mem_clean(lcd);
+lcd_clean();
 }
 
 
-if (dados.data_flag) {
-switch (check_data(&dados)) {
-case ERR_STX:
+void lcd_clean(void) {
+while (BusyXLCD());
+WriteCmdXLCD(0x01);
 
-break;
-case ERR_IGNORE_MSG:
-
-break;
-case ERR_BCC:
-
-break;
-case ERR_NAK:
-msg[0] = 0x15;
-mk_msg(&dados, 1, msg);
-write_cmd(&dados, dados.addr_from);
-
-break;
-case LIGA_LED1:
-PORTDbits.RD0 = 0;
-
-msg[0] = 0x06;
-mk_msg(&dados, 1, msg);
-write_cmd(&dados, dados.addr_from);
-
-break;
-case DESLIGA_LED1:
-PORTDbits.RD0 = 1;
-
-msg[0] = 0x06;
-mk_msg(&dados, 1, msg);
-write_cmd(&dados, dados.addr_from);
-
-break;
-case LIGA_LED2:
-PORTDbits.RD1 = 0;
-
-msg[0] = 0x06;
-mk_msg(&dados, 1, msg);
-write_cmd(&dados, dados.addr_from);
-
-break;
-case DESLIGA_LED2:
-PORTDbits.RD1 = 1;
-
-msg[0] = 0x06;
-mk_msg(&dados, 1, msg);
-write_cmd(&dados, dados.addr_from);
-
-break;
-case LE_BOTAO1:
-msg[0] = 0x06;
-msg[1] = (char) PORTDbits.RD2;
-mk_msg(&dados, 2, msg);
-write_cmd(&dados, dados.addr_from);
-
-break;
-case LE_BOTAO2:
-msg[0] = 0x06;
-msg[1] = (char) PORTDbits.RD3;
-mk_msg(&dados, 2, msg);
-write_cmd(&dados, dados.addr_from);
-
-break;
-case LE_MSG:
-pos = (dados.buff[5]) - 0x80;
-
-
-uint8_t linha = pos < 16 ? 1 : 2;
-uint8_t coluna = (pos % 16) + 1;
-
-
-for (uint8_t i = 0; i < 33; i++) {
-msg[i] = 0;
+delay_ms(80);
 }
 
 
-rcv_msg(&dados, msg);
-
-
-lcd_write(&lcd, linha, coluna, msg);
-
-
-msg[0] = 0x06;
-mk_msg(&dados, 1, msg);
-write_cmd(&dados, dados.addr_from);
-
-break;
-default:
-
-break;
+void lcd_mem_clean(lcd_t *lcd) {
+for (uint8_t i = 0; i < 16; i++) {
+lcd->Memory[0][i] = 0x20;
+lcd->Memory[1][i] = 0x20;
+}
+lcd->NeedsRedraw = 1;
 }
 
-write_zero(&dados);
-
-}
-
-lcd_runtime(&lcd);
+void lcd_clean_all(lcd_t *lcd) {
+lcd_clean();
+lcd_mem_clean(lcd);
 }
 
 
-return;
+int lcd_write(lcd_t *lcd, uint8_t row, uint8_t col, char *string) {
+
+if (row == 0 || row > 2 || col == 0 || col > 16) {
+return -1;
 }
 
-void delay_ms(uint16_t milis)
-{
-for (uint16_t t = 0; t < milis; t++) {
-_delay((unsigned long)((1)*(8000000UL/4000.0)));
+row--;
+col--;
+
+if (row == 0) {
+while (*string && col <= 0x0F) {
+lcd->Memory[0][col++] = *string;
+string++;
 }
+col = 0;
+row = 1;
+}
+
+
+while (*string && col <= 0x0F) {
+lcd->Memory[1][col++] = *string;
+string++;
+}
+
+lcd->NeedsRedraw = 1;
+
+return 0;
+}
+
+void lcd_runtime(lcd_t *lcd) {
+while (BusyXLCD());
+
+if (lcd->NeedsRedraw == 1) {
+SetDDRamAddr(0x00);
+for (int i = 0; i < 16; i++) {
+while (BusyXLCD());
+WriteDataXLCD((char) lcd->Memory[0][i]);
+}
+SetDDRamAddr(0x40);
+for (int i = 0; i < 16; i++) {
+while (BusyXLCD());
+WriteDataXLCD((char) lcd->Memory[1][i]);
+}
+
+lcd->NeedsRedraw = 0;
+}
+}
+
+
+
+void DelayFor18TCY(void) {
+for (int i = 0; i < 18; i++) {
+continue;
+}
+}
+
+void DelayPORXLCD(void) {
+delay_ms(60);
+}
+
+void DelayXLCD(void) {
+delay_ms(20);
 }

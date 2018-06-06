@@ -1,14 +1,24 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"44 comunicacao.h
-[s S397 `uc 1 `uc -> 64 `i `s 1 `uc 1 `uc 1 ]
-[n S397 . count buff data_flag addr_from command ]
-"53
-[v _calc_bcc `(uc ~T0 @X0 0 ef1`*uc ]
-"16 uart.h
-[v _uart_send_byte `(v ~T0 @X0 0 ef1`uc ]
-"79 comunicacao.c
-[c E4586 0 1 2 3 4 5 6 7 8 9 10 11 .. ]
-[n E4586 . ERR_STX ERR_IGNORE_MSG ERR_BCC ERR_NAK LIGA_LED1 LIGA_LED2 DESLIGA_LED1 DESLIGA_LED2 LE_BOTAO1 LE_BOTAO2 LE_MSG ERR_UNDETECTED  ]
+[v F4589 `uc ~T0 @X0 -> 16 `i t ]
+"7 display.h
+[s S397 `uc 1 `F4589 -> 2 `i ]
+[n S397 . NeedsRedraw Memory ]
+"87 C:\Program Files (x86)\Microchip\xc8\v1.45\include\plib\xlcd.h
+[v _OpenXLCD `(v ~T0 @X0 0 ef1`uc ]
+"102
+[v _BusyXLCD `(uc ~T0 @X0 0 ef ]
+"117
+[v _WriteCmdXLCD `(v ~T0 @X0 0 ef1`uc ]
+"13 display.h
+[v _lcd_mem_clean `(v ~T0 @X0 0 ef1`*S397 ]
+"16
+[v _lcd_clean `(v ~T0 @X0 0 ef ]
+"23
+[v _delay_ms `(v ~T0 @X0 0 ef1`ui ]
+"97 C:\Program Files (x86)\Microchip\xc8\v1.45\include\plib\xlcd.h
+[v _SetDDRamAddr `(v ~T0 @X0 0 ef1`uc ]
+"122
+[v _WriteDataXLCD `(v ~T0 @X0 0 ef1`uc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -4161,450 +4171,380 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdint.h: 205: typedef uint32_t uintmax_t;
 [; ;stdint.h: 210: typedef int16_t intptr_t;
 [; ;stdint.h: 215: typedef uint16_t uintptr_t;
-[; ;comunicacao.h: 27: typedef enum {
-[; ;comunicacao.h: 28: ERR_STX,
-[; ;comunicacao.h: 29: ERR_IGNORE_MSG,
-[; ;comunicacao.h: 30: ERR_BCC,
-[; ;comunicacao.h: 31: ERR_NAK,
-[; ;comunicacao.h: 32: LIGA_LED1,
-[; ;comunicacao.h: 33: LIGA_LED2,
-[; ;comunicacao.h: 34: DESLIGA_LED1,
-[; ;comunicacao.h: 35: DESLIGA_LED2,
-[; ;comunicacao.h: 36: LE_BOTAO1,
-[; ;comunicacao.h: 37: LE_BOTAO2,
-[; ;comunicacao.h: 38: LE_MSG,
-[; ;comunicacao.h: 39: ERR_UNDETECTED
-[; ;comunicacao.h: 40: } comunicacao_en;
-[; ;comunicacao.h: 44: typedef struct {
-[; ;comunicacao.h: 45: uint8_t count;
-[; ;comunicacao.h: 46: uint8_t buff[64];
-[; ;comunicacao.h: 47: short data_flag;
-[; ;comunicacao.h: 48: uint8_t addr_from;
-[; ;comunicacao.h: 49: uint8_t command;
-[; ;comunicacao.h: 50: } dados_t;
-[; ;comunicacao.h: 52: comunicacao_en check_data(dados_t *data);
-[; ;comunicacao.h: 53: uint8_t calc_bcc(uint8_t *data);
-[; ;comunicacao.h: 54: void write_zero(dados_t *dados);
-[; ;comunicacao.h: 55: void mk_msg(dados_t *data, uint8_t count, char *string);
-[; ;comunicacao.h: 56: void write_cmd(dados_t *data, uint8_t addr_to);
-[; ;comunicacao.h: 57: void rcv_msg(dados_t *data, char *msg);
-[; ;uart.h: 13: void uart_init(void);
-[; ;uart.h: 14: short uart_check_rx(void);
-[; ;uart.h: 15: uint8_t uart_receive_byte(void);
-[; ;uart.h: 16: void uart_send_byte(uint8_t dbyte);
-"13 comunicacao.c
-[v _rcv_msg `(v ~T0 @X0 1 ef2`*S397`*uc ]
-"14
+[; ;display.h: 7: typedef struct {
+[; ;display.h: 8: uint8_t NeedsRedraw;
+[; ;display.h: 9: uint8_t Memory[2][16];
+[; ;display.h: 10: } lcd_t;
+[; ;display.h: 12: void lcd_init(lcd_t *lcd);
+[; ;display.h: 13: void lcd_mem_clean(lcd_t *lcd);
+[; ;display.h: 14: int lcd_write(lcd_t *lcd, uint8_t row, uint8_t col, char *string);
+[; ;display.h: 15: void lcd_runtime(lcd_t *lcd);
+[; ;display.h: 16: void lcd_clean(void);
+[; ;display.h: 17: void lcd_clean_all(lcd_t *lcd);
+[; ;display.h: 19: void DelayFor18TCY(void);
+[; ;display.h: 20: void DelayPORXLCD(void);
+[; ;display.h: 21: void DelayXLCD(void);
+[; ;display.h: 23: extern void delay_ms(uint16_t milis);
+"16 display.c
+[v _lcd_init `(v ~T0 @X0 1 ef1`*S397 ]
 {
-[; ;comunicacao.c: 13: void rcv_msg(dados_t *data, char *msg)
-[; ;comunicacao.c: 14: {
-[e :U _rcv_msg ]
-"13
-[v _data `*S397 ~T0 @X0 1 r1 ]
-[v _msg `*uc ~T0 @X0 1 r2 ]
-"14
+[; ;display.c: 16: void lcd_init(lcd_t *lcd) {
+[e :U _lcd_init ]
+[v _lcd `*S397 ~T0 @X0 1 r1 ]
 [f ]
-[; ;comunicacao.c: 30: for (uint8_t i = 0; i < data->count - 1; i++) {
-"30
-{
-[v _i `uc ~T0 @X0 1 a ]
-[e = _i -> -> 0 `i `uc ]
-[e $U 402  ]
-[e :U 399 ]
-{
-[; ;comunicacao.c: 31: msg[i] = data->buff[i + 6];
-"31
-[e = *U + _msg * -> _i `ux -> -> # *U _msg `ui `ux *U + &U . *U _data 1 * -> -> + -> _i `i -> 6 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux ]
-"32
-}
-"30
-[e ++ _i -> -> 1 `i `uc ]
-[e :U 402 ]
-[e $ < -> _i `i - -> . *U _data 0 `i -> 1 `i 399  ]
+[; ;display.c: 17: OpenXLCD(0b00101100 & 0b00111000);
+"17
+[e ( _OpenXLCD (1 -> & -> 44 `i -> 56 `i `uc ]
+[; ;display.c: 18: while (BusyXLCD());
+"18
+[e $U 399  ]
 [e :U 400 ]
-"32
-}
-[; ;comunicacao.c: 32: }
-[; ;comunicacao.c: 33: }
-"33
+[e :U 399 ]
+[e $ != -> ( _BusyXLCD ..  `i -> -> -> 0 `i `uc `i 400  ]
+[e :U 401 ]
+[; ;display.c: 19: WriteCmdXLCD(0x06);
+"19
+[e ( _WriteCmdXLCD (1 -> -> 6 `i `uc ]
+[; ;display.c: 20: while (BusyXLCD());
+"20
+[e $U 402  ]
+[e :U 403 ]
+[e :U 402 ]
+[e $ != -> ( _BusyXLCD ..  `i -> -> -> 0 `i `uc `i 403  ]
+[e :U 404 ]
+[; ;display.c: 21: WriteCmdXLCD(0x0C);
+"21
+[e ( _WriteCmdXLCD (1 -> -> 12 `i `uc ]
+[; ;display.c: 22: while (BusyXLCD());
+"22
+[e $U 405  ]
+[e :U 406 ]
+[e :U 405 ]
+[e $ != -> ( _BusyXLCD ..  `i -> -> -> 0 `i `uc `i 406  ]
+[e :U 407 ]
+[; ;display.c: 24: lcd_mem_clean(lcd);
+"24
+[e ( _lcd_mem_clean (1 _lcd ]
+[; ;display.c: 25: lcd_clean();
+"25
+[e ( _lcd_clean ..  ]
+[; ;display.c: 26: }
+"26
 [e :UE 398 ]
 }
-"35
-[v _mk_msg `(v ~T0 @X0 1 ef3`*S397`uc`*uc ]
-"36
+"29
+[v _lcd_clean `(v ~T0 @X0 1 ef ]
 {
-[; ;comunicacao.c: 35: void mk_msg(dados_t *data, uint8_t count, char *string)
-[; ;comunicacao.c: 36: {
-[e :U _mk_msg ]
-"35
-[v _data `*S397 ~T0 @X0 1 r1 ]
-[v _count `uc ~T0 @X0 1 r2 ]
-[v _string `*uc ~T0 @X0 1 r3 ]
-"36
+[; ;display.c: 29: void lcd_clean(void) {
+[e :U _lcd_clean ]
 [f ]
-[; ;comunicacao.c: 37: data->count = count;
-"37
-[e = . *U _data 0 _count ]
-[; ;comunicacao.c: 39: for (uint8_t i = 0; i < count; i++) {
-"39
-{
-[v _i `uc ~T0 @X0 1 a ]
-[e = _i -> -> 0 `i `uc ]
-[e $U 407  ]
-[e :U 404 ]
-{
-[; ;comunicacao.c: 40: data->buff[i] = string[i];
-"40
-[e = *U + &U . *U _data 1 * -> _i `ux -> -> # *U &U . *U _data 1 `ui `ux *U + _string * -> _i `ux -> -> # *U _string `ui `ux ]
-"41
-}
-"39
-[e ++ _i -> -> 1 `i `uc ]
-[e :U 407 ]
-[e $ < -> _i `i -> _count `i 404  ]
-[e :U 405 ]
-"41
-}
-[; ;comunicacao.c: 41: }
-[; ;comunicacao.c: 42: }
-"42
-[e :UE 403 ]
-}
-"44
-[v _write_cmd `(v ~T0 @X0 1 ef2`*S397`uc ]
-"45
-{
-[; ;comunicacao.c: 44: void write_cmd(dados_t *data, uint8_t addr_to)
-[; ;comunicacao.c: 45: {
-[e :U _write_cmd ]
-"44
-[v _data `*S397 ~T0 @X0 1 r1 ]
-[v _addr_to `uc ~T0 @X0 1 r2 ]
-"45
-[f ]
-[v F4641 `uc ~T0 @X0 -> 64 `i s ]
-[i F4641
-:U ..
-"46
--> -> 0 `i `uc
-..
-]
-[v _aux `uc ~T0 @X0 -> 64 `i a ]
-[; ;comunicacao.c: 46: uint8_t aux[64] = {0};
-[e = _aux F4641 ]
-[; ;comunicacao.c: 48: aux[0] = 0x02;
-"48
-[e = *U + &U _aux * -> -> -> 0 `i `ui `ux -> -> # *U &U _aux `ui `ux -> -> 2 `i `uc ]
-[; ;comunicacao.c: 49: aux[1] = addr_to;
-"49
-[e = *U + &U _aux * -> -> -> 1 `i `ui `ux -> -> # *U &U _aux `ui `ux _addr_to ]
-[; ;comunicacao.c: 50: aux[2] = 0x09;
-"50
-[e = *U + &U _aux * -> -> -> 2 `i `ui `ux -> -> # *U &U _aux `ui `ux -> -> 9 `i `uc ]
-[; ;comunicacao.c: 51: aux[3] = data->command;
-"51
-[e = *U + &U _aux * -> -> -> 3 `i `ui `ux -> -> # *U &U _aux `ui `ux . *U _data 4 ]
-[; ;comunicacao.c: 52: aux[4] = data->count;
-"52
-[e = *U + &U _aux * -> -> -> 4 `i `ui `ux -> -> # *U &U _aux `ui `ux . *U _data 0 ]
-"54
-[v _i `uc ~T0 @X0 1 a ]
-[; ;comunicacao.c: 54: uint8_t i = 0;
-[e = _i -> -> 0 `i `uc ]
-[; ;comunicacao.c: 55: while (i < data->count) {
-"55
+[; ;display.c: 30: while (BusyXLCD());
+"30
 [e $U 409  ]
 [e :U 410 ]
-{
-[; ;comunicacao.c: 56: aux[i + 5] = data->buff[i++];
-"56
-[e = *U + &U _aux * -> -> + -> _i `i -> 5 `i `ui `ux -> -> # *U &U _aux `ui `ux *U + &U . *U _data 1 * -> ++ _i -> -> 1 `i `uc `ux -> -> # *U &U . *U _data 1 `ui `ux ]
-"57
-}
 [e :U 409 ]
-"55
-[e $ < -> _i `i -> . *U _data 0 `i 410  ]
+[e $ != -> ( _BusyXLCD ..  `i -> -> -> 0 `i `uc `i 410  ]
 [e :U 411 ]
-[; ;comunicacao.c: 57: }
-[; ;comunicacao.c: 59: aux[i + 5] = calc_bcc(data->buff);
-"59
-[e = *U + &U _aux * -> -> + -> _i `i -> 5 `i `ui `ux -> -> # *U &U _aux `ui `ux ( _calc_bcc (1 &U . *U _data 1 ]
-[; ;comunicacao.c: 61: for (uint8_t t = 0; t < i + 6; t++) {
-"61
-{
-[v _t `uc ~T0 @X0 1 a ]
-[e = _t -> -> 0 `i `uc ]
-[e $U 415  ]
-[e :U 412 ]
-{
-[; ;comunicacao.c: 62: uart_send_byte(aux[t]);
-"62
-[e ( _uart_send_byte (1 *U + &U _aux * -> _t `ux -> -> # *U &U _aux `ui `ux ]
-"63
-}
-"61
-[e ++ _t -> -> 1 `i `uc ]
-[e :U 415 ]
-[e $ < -> _t `i + -> _i `i -> 6 `i 412  ]
-[e :U 413 ]
-"63
-}
-[; ;comunicacao.c: 63: }
-[; ;comunicacao.c: 64: }
-"64
+[; ;display.c: 31: WriteCmdXLCD(0x01);
+"31
+[e ( _WriteCmdXLCD (1 -> -> 1 `i `uc ]
+[; ;display.c: 33: delay_ms(80);
+"33
+[e ( _delay_ms (1 -> -> 80 `i `ui ]
+[; ;display.c: 34: }
+"34
 [e :UE 408 ]
 }
-"66
-[v _calc_bcc `(uc ~T0 @X0 1 ef1`*uc ]
-"67
+"37
+[v _lcd_mem_clean `(v ~T0 @X0 1 ef1`*S397 ]
 {
-[; ;comunicacao.c: 66: uint8_t calc_bcc(uint8_t *data)
-[; ;comunicacao.c: 67: {
-[e :U _calc_bcc ]
-"66
-[v _data `*uc ~T0 @X0 1 r1 ]
-"67
+[; ;display.c: 37: void lcd_mem_clean(lcd_t *lcd) {
+[e :U _lcd_mem_clean ]
+[v _lcd `*S397 ~T0 @X0 1 r1 ]
 [f ]
-"68
-[v _bcc `uc ~T0 @X0 1 a ]
-[; ;comunicacao.c: 68: uint8_t bcc = data[0];
-[e = _bcc *U + _data * -> -> 0 `i `x -> -> # *U _data `i `x ]
-[; ;comunicacao.c: 71: for (uint8_t i = 1; i < 64; i++) {
-"71
-{
-[v _i `uc ~T0 @X0 1 a ]
-[e = _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 64 `i 417  ]
-[e $U 418  ]
-[e :U 417 ]
-{
-[; ;comunicacao.c: 72: bcc = (uint8_t) (bcc ^ data[i]);
-"72
-[e = _bcc -> ^ -> _bcc `i -> *U + _data * -> _i `ux -> -> # *U _data `ui `ux `i `uc ]
-"73
-}
-"71
-[e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 64 `i 417  ]
-[e :U 418 ]
-"73
-}
-[; ;comunicacao.c: 73: }
-[; ;comunicacao.c: 75: return(bcc);
-"75
-[e ) _bcc ]
-[e $UE 416  ]
-[; ;comunicacao.c: 76: }
-"76
-[e :UE 416 ]
-}
-"78
-[v _check_data `(E4586 ~T0 @X0 1 ef1`*S397 ]
-"79
-{
-[; ;comunicacao.c: 78: comunicacao_en check_data(dados_t *data)
-[; ;comunicacao.c: 79: {
-[e :U _check_data ]
-"78
-[v _data `*S397 ~T0 @X0 1 r1 ]
-"79
-[f ]
-[; ;comunicacao.c: 80: if (data->buff[0] != 0x02) {
-"80
-[e $ ! != -> *U + &U . *U _data 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 2 `i 421  ]
-{
-[; ;comunicacao.c: 81: return ERR_STX;
-"81
-[e ) . `E4586 0 ]
-[e $UE 420  ]
-"82
-}
-[e :U 421 ]
-[; ;comunicacao.c: 82: }
-[; ;comunicacao.c: 84: if (data->buff[1] != 0x09) {
-"84
-[e $ ! != -> *U + &U . *U _data 1 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 9 `i 422  ]
-{
-[; ;comunicacao.c: 85: return ERR_IGNORE_MSG;
-"85
-[e ) . `E4586 1 ]
-[e $UE 420  ]
-"86
-}
-[e :U 422 ]
-[; ;comunicacao.c: 86: }
-[; ;comunicacao.c: 88: if (calc_bcc(data->buff) != 0) {
-"88
-[e $ ! != -> ( _calc_bcc (1 &U . *U _data 1 `i -> 0 `i 423  ]
-{
-[; ;comunicacao.c: 89: return ERR_BCC;
-"89
-[e ) . `E4586 2 ]
-[e $UE 420  ]
-"90
-}
-[e :U 423 ]
-[; ;comunicacao.c: 90: }
-[; ;comunicacao.c: 92: data->addr_from = data->buff[2];
-"92
-[e = . *U _data 3 *U + &U . *U _data 1 * -> -> -> 2 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux ]
-[; ;comunicacao.c: 93: data->command = data->buff[3];
-"93
-[e = . *U _data 4 *U + &U . *U _data 1 * -> -> -> 3 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux ]
-[; ;comunicacao.c: 94: data->count = data->buff[4];
-"94
-[e = . *U _data 0 *U + &U . *U _data 1 * -> -> -> 4 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux ]
-[; ;comunicacao.c: 97: if (data->count == 0) {
-"97
-[e $ ! == -> . *U _data 0 `i -> 0 `i 424  ]
-{
-[; ;comunicacao.c: 98: if (data->command == 0x01) {
-"98
-[e $ ! == -> . *U _data 4 `i -> 1 `i 425  ]
-{
-[; ;comunicacao.c: 99: return LE_BOTAO1;
-"99
-[e ) . `E4586 8 ]
-[e $UE 420  ]
-"100
-}
-[e :U 425 ]
-[; ;comunicacao.c: 100: }
-[; ;comunicacao.c: 101: if (data->command == 0x02) {
-"101
-[e $ ! == -> . *U _data 4 `i -> 2 `i 426  ]
-{
-[; ;comunicacao.c: 102: return LE_BOTAO2;
-"102
-[e ) . `E4586 9 ]
-[e $UE 420  ]
-"103
-}
-[e :U 426 ]
-"104
-}
-[; ;comunicacao.c: 103: }
-[; ;comunicacao.c: 104: } else if (data->count == 1) {
-[e $U 427  ]
-[e :U 424 ]
-[e $ ! == -> . *U _data 0 `i -> 1 `i 428  ]
-{
-[; ;comunicacao.c: 105: if (data->command == 0x21) {
-"105
-[e $ ! == -> . *U _data 4 `i -> 33 `i 429  ]
-{
-[; ;comunicacao.c: 106: return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
-"106
-[e ) -> ? != & -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> == -> 1 `i -> 1 `i `i -> 0 `i : -> . `E4586 4 `i -> . `E4586 6 `i `E4586 ]
-[e $UE 420  ]
-"107
-}
-[e :U 429 ]
-[; ;comunicacao.c: 107: }
-[; ;comunicacao.c: 108: if (data->command == 0x22) {
-"108
-[e $ ! == -> . *U _data 4 `i -> 34 `i 430  ]
-{
-[; ;comunicacao.c: 109: return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
-"109
-[e ) -> ? != & -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> == -> 1 `i -> 1 `i `i -> 0 `i : -> . `E4586 5 `i -> . `E4586 7 `i `E4586 ]
-[e $UE 420  ]
-"110
-}
-[e :U 430 ]
-"111
-}
-[; ;comunicacao.c: 110: }
-[; ;comunicacao.c: 111: } else {
-[e $U 431  ]
-[e :U 428 ]
-{
-[; ;comunicacao.c: 112: if (data->command == 0x70) {
-"112
-[e $ ! == -> . *U _data 4 `i -> 112 `i 432  ]
-{
-[; ;comunicacao.c: 114: if (data->buff[5] < 0x80 && data->buff[5] > 0x9F) {
-"114
-[e $ ! && < -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 128 `i > -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 159 `i 433  ]
-{
-[; ;comunicacao.c: 115: return ERR_NAK;
-"115
-[e ) . `E4586 3 ]
-[e $UE 420  ]
-"116
-}
-[e :U 433 ]
-[; ;comunicacao.c: 116: }
-[; ;comunicacao.c: 117: return LE_MSG;
-"117
-[e ) . `E4586 10 ]
-[e $UE 420  ]
-"118
-}
-[e :U 432 ]
-[; ;comunicacao.c: 118: }
-[; ;comunicacao.c: 119: return ERR_NAK;
-"119
-[e ) . `E4586 3 ]
-[e $UE 420  ]
-"120
-}
-[e :U 431 ]
-[e :U 427 ]
-[; ;comunicacao.c: 120: }
-[; ;comunicacao.c: 122: return ERR_UNDETECTED;
-"122
-[e ) . `E4586 11 ]
-[e $UE 420  ]
-[; ;comunicacao.c: 123: }
-"123
-[e :UE 420 ]
-}
-"125
-[v _write_zero `(v ~T0 @X0 1 ef1`*S397 ]
-"126
-{
-[; ;comunicacao.c: 125: void write_zero(dados_t *dados)
-[; ;comunicacao.c: 126: {
-[e :U _write_zero ]
-"125
-[v _dados `*S397 ~T0 @X0 1 r1 ]
-"126
-[f ]
-[; ;comunicacao.c: 127: for (uint8_t i = 0; i < 64; i++) {
-"127
+[; ;display.c: 38: for (uint8_t i = 0; i < 16; i++) {
+"38
 {
 [v _i `uc ~T0 @X0 1 a ]
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 64 `i 435  ]
-[e $U 436  ]
-[e :U 435 ]
+[e $ < -> _i `i -> 16 `i 413  ]
+[e $U 414  ]
+[e :U 413 ]
 {
-[; ;comunicacao.c: 128: dados->buff[i] = 0x00;
-"128
-[e = *U + &U . *U _dados 1 * -> _i `ux -> -> # *U &U . *U _dados 1 `ui `ux -> -> 0 `i `uc ]
-"129
+[; ;display.c: 39: lcd->Memory[0][i] = 0x20;
+"39
+[e = *U + &U *U + &U . *U _lcd 1 * -> -> -> 0 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux * -> _i `ux -> -> # *U &U *U + &U . *U _lcd 1 * -> -> -> 0 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux `ui `ux -> -> 32 `i `uc ]
+[; ;display.c: 40: lcd->Memory[1][i] = 0x20;
+"40
+[e = *U + &U *U + &U . *U _lcd 1 * -> -> -> 1 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux * -> _i `ux -> -> # *U &U *U + &U . *U _lcd 1 * -> -> -> 1 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux `ui `ux -> -> 32 `i `uc ]
+"41
 }
-"127
+"38
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 64 `i 435  ]
-[e :U 436 ]
-"129
+[e $ < -> _i `i -> 16 `i 413  ]
+[e :U 414 ]
+"41
 }
-[; ;comunicacao.c: 129: }
-[; ;comunicacao.c: 131: dados->count = 0;
-"131
-[e = . *U _dados 0 -> -> 0 `i `uc ]
-[; ;comunicacao.c: 132: dados->command = 0;
-"132
-[e = . *U _dados 4 -> -> 0 `i `uc ]
-[; ;comunicacao.c: 133: dados->data_flag = 0;
-"133
-[e = . *U _dados 2 -> -> 0 `i `s ]
-[; ;comunicacao.c: 134: dados->addr_from = 0;
-"134
-[e = . *U _dados 3 -> -> 0 `i `uc ]
-[; ;comunicacao.c: 135: }
-"135
-[e :UE 434 ]
+[; ;display.c: 41: }
+[; ;display.c: 42: lcd->NeedsRedraw = 1;
+"42
+[e = . *U _lcd 0 -> -> 1 `i `uc ]
+[; ;display.c: 43: }
+"43
+[e :UE 412 ]
+}
+"45
+[v _lcd_clean_all `(v ~T0 @X0 1 ef1`*S397 ]
+{
+[; ;display.c: 45: void lcd_clean_all(lcd_t *lcd) {
+[e :U _lcd_clean_all ]
+[v _lcd `*S397 ~T0 @X0 1 r1 ]
+[f ]
+[; ;display.c: 46: lcd_clean();
+"46
+[e ( _lcd_clean ..  ]
+[; ;display.c: 47: lcd_mem_clean(lcd);
+"47
+[e ( _lcd_mem_clean (1 _lcd ]
+[; ;display.c: 48: }
+"48
+[e :UE 416 ]
+}
+"51
+[v _lcd_write `(i ~T0 @X0 1 ef4`*S397`uc`uc`*uc ]
+{
+[; ;display.c: 51: int lcd_write(lcd_t *lcd, uint8_t row, uint8_t col, char *string) {
+[e :U _lcd_write ]
+[v _lcd `*S397 ~T0 @X0 1 r1 ]
+[v _row `uc ~T0 @X0 1 r2 ]
+[v _col `uc ~T0 @X0 1 r3 ]
+[v _string `*uc ~T0 @X0 1 r4 ]
+[f ]
+[; ;display.c: 53: if (row == 0 || row > 2 || col == 0 || col > 16) {
+"53
+[e $ ! || || || == -> _row `i -> 0 `i > -> _row `i -> 2 `i == -> _col `i -> 0 `i > -> _col `i -> 16 `i 418  ]
+{
+[; ;display.c: 54: return -1;
+"54
+[e ) -U -> 1 `i ]
+[e $UE 417  ]
+"55
+}
+[e :U 418 ]
+[; ;display.c: 55: }
+[; ;display.c: 57: row--;
+"57
+[e -- _row -> -> 1 `i `uc ]
+[; ;display.c: 58: col--;
+"58
+[e -- _col -> -> 1 `i `uc ]
+[; ;display.c: 60: if (row == 0) {
+"60
+[e $ ! == -> _row `i -> 0 `i 419  ]
+{
+[; ;display.c: 61: while (*string && col <= 0x0F) {
+"61
+[e $U 420  ]
+[e :U 421 ]
+{
+[; ;display.c: 62: lcd->Memory[0][col++] = *string;
+"62
+[e = *U + &U *U + &U . *U _lcd 1 * -> -> -> 0 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux * -> ++ _col -> -> 1 `i `uc `ux -> -> # *U &U *U + &U . *U _lcd 1 * -> -> -> 0 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux `ui `ux *U _string ]
+[; ;display.c: 63: string++;
+"63
+[e ++ _string * -> -> 1 `i `x -> -> # *U _string `i `x ]
+"64
+}
+[e :U 420 ]
+"61
+[e $ && != -> *U _string `i -> -> -> 0 `i `uc `i <= -> _col `i -> 15 `i 421  ]
+[e :U 422 ]
+[; ;display.c: 64: }
+[; ;display.c: 65: col = 0;
+"65
+[e = _col -> -> 0 `i `uc ]
+[; ;display.c: 66: row = 1;
+"66
+[e = _row -> -> 1 `i `uc ]
+"67
+}
+[e :U 419 ]
+[; ;display.c: 67: }
+[; ;display.c: 70: while (*string && col <= 0x0F) {
+"70
+[e $U 423  ]
+[e :U 424 ]
+{
+[; ;display.c: 71: lcd->Memory[1][col++] = *string;
+"71
+[e = *U + &U *U + &U . *U _lcd 1 * -> -> -> 1 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux * -> ++ _col -> -> 1 `i `uc `ux -> -> # *U &U *U + &U . *U _lcd 1 * -> -> -> 1 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux `ui `ux *U _string ]
+[; ;display.c: 72: string++;
+"72
+[e ++ _string * -> -> 1 `i `x -> -> # *U _string `i `x ]
+"73
+}
+[e :U 423 ]
+"70
+[e $ && != -> *U _string `i -> -> -> 0 `i `uc `i <= -> _col `i -> 15 `i 424  ]
+[e :U 425 ]
+[; ;display.c: 73: }
+[; ;display.c: 75: lcd->NeedsRedraw = 1;
+"75
+[e = . *U _lcd 0 -> -> 1 `i `uc ]
+[; ;display.c: 77: return 0;
+"77
+[e ) -> 0 `i ]
+[e $UE 417  ]
+[; ;display.c: 78: }
+"78
+[e :UE 417 ]
+}
+"80
+[v _lcd_runtime `(v ~T0 @X0 1 ef1`*S397 ]
+{
+[; ;display.c: 80: void lcd_runtime(lcd_t *lcd) {
+[e :U _lcd_runtime ]
+[v _lcd `*S397 ~T0 @X0 1 r1 ]
+[f ]
+[; ;display.c: 81: while (BusyXLCD());
+"81
+[e $U 427  ]
+[e :U 428 ]
+[e :U 427 ]
+[e $ != -> ( _BusyXLCD ..  `i -> -> -> 0 `i `uc `i 428  ]
+[e :U 429 ]
+[; ;display.c: 83: if (lcd->NeedsRedraw == 1) {
+"83
+[e $ ! == -> . *U _lcd 0 `i -> 1 `i 430  ]
+{
+[; ;display.c: 84: SetDDRamAddr(0x00);
+"84
+[e ( _SetDDRamAddr (1 -> -> 0 `i `uc ]
+[; ;display.c: 85: for (int i = 0; i < 16; i++) {
+"85
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $ < _i -> 16 `i 431  ]
+[e $U 432  ]
+[e :U 431 ]
+{
+[; ;display.c: 86: while (BusyXLCD());
+"86
+[e $U 434  ]
+[e :U 435 ]
+[e :U 434 ]
+[e $ != -> ( _BusyXLCD ..  `i -> -> -> 0 `i `uc `i 435  ]
+[e :U 436 ]
+[; ;display.c: 87: WriteDataXLCD((char) lcd->Memory[0][i]);
+"87
+[e ( _WriteDataXLCD (1 *U + &U *U + &U . *U _lcd 1 * -> -> -> 0 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux * -> -> _i `ui `ux -> -> # *U &U *U + &U . *U _lcd 1 * -> -> -> 0 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux `ui `ux ]
+"88
+}
+"85
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 16 `i 431  ]
+[e :U 432 ]
+"88
+}
+[; ;display.c: 88: }
+[; ;display.c: 89: SetDDRamAddr(0x40);
+"89
+[e ( _SetDDRamAddr (1 -> -> 64 `i `uc ]
+[; ;display.c: 90: for (int i = 0; i < 16; i++) {
+"90
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $ < _i -> 16 `i 437  ]
+[e $U 438  ]
+[e :U 437 ]
+{
+[; ;display.c: 91: while (BusyXLCD());
+"91
+[e $U 440  ]
+[e :U 441 ]
+[e :U 440 ]
+[e $ != -> ( _BusyXLCD ..  `i -> -> -> 0 `i `uc `i 441  ]
+[e :U 442 ]
+[; ;display.c: 92: WriteDataXLCD((char) lcd->Memory[1][i]);
+"92
+[e ( _WriteDataXLCD (1 *U + &U *U + &U . *U _lcd 1 * -> -> -> 1 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux * -> -> _i `ui `ux -> -> # *U &U *U + &U . *U _lcd 1 * -> -> -> 1 `i `ui `ux -> * -> # *U &U *U &U . *U _lcd 1 `ui -> -> 16 `i `ui `ux `ui `ux ]
+"93
+}
+"90
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 16 `i 437  ]
+[e :U 438 ]
+"93
+}
+[; ;display.c: 93: }
+[; ;display.c: 95: lcd->NeedsRedraw = 0;
+"95
+[e = . *U _lcd 0 -> -> 0 `i `uc ]
+"96
+}
+[e :U 430 ]
+[; ;display.c: 96: }
+[; ;display.c: 97: }
+"97
+[e :UE 426 ]
+}
+"101
+[v _DelayFor18TCY `(v ~T0 @X0 1 ef ]
+{
+[; ;display.c: 101: void DelayFor18TCY(void) {
+[e :U _DelayFor18TCY ]
+[f ]
+[; ;display.c: 102: for (int i = 0; i < 18; i++) {
+"102
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $ < _i -> 18 `i 444  ]
+[e $U 445  ]
+[e :U 444 ]
+{
+[; ;display.c: 103: continue;
+"103
+[e $U 446  ]
+"104
+}
+"102
+[e :U 446 ]
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 18 `i 444  ]
+[e :U 445 ]
+"104
+}
+[; ;display.c: 104: }
+[; ;display.c: 105: }
+"105
+[e :UE 443 ]
+}
+"107
+[v _DelayPORXLCD `(v ~T0 @X0 1 ef ]
+{
+[; ;display.c: 107: void DelayPORXLCD(void) {
+[e :U _DelayPORXLCD ]
+[f ]
+[; ;display.c: 108: delay_ms(60);
+"108
+[e ( _delay_ms (1 -> -> 60 `i `ui ]
+[; ;display.c: 109: }
+"109
+[e :UE 447 ]
+}
+"111
+[v _DelayXLCD `(v ~T0 @X0 1 ef ]
+{
+[; ;display.c: 111: void DelayXLCD(void) {
+[e :U _DelayXLCD ]
+[f ]
+[; ;display.c: 112: delay_ms(20);
+"112
+[e ( _delay_ms (1 -> -> 20 `i `ui ]
+[; ;display.c: 113: }
+"113
+[e :UE 448 ]
 }

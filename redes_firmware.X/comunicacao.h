@@ -3,11 +3,6 @@
 #ifndef COMUNICACAO_H
 #define	COMUNICACAO_H
 
-#include <xc.h> // include processor files - each processor file is guarded.  
-#include <stdint.h> // include standart intenger types
-
-#include "main.h"
-
 #define DATA_LEN 64
 
 #define DE_PIN TRISCbits.RC2
@@ -40,6 +35,7 @@ typedef enum {
     DESLIGA_LED2,
     LE_BOTAO1,
     LE_BOTAO2,
+    LE_MSG,
     ERR_UNDETECTED
 } comunicacao_en;
 
@@ -53,19 +49,12 @@ typedef struct {
     uint8_t command; // qual foi o comando enviado
 } dados_t;
 
-void uart_init(void);
-short uart_check_rx(void);
-uint8_t uart_receive_byte(void);
-void uart_send_byte(uint8_t dbyte);
-
-void send_string_data(char *string, dados_t *dados);
 comunicacao_en check_data(dados_t *data); // analisa o tipo de dado
 uint8_t calc_bcc(uint8_t *data); // calcula o bcc
 void write_zero(dados_t *dados); // write zeros on buffer and count
-// salva a string no campo de buff do data e atualiza o contador
-void mk_msg(dados_t *data, uint8_t count, char *string);
-// coloca a mensagem no protocolo e a envia via serial
-void write_cmd(dados_t *data, uint8_t addr_to);
+void mk_msg(dados_t *data, uint8_t count, char *string); // salva a string no campo de buff do data e atualiza o contador
+void write_cmd(dados_t *data, uint8_t addr_to); // coloca a mensagem no protocolo e a envia via serial
+void rcv_msg(dados_t *data, char *msg); // passa a msg do buffer para o vetor msg
 
 #ifdef	__cplusplus
 extern "C" {

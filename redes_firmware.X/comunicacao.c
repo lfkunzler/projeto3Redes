@@ -4,55 +4,32 @@
  *
  * Created on 26 de Maio de 2018, 15:44
  */
+#include <xc.h> // include processor files - each processor file is guarded.  
+#include <stdint.h> // include standart intenger types
+
 #include "comunicacao.h"
+#include "uart.h"
 
-void uart_init(void)
+void rcv_msg(dados_t *data, char *msg)
 {
-    RCSTA = 0x90; //
-    TXSTA = 0x24; //
-    // baudrate para sync=0, brg16=0, brgh=1
-    // baudrate = Fosc/(16(spbrg+1))
-    // 16*(spbrg+1) = Fosc/baudrate
-    // spbrg + 1 = Fosc/(baudrate*16)
-    // spbrg = Fosc/(baudrate*16) - 1
-    // spbrg = 80000000/(9600*16) - 1 = 51    
-    SPBRG = 51;
-}
+    /*
+     * PARA O CASO DE RECEBER UM TEXTO:
+     * 
+     * pos 0 == stx
+     * pos 1 == end destino
+     * pos 2 == end origem
+     * pos 3 == comando
+     * pos 4 == quantidade n de dados
+     * pos 5 == posicao
+     * pos 5 == primeiro caracter
+     * pos (n-1)+6 == ultimo caracter
+     * pos n+6 == bcc
+     */
 
-short uart_check_rx(void)
-{
-    uint16_t tempo;
-
-    RCSTAbits.OERR = 0;
-    RCSTAbits.CREN = 0;
-    NOP();
-    RCSTAbits.CREN = 1;
-
-    tempo = 0xFFF; //*************** mudar   ***********
-
-    do {
-        --tempo;
-    } while (!RCIF && tempo > 0); // se recebeu algum byte, RCIF == 1
-
-    if (tempo > 0) { // recebeu   dado
-        return(0);
+    // count-1 pois ignora o byte que era de posicao
+    for (uint8_t i = 0; i < data->count - 1; i++) {
+        msg[i] = data->buff[i + 6];
     }
-
-    return(1);
-}
-
-uint8_t uart_receive_byte(void)
-{
-    uint8_t data = RCREG;
-    return data;
-}
-
-void uart_send_byte(uint8_t byte)
-{
-
-    while (TXIF == 0); // verifica se pode enviar
-    TXREG = byte; // passa o dado para o registrador, realizando o envio
-    while (!TRMT); // enquanto estiver mandando (TST full))
 }
 
 void mk_msg(dados_t *data, uint8_t count, char *string)
@@ -79,8 +56,10 @@ void write_cmd(dados_t *data, uint8_t addr_to)
         aux[i + 5] = data->buff[i++]; // passa a mensagem do buffer para o aux
     }
 
-    aux[i + 5] = calc_bcc(data);
+    aux[i + 5] = calc_bcc(data->buff);
 
+    // TODO: LOGICA PARA ACIONAR O PINO DE ENABLE DA 485
+    
     for (uint8_t t = 0; t < i + 6; t++) {
         uart_send_byte(aux[t]);
     }
@@ -118,22 +97,31 @@ comunicacao_en check_data(dados_t *data)
 
 
     if (data->count == 0) { // comandos com nenhum byte de dados
-        if (data->buff[3] == RD_BUT1) {
+        if (data->command == RD_BUT1) {
             return LE_BOTAO1;
         }
-        if (data->buff[3] == RD_BUT2) {
+        if (data->command == RD_BUT2) {
             return LE_BOTAO2;
         }
     } else if (data->count == 1) { // comandos com 1 byte
-        if (data->buff[3] == WR_LED1) { // se for acionar o led1
+        if (data->command == WR_LED1) { // se for acionar o led1
             return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
         }
-        if (data->buff[3] == WR_LED2) { // se for para acionar o led2
+        if (data->command == WR_LED2) { // se for para acionar o led2
             return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
         }
-    } else {
-        return ERR_NAK; // comando nao reconhecido
+    } else { // tamanho de dados indefinido
+        if (data->command == WRT_MSG) {
+            // se estiver fora dos limites de posicionamento
+            if (data->buff[5] < 0x80 && data->buff[5] > 0x9F) {
+                return ERR_NAK;
+            }
+            return LE_MSG;
+        }
+        return ERR_NAK; // comando nao reconhecido        
     }
+    
+    return ERR_UNDETECTED;
 }
 
 void write_zero(dados_t *dados)
