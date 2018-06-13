@@ -5752,7 +5752,7 @@ typedef int16_t intptr_t;
 
 typedef uint16_t uintptr_t;
 
-# 27 "comunicacao.h"
+# 28 "comunicacao.h"
 typedef enum {
 ERR_STX,
 ERR_IGNORE_MSG,
@@ -5827,9 +5827,11 @@ aux[i + 5] = data->buff[i++];
 
 aux[i + 5] = calc_bcc(data->buff);
 
+PORTCbits.RC2 = 0;
 for (uint8_t t = 0; t < i + 6; t++) {
 uart_send_byte(aux[t]);
 }
+PORTCbits.RC2 = 1;
 }
 
 uint8_t calc_bcc(uint8_t *data)

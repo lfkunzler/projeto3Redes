@@ -1,6 +1,6 @@
 /*
  * File:   display.c
- * Author: Luis Felipe Kunzler
+ * Authors: Luis Felipe Kunzler & Ruan Carlos Pinto
  *
  * Created on 18 de Maio de 2018, 01:36
  */
@@ -14,6 +14,8 @@
 // Inicializa o LCD
 
 void lcd_init(lcd_t *lcd) {
+    TRISB = 0;
+    
     OpenXLCD(FOUR_BIT & LINES_5X7); // configura para 4-bit, 5x7, multiplas linhas
     while (BusyXLCD());
     WriteCmdXLCD(0x06); // move o cursor para direita depois de escrever 
@@ -93,6 +95,8 @@ void lcd_runtime(lcd_t *lcd) {
         }
 
         lcd->NeedsRedraw = 0;
+        PORTDbits.RD0 = !PORTDbits.RD0;
+        delay_ms(200);
     }
 }
 

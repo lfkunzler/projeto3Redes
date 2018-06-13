@@ -4211,120 +4211,120 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;uart.c: 15: TXSTA = 0x24;
 "15
 [e = _TXSTA -> -> 36 `i `uc ]
-[; ;uart.c: 22: SPBRG = 51;
-"22
-[e = _SPBRG -> -> 51 `i `uc ]
-[; ;uart.c: 23: }
+[; ;uart.c: 23: SPBRG = 51;
 "23
+[e = _SPBRG -> -> 51 `i `uc ]
+[; ;uart.c: 24: }
+"24
 [e :UE 397 ]
 }
-"25
-[v _uart_check_rx `(s ~T0 @X0 1 ef ]
 "26
+[v _uart_check_rx `(s ~T0 @X0 1 ef ]
+"27
 {
-[; ;uart.c: 25: short uart_check_rx(void)
-[; ;uart.c: 26: {
+[; ;uart.c: 26: short uart_check_rx(void)
+[; ;uart.c: 27: {
 [e :U _uart_check_rx ]
 [f ]
-"27
+"28
 [v _tempo `ui ~T0 @X0 1 a ]
-[; ;uart.c: 27: uint16_t tempo;
-[; ;uart.c: 29: RCSTAbits.OERR = 0;
-"29
-[e = . . _RCSTAbits 0 1 -> -> 0 `i `uc ]
-[; ;uart.c: 30: RCSTAbits.CREN = 0;
+[; ;uart.c: 28: uint16_t tempo;
+[; ;uart.c: 30: RCSTAbits.OERR = 0;
 "30
-[e = . . _RCSTAbits 0 4 -> -> 0 `i `uc ]
-[; ;uart.c: 31: __nop();
+[e = . . _RCSTAbits 0 1 -> -> 0 `i `uc ]
+[; ;uart.c: 31: RCSTAbits.CREN = 0;
 "31
-[e ( ___nop ..  ]
-[; ;uart.c: 32: RCSTAbits.CREN = 1;
+[e = . . _RCSTAbits 0 4 -> -> 0 `i `uc ]
+[; ;uart.c: 32: __nop();
 "32
+[e ( ___nop ..  ]
+[; ;uart.c: 33: RCSTAbits.CREN = 1;
+"33
 [e = . . _RCSTAbits 0 4 -> -> 1 `i `uc ]
-[; ;uart.c: 34: tempo = 0xFFF;
-"34
+[; ;uart.c: 35: tempo = 0xFFF;
+"35
 [e = _tempo -> -> 4095 `i `ui ]
-[; ;uart.c: 36: do {
-"36
+[; ;uart.c: 37: do {
+"37
 [e :U 401 ]
 {
-[; ;uart.c: 37: --tempo;
-"37
-[e =- _tempo -> -> 1 `i `ui ]
+[; ;uart.c: 38: --tempo;
 "38
+[e =- _tempo -> -> 1 `i `ui ]
+"39
 }
-[; ;uart.c: 38: } while (!RCIF && tempo > 0);
+[; ;uart.c: 39: } while (!RCIF && tempo > 0);
 [e $ && ! _RCIF > _tempo -> -> 0 `i `ui 401  ]
 [e :U 400 ]
-[; ;uart.c: 40: if (tempo > 0) {
-"40
+[; ;uart.c: 41: if (tempo > 0) {
+"41
 [e $ ! > _tempo -> -> 0 `i `ui 402  ]
 {
-[; ;uart.c: 41: return(0);
-"41
+[; ;uart.c: 42: return(0);
+"42
 [e ) -> -> 0 `i `s ]
 [e $UE 398  ]
-"42
+"43
 }
 [e :U 402 ]
-[; ;uart.c: 42: }
-[; ;uart.c: 44: return(1);
-"44
+[; ;uart.c: 43: }
+[; ;uart.c: 45: return(1);
+"45
 [e ) -> -> 1 `i `s ]
 [e $UE 398  ]
-[; ;uart.c: 45: }
-"45
+[; ;uart.c: 46: }
+"46
 [e :UE 398 ]
 }
-"47
-[v _uart_receive_byte `(uc ~T0 @X0 1 ef ]
 "48
+[v _uart_receive_byte `(uc ~T0 @X0 1 ef ]
+"49
 {
-[; ;uart.c: 47: uint8_t uart_receive_byte(void)
-[; ;uart.c: 48: {
+[; ;uart.c: 48: uint8_t uart_receive_byte(void)
+[; ;uart.c: 49: {
 [e :U _uart_receive_byte ]
 [f ]
-"49
-[v _data `uc ~T0 @X0 1 a ]
-[; ;uart.c: 49: uint8_t data = RCREG;
-[e = _data _RCREG ]
-[; ;uart.c: 50: return data;
 "50
+[v _data `uc ~T0 @X0 1 a ]
+[; ;uart.c: 50: uint8_t data = RCREG;
+[e = _data _RCREG ]
+[; ;uart.c: 51: return data;
+"51
 [e ) _data ]
 [e $UE 403  ]
-[; ;uart.c: 51: }
-"51
+[; ;uart.c: 52: }
+"52
 [e :UE 403 ]
 }
-"53
+"54
 [v _uart_send_byte `(v ~T0 @X0 1 ef1`uc ]
-"54
-{
-[; ;uart.c: 53: void uart_send_byte(uint8_t byte)
-[; ;uart.c: 54: {
-[e :U _uart_send_byte ]
-"53
-[v _byte `uc ~T0 @X0 1 r1 ]
-"54
-[f ]
-[; ;uart.c: 55: while (TXIF == 0);
 "55
+{
+[; ;uart.c: 54: void uart_send_byte(uint8_t byte)
+[; ;uart.c: 55: {
+[e :U _uart_send_byte ]
+"54
+[v _byte `uc ~T0 @X0 1 r1 ]
+"55
+[f ]
+[; ;uart.c: 56: while (TXIF == 0);
+"56
 [e $U 405  ]
 [e :U 406 ]
 [e :U 405 ]
 [e $ == -> _TXIF `i -> 0 `i 406  ]
 [e :U 407 ]
-[; ;uart.c: 56: TXREG = byte;
-"56
-[e = _TXREG _byte ]
-[; ;uart.c: 57: while (!TRMT);
+[; ;uart.c: 57: TXREG = byte;
 "57
+[e = _TXREG _byte ]
+[; ;uart.c: 58: while (!TRMT);
+"58
 [e $U 408  ]
 [e :U 409 ]
 [e :U 408 ]
 [e $ ! _TRMT 409  ]
 [e :U 410 ]
-[; ;uart.c: 58: }
-"58
+[; ;uart.c: 59: }
+"59
 [e :UE 404 ]
 }

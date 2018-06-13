@@ -5773,6 +5773,8 @@ extern void delay_ms(uint16_t milis);
 
 # 16 "display.c"
 void lcd_init(lcd_t *lcd) {
+TRISB = 0;
+
 OpenXLCD(0b00101100 & 0b00111000);
 while (BusyXLCD());
 WriteCmdXLCD(0x06);
@@ -5852,6 +5854,8 @@ WriteDataXLCD((char) lcd->Memory[1][i]);
 }
 
 lcd->NeedsRedraw = 0;
+PORTDbits.RD0 = !PORTDbits.RD0;
+delay_ms(200);
 }
 }
 

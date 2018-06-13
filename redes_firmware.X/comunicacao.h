@@ -3,9 +3,12 @@
 #ifndef COMUNICACAO_H
 #define	COMUNICACAO_H
 
+#include <stdint.h>
+
 #define DATA_LEN 64
 
-#define DE_PIN TRISCbits.RC2
+#define TX_EN_PIN PORTCbits.RC2
+#define TX_EN_TRIS TRISCbits.RC2
 
 /* PROTOCOLO UCSBUS */
 #define STX 0x02 // inicio do protocolo

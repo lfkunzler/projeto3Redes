@@ -5764,7 +5764,7 @@ void uart_init(void)
 RCSTA = 0x90;
 TXSTA = 0x24;
 
-# 22
+# 23
 SPBRG = 51;
 }
 

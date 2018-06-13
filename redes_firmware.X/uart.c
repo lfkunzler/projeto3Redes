@@ -1,6 +1,6 @@
 /*
  * File:   uart.c
- * Author: Luis Felipe Kunzler
+ * Authors: Luis Felipe Kunzler & Ruan Carlos Pinto
  *
  * Created on 4 de Junho de 2018, 00:37
  */
@@ -18,7 +18,8 @@ void uart_init(void)
     // 16*(spbrg+1) = Fosc/baudrate
     // spbrg + 1 = Fosc/(baudrate*16)
     // spbrg = Fosc/(baudrate*16) - 1
-    // spbrg = 80000000/(9600*16) - 1 = 51    
+    // spbrg = 8000000/(9600*16) - 1 = 51
+    // spbrg = 20000000/(9600*16) - 1 = 129
     SPBRG = 51;
 }
 
@@ -52,7 +53,7 @@ uint8_t uart_receive_byte(void)
 
 void uart_send_byte(uint8_t byte)
 {
-    while (TXIF == 0); // verifica se pode enviar
+    while (TXIF == 0); // verifica se pode enviar (EUSART transmit buff is full)
     TXREG = byte; // passa o dado para o registrador, realizando o envio
-    while (!TRMT); // enquanto estiver mandando (TST full))
+    while (!TRMT); // enquanto estiver mandando (TSR full))
 }

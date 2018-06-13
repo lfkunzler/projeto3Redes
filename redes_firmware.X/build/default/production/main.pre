@@ -5754,12 +5754,12 @@ typedef uint16_t uintptr_t;
 
 
 # 9 "main.h"
-#pragma config PLLDIV = 2
+#pragma config PLLDIV = 1
 #pragma config CPUDIV = OSC1_PLL2
 #pragma config USBDIV = 1
 
 
-#pragma config FOSC = HS
+#pragma config FOSC = INTOSCIO_EC
 #pragma config FCMEN = OFF
 #pragma config IESO = OFF
 
@@ -5777,11 +5777,11 @@ typedef uint16_t uintptr_t;
 #pragma config CCP2MX = OFF
 #pragma config PBADEN = OFF
 #pragma config LPT1OSC = OFF
-#pragma config MCLRE = ON
+#pragma config MCLRE = OFF
 
 
 #pragma config STVREN = OFF
-#pragma config LVP = ON
+#pragma config LVP = OFF
 #pragma config ICPRT = OFF
 #pragma config XINST = OFF
 
@@ -5818,7 +5818,7 @@ typedef uint16_t uintptr_t;
 # 80
 void delay_ms(uint16_t milis);
 
-# 27 "comunicacao.h"
+# 28 "comunicacao.h"
 typedef enum {
 ERR_STX,
 ERR_IGNORE_MSG,
@@ -5881,6 +5881,7 @@ void main(void)
 {
 
 ADCON1 = 0x0F;
+OSCCON = 0b01110010;
 
 TRISDbits.RD0 = 0;
 TRISDbits.RD1 = 0;
@@ -5890,8 +5891,10 @@ TRISDbits.RD3 = 1;
 
 
 uart_init();
+TRISCbits.RC2 = 0;
+PORTCbits.RC2 = 1;
 
-# 35
+# 38
 dados_t dados;
 lcd_t lcd;
 
@@ -5901,7 +5904,6 @@ lcd_init(&lcd);
 
 char msg[33] = {0};
 uint8_t pos = 0;
-
 
 
 
@@ -6002,6 +6004,7 @@ msg[i] = 0;
 rcv_msg(&dados, msg);
 
 
+lcd_clean_all(&lcd);
 lcd_write(&lcd, linha, coluna, msg);
 
 
@@ -6029,6 +6032,6 @@ return;
 void delay_ms(uint16_t milis)
 {
 for (uint16_t t = 0; t < milis; t++) {
-_delay((unsigned long)((1)*(8000000UL/4000.0)));
+_delay((unsigned long)((1)*(8000000/4000.0)));
 }
 }

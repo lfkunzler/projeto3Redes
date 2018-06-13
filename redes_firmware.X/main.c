@@ -1,6 +1,6 @@
 /*
  * File:   main.c
- * Author: Luis Felipe Kunzler
+ * Authors: Luis Felipe Kunzler & Ruan Carlos Pinto
  *
  * Created on 26 de Maio de 2018, 14:47
  */
@@ -17,16 +17,19 @@ void main(void)
 {
     /* init reg */
     ADCON1 = 0x0F; // all pins [an12:an0] digital
+    OSCCON = 0b01110010; // internal clock at 8MHz
 
     TRISDbits.RD0 = 0; // saida
     TRISDbits.RD1 = 0;
     TRISDbits.RD2 = 1; // entrada
-    TRISDbits.RD3 = 1;
+    TRISDbits.RD3 = 1;    
     /* end init reg*/
 
-    /* init UART */
+    /* init comunication */
     uart_init();
-    /* end init UART */
+    TX_EN_TRIS = 0; // saida
+    TX_EN_PIN = 1; // high, habilita recepcao
+    /* end init comunication */
 
     /* variables declaration */
     //uint8_t buf[DATA_LEN]; // buffer to data storage
@@ -36,13 +39,12 @@ void main(void)
     lcd_t lcd;
 
     /* init LCD */
-   lcd_init(&lcd);
+    lcd_init(&lcd);
     /* end init LCD*/
 
     char msg[33] = {0}; // 33 bytes, capacidade do display + \0 no final
     uint8_t pos = 0;
     /* end variables declaration */
-
 
     /* init variables*/
     LED1 = 1;
@@ -126,30 +128,37 @@ void main(void)
                 write_cmd(&dados, dados.addr_from);
 
                 break;
+            case BLINK_LED1:
+                // TODO: implementar o metodo que reconhece leituras
+                
+                break;
+            case BLINK_LED2:
+                
+                break;
             case LE_MSG:
                 pos = (dados.buff[5]) - 0x80; // pega a posicao e referencia no 0
-                
+
                 // converte para posicao no display
-                uint8_t linha = pos < 16 ? 1 : 2; 
-                uint8_t coluna = (pos % 16) + 1; 
-                
+                uint8_t linha = pos < 16 ? 1 : 2;
+                uint8_t coluna = (pos % 16) + 1;
+
                 // limpa o vetor de mensagem
                 for (uint8_t i = 0; i < 33; i++) {
                     msg[i] = 0;
                 }
-                
+
                 // passa a mensagem do buffer para o vetor de msg
                 rcv_msg(&dados, msg);
-                
+
                 // escreve no buffer do display
                 lcd_clean_all(&lcd);
-                lcd_write(&lcd, linha, coluna, msg); 
-                                
+                lcd_write(&lcd, linha, coluna, msg);
+
                 // comunica que a mensagem foi recebida
                 msg[0] = CMD_ACK;
                 mk_msg(&dados, 1, msg);
                 write_cmd(&dados, dados.addr_from);
-                
+
                 break;
             default:
 
@@ -159,7 +168,7 @@ void main(void)
             write_zero(&dados);
             /* end sent byte */
         }
-        
+
         lcd_runtime(&lcd);
     }
     /* end infinity loop */

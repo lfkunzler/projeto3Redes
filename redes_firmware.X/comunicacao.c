@@ -1,6 +1,6 @@
 /*
  * File:   comunicacao.c
- * Author: Luis Felipe Kunzler
+ * Authors: Luis Felipe Kunzler & Ruan Carlos Pinto
  *
  * Created on 26 de Maio de 2018, 15:44
  */
@@ -58,11 +58,11 @@ void write_cmd(dados_t *data, uint8_t addr_to)
 
     aux[i + 5] = calc_bcc(data->buff);
 
-    // TODO: LOGICA PARA ACIONAR O PINO DE ENABLE DA 485
-    
+    TX_EN_PIN = 0; // send data  
     for (uint8_t t = 0; t < i + 6; t++) {
         uart_send_byte(aux[t]);
     }
+    TX_EN_PIN = 1; // receive data
 }
 
 uint8_t calc_bcc(uint8_t *data)
