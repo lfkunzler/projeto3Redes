@@ -22,7 +22,7 @@ void main(void)
     TRISDbits.RD0 = 0; // saida
     TRISDbits.RD1 = 0;
     TRISDbits.RD2 = 1; // entrada
-    TRISDbits.RD3 = 1;    
+    TRISDbits.RD3 = 1;
     /* end init reg*/
 
     /* init comunication */
@@ -31,12 +31,11 @@ void main(void)
     TX_EN_PIN = 1; // high, habilita recepcao
     /* end init comunication */
 
-    /* variables declaration */
-    //uint8_t buf[DATA_LEN]; // buffer to data storage
-    //uint8_t count; // counter of how many data was stored
-    //short __data_flag; // if received all data
-    dados_t dados;
-    lcd_t lcd;
+    /* variables declaration */    
+    dados_t dados; // dados utilizados na comunicacao
+    uint8_t piscadas; // quantas piscadas da no led ao receber o comando
+    uint16_t tempo_ms; // recebe o tempo em segundos e converte para mili
+    lcd_t lcd; // variavel de lcd
 
     /* init LCD */
     lcd_init(&lcd);
@@ -128,11 +127,45 @@ void main(void)
                 write_cmd(&dados, dados.addr_from);
 
                 break;
-            case BLINK_LED1:
-                // TODO: implementar o metodo que reconhece leituras
+            case PISCA_LED1:
+                // TODO: poderia ser feito de uma forma melhor, sem ler o buff
+                // recebe o numero de piscadas
+                
+                piscadas = dados.buff[5];
+                // converte pra mili e divide por 2 (tempo maximo = 131 segundos)                
+                tempo_ms = dados.buff[6]*500; 
+
+                // responde que entendeu o comando e vai executar a acao
+                msg[0] = CMD_ACK;
+                mk_msg(&dados, 1, msg);
+                write_cmd(&dados, dados.addr_from);
+                
+                for (uint8_t i = 0; i < piscadas; i++) {
+                    LED1 = !LED1;
+                    delay_ms(tempo_ms);
+                    LED1 = !LED1;
+                    delay_ms(tempo_ms);
+                }
                 
                 break;
-            case BLINK_LED2:
+            case PISCA_LED2:
+                // TODO: poderia ser feito de uma forma melhor, sem ler o buff
+                // recebe o numero de piscadas                
+                piscadas = dados.buff[5];
+                // converte pra mili e divide por 2 (tempo maximo = 131 segundos)
+                tempo_ms = dados.buff[6]*500; 
+
+                // responde que entendeu o comando e vai executar a acao
+                msg[0] = CMD_ACK;
+                mk_msg(&dados, 1, msg);
+                write_cmd(&dados, dados.addr_from);
+                
+                for (uint8_t i = 0; i < piscadas; i++) {
+                    LED2 = !LED2;
+                    delay_ms(tempo_ms);
+                    LED2 = !LED2;
+                    delay_ms(tempo_ms);
+                }                
                 
                 break;
             case LE_MSG:

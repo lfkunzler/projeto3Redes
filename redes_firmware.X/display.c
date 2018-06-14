@@ -95,8 +95,6 @@ void lcd_runtime(lcd_t *lcd) {
         }
 
         lcd->NeedsRedraw = 0;
-        PORTDbits.RD0 = !PORTDbits.RD0;
-        delay_ms(200);
     }
 }
 

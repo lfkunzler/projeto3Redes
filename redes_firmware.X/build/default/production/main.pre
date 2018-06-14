@@ -5818,7 +5818,7 @@ typedef uint16_t uintptr_t;
 # 80
 void delay_ms(uint16_t milis);
 
-# 28 "comunicacao.h"
+# 30 "comunicacao.h"
 typedef enum {
 ERR_STX,
 ERR_IGNORE_MSG,
@@ -5831,6 +5831,8 @@ DESLIGA_LED2,
 LE_BOTAO1,
 LE_BOTAO2,
 LE_MSG,
+PISCA_LED1,
+PISCA_LED2,
 ERR_UNDETECTED
 } comunicacao_en;
 
@@ -5894,8 +5896,11 @@ uart_init();
 TRISCbits.RC2 = 0;
 PORTCbits.RC2 = 1;
 
-# 38
+
+
 dados_t dados;
+uint8_t piscadas;
+uint16_t tempo_ms;
 lcd_t lcd;
 
 
@@ -5986,6 +5991,47 @@ msg[0] = 0x06;
 msg[1] = (char) PORTDbits.RD3;
 mk_msg(&dados, 2, msg);
 write_cmd(&dados, dados.addr_from);
+
+break;
+case PISCA_LED1:
+
+
+
+piscadas = dados.buff[5];
+
+tempo_ms = dados.buff[6]*500;
+
+
+msg[0] = 0x06;
+mk_msg(&dados, 1, msg);
+write_cmd(&dados, dados.addr_from);
+
+for (uint8_t i = 0; i < piscadas; i++) {
+PORTDbits.RD0 = !PORTDbits.RD0;
+delay_ms(tempo_ms);
+PORTDbits.RD0 = !PORTDbits.RD0;
+delay_ms(tempo_ms);
+}
+
+break;
+case PISCA_LED2:
+
+
+piscadas = dados.buff[5];
+
+tempo_ms = dados.buff[6]*500;
+
+
+msg[0] = 0x06;
+mk_msg(&dados, 1, msg);
+write_cmd(&dados, dados.addr_from);
+
+for (uint8_t i = 0; i < piscadas; i++) {
+PORTDbits.RD1 = !PORTDbits.RD1;
+delay_ms(tempo_ms);
+PORTDbits.RD1 = !PORTDbits.RD1;
+delay_ms(tempo_ms);
+}
 
 break;
 case LE_MSG:

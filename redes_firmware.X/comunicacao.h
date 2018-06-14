@@ -20,7 +20,7 @@
 #define WR_LED1 0x21 // configura o led1, 1 para ligar e 0 para desligar
 #define WR_LED2 0x22 // configura o led2, 1 para ligar
 #define BLINK_LED1 0x41 // pisca led1, 2 bytes dados: [qtde:tempo]
-#define BLINK_LED2 0x42 // pisca o led2
+#define BLINK_LED2 0x42 // pisca o led2, 2 bytes dados: [qtde:tempo]
 #define WRT_MSG 0x70 // escreve msg no display, 1o byte eh o endereco, 1o addr = 0x80
 #define CMD_ACK 0x06 // byte de resposta para comando compreendido
 #define CMD_NAK 0x15 // byte de resposta para comando nao compreendido
@@ -39,6 +39,8 @@ typedef enum {
     LE_BOTAO1,
     LE_BOTAO2,
     LE_MSG,
+    PISCA_LED1,
+    PISCA_LED2,
     ERR_UNDETECTED
 } comunicacao_en;
 

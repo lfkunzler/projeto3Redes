@@ -3,7 +3,7 @@
 [d edition pro ]
 [d chip 18F4550 ]
 [d frameptr 4065 ]
-"69 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\main.c
+"68 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\main.c
 [e E4588 . `uc
 ERR_STX 0
 ERR_IGNORE_MSG 1
@@ -16,7 +16,9 @@ DESLIGA_LED2 7
 LE_BOTAO1 8
 LE_BOTAO2 9
 LE_MSG 10
-ERR_UNDETECTED 11
+PISCA_LED1 11
+PISCA_LED2 12
+ERR_UNDETECTED 13
 ]
 "81 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\comunicacao.c
 [e E4586 . `uc
@@ -31,7 +33,9 @@ DESLIGA_LED2 7
 LE_BOTAO1 8
 LE_BOTAO2 9
 LE_MSG 10
-ERR_UNDETECTED 11
+PISCA_LED1 11
+PISCA_LED2 12
+ERR_UNDETECTED 13
 ]
 "62 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\float.c
 [v ___ftpack __ftpack `(f  1 e 3 0 ]
@@ -51,6 +55,8 @@ ERR_UNDETECTED 11
 [v ___fldiv __fldiv `(d  1 e 3 0 ]
 "8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\sprcmul.c
 [v ___flmul __flmul `(d  1 e 3 0 ]
+"15 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\Umul16.c
+[v ___wmul __wmul `(ui  1 e 2 0 ]
 "15 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\Umul32.c
 [v ___lmul __lmul `(ul  1 e 4 0 ]
 "8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\pic18\d10ktcyx.c
@@ -75,7 +81,7 @@ ERR_UNDETECTED 11
 [v _calc_bcc calc_bcc `(uc  1 e 1 0 ]
 "80
 [v _check_data check_data `(E4588  1 e 1 0 ]
-"127
+"138
 [v _write_zero write_zero `(v  1 e 1 0 ]
 "16 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\display.c
 [v _lcd_init lcd_init `(v  1 e 1 0 ]
@@ -89,13 +95,13 @@ ERR_UNDETECTED 11
 [v _lcd_write lcd_write `(i  1 e 2 0 ]
 "82
 [v _lcd_runtime lcd_runtime `(v  1 e 1 0 ]
-"105
+"103
 [v _DelayFor18TCY DelayFor18TCY `(v  1 e 1 0 ]
-"111
+"109
 [v _DelayPORXLCD DelayPORXLCD `(v  1 e 1 0 ]
 "16 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\main.c
 [v _main main `(v  1 e 1 0 ]
-"172
+"212
 [v _delay_ms delay_ms `(v  1 e 1 0 ]
 "12 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\uart.c
 [v _uart_init uart_init `(v  1 e 1 0 ]
@@ -162,7 +168,7 @@ ERR_UNDETECTED 11
 ]
 [u S202 . 1 `S32 1 . 1 0 `S190 1 . 1 0 `S199 1 . 1 0 ]
 [v _PORTDbits PORTDbits `VES202  1 e 1 @3971 ]
-[s S645 . 1 `uc 1 LATB0 1 0 :1:0 
+[s S631 . 1 `uc 1 LATB0 1 0 :1:0 
 `uc 1 LATB1 1 0 :1:1 
 `uc 1 LATB2 1 0 :1:2 
 `uc 1 LATB3 1 0 :1:3 
@@ -172,31 +178,31 @@ ERR_UNDETECTED 11
 `uc 1 LATB7 1 0 :1:7 
 ]
 "3543
-[s S654 . 1 `uc 1 LB0 1 0 :1:0 
+[s S640 . 1 `uc 1 LB0 1 0 :1:0 
 ]
-[s S656 . 1 `uc 1 . 1 0 :1:0 
+[s S642 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 LB1 1 0 :1:1 
 ]
-[s S659 . 1 `uc 1 . 1 0 :2:0 
+[s S645 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 LB2 1 0 :1:2 
 ]
-[s S662 . 1 `uc 1 . 1 0 :3:0 
+[s S648 . 1 `uc 1 . 1 0 :3:0 
 `uc 1 LB3 1 0 :1:3 
 ]
-[s S665 . 1 `uc 1 . 1 0 :4:0 
+[s S651 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 LB4 1 0 :1:4 
 ]
-[s S668 . 1 `uc 1 . 1 0 :5:0 
+[s S654 . 1 `uc 1 . 1 0 :5:0 
 `uc 1 LB5 1 0 :1:5 
 ]
-[s S671 . 1 `uc 1 . 1 0 :6:0 
+[s S657 . 1 `uc 1 . 1 0 :6:0 
 `uc 1 LB6 1 0 :1:6 
 ]
-[s S674 . 1 `uc 1 . 1 0 :7:0 
+[s S660 . 1 `uc 1 . 1 0 :7:0 
 `uc 1 LB7 1 0 :1:7 
 ]
-[u S677 . 1 `S645 1 . 1 0 `S654 1 . 1 0 `S656 1 . 1 0 `S659 1 . 1 0 `S662 1 . 1 0 `S665 1 . 1 0 `S668 1 . 1 0 `S671 1 . 1 0 `S674 1 . 1 0 ]
-[v _LATBbits LATBbits `VES677  1 e 1 @3978 ]
+[u S663 . 1 `S631 1 . 1 0 `S640 1 . 1 0 `S642 1 . 1 0 `S645 1 . 1 0 `S648 1 . 1 0 `S651 1 . 1 0 `S654 1 . 1 0 `S657 1 . 1 0 `S660 1 . 1 0 ]
+[v _LATBbits LATBbits `VES663  1 e 1 @3978 ]
 "3623
 [v _TRISB TRISB `VEuc  1 e 1 @3987 ]
 [s S67 . 1 `uc 1 TRISC0 1 0 :1:0 
@@ -228,7 +234,7 @@ ERR_UNDETECTED 11
 "4031
 [u S41 . 1 `S23 1 . 1 0 `S32 1 . 1 0 ]
 [v _TRISDbits TRISDbits `VES41  1 e 1 @3989 ]
-[s S734 . 1 `uc 1 TRISB0 1 0 :1:0 
+[s S720 . 1 `uc 1 TRISB0 1 0 :1:0 
 `uc 1 TRISB1 1 0 :1:1 
 `uc 1 TRISB2 1 0 :1:2 
 `uc 1 TRISB3 1 0 :1:3 
@@ -238,7 +244,7 @@ ERR_UNDETECTED 11
 `uc 1 TRISB7 1 0 :1:7 
 ]
 "4205
-[s S743 . 1 `uc 1 RB0 1 0 :1:0 
+[s S729 . 1 `uc 1 RB0 1 0 :1:0 
 `uc 1 RB1 1 0 :1:1 
 `uc 1 RB2 1 0 :1:2 
 `uc 1 RB3 1 0 :1:3 
@@ -247,11 +253,11 @@ ERR_UNDETECTED 11
 `uc 1 RB6 1 0 :1:6 
 `uc 1 RB7 1 0 :1:7 
 ]
-[u S752 . 1 `S734 1 . 1 0 `S743 1 . 1 0 ]
-[v _TRISBbits TRISBbits `VES752  1 e 1 @3987 ]
+[u S738 . 1 `S720 1 . 1 0 `S729 1 . 1 0 ]
+[v _TRISBbits TRISBbits `VES738  1 e 1 @3987 ]
 "4934
 [v _RCSTA RCSTA `VEuc  1 e 1 @4011 ]
-[s S474 . 1 `uc 1 RX9D 1 0 :1:0 
+[s S487 . 1 `uc 1 RX9D 1 0 :1:0 
 `uc 1 OERR 1 0 :1:1 
 `uc 1 FERR 1 0 :1:2 
 `uc 1 ADDEN 1 0 :1:3 
@@ -261,22 +267,22 @@ ERR_UNDETECTED 11
 `uc 1 SPEN 1 0 :1:7 
 ]
 "4975
-[s S483 . 1 `uc 1 . 1 0 :3:0 
+[s S496 . 1 `uc 1 . 1 0 :3:0 
 `uc 1 ADEN 1 0 :1:3 
 ]
-[s S486 . 1 `uc 1 . 1 0 :5:0 
+[s S499 . 1 `uc 1 . 1 0 :5:0 
 `uc 1 SRENA 1 0 :1:5 
 ]
-[s S489 . 1 `uc 1 . 1 0 :6:0 
+[s S502 . 1 `uc 1 . 1 0 :6:0 
 `uc 1 RC8_9 1 0 :1:6 
 ]
-[s S492 . 1 `uc 1 . 1 0 :6:0 
+[s S505 . 1 `uc 1 . 1 0 :6:0 
 `uc 1 RC9 1 0 :1:6 
 ]
-[s S495 . 1 `uc 1 RCD8 1 0 :1:0 
+[s S508 . 1 `uc 1 RCD8 1 0 :1:0 
 ]
-[u S497 . 1 `S474 1 . 1 0 `S483 1 . 1 0 `S486 1 . 1 0 `S489 1 . 1 0 `S492 1 . 1 0 `S495 1 . 1 0 ]
-[v _RCSTAbits RCSTAbits `VES497  1 e 1 @4011 ]
+[u S510 . 1 `S487 1 . 1 0 `S496 1 . 1 0 `S499 1 . 1 0 `S502 1 . 1 0 `S505 1 . 1 0 `S508 1 . 1 0 ]
+[v _RCSTAbits RCSTAbits `VES510  1 e 1 @4011 ]
 "5144
 [v _TXSTA TXSTA `VEuc  1 e 1 @4012 ]
 "5400
@@ -298,35 +304,43 @@ ERR_UNDETECTED 11
 "16 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\main.c
 [v _main main `(v  1 e 1 0 ]
 {
-"139
-[v main@i i `uc  1 a 1 38 ]
-"136
+"179
+[v main@i_360 i `uc  1 a 1 41 ]
+"163
+[v main@i_356 i `uc  1 a 1 38 ]
+"143
+[v main@i i `uc  1 a 1 37 ]
+"176
 [v main@coluna coluna `uc  1 a 1 36 ]
-"135
+"175
 [v main@linha linha `uc  1 a 1 35 ]
 [s S166 . 69 `uc 1 count 1 0 `[64]uc 1 buff 64 1 `s 1 data_flag 2 65 `uc 1 addr_from 1 67 `uc 1 command 1 68 ]
-"38
-[v main@dados dados `S166  1 a 69 72 ]
-"45
+"35
+[v main@dados dados `S166  1 a 69 77 ]
+"44
 [v main@msg msg `[33]uc  1 a 33 0 ]
 [s S173 . 33 `uc 1 NeedsRedraw 1 0 `[2][16]uc 1 Memory 32 1 ]
-"39
-[v main@lcd lcd `S173  1 a 33 39 ]
-"46
-[v main@pos pos `uc  1 a 1 37 ]
-"42
-[v main@F4662 F4662 `[33]uc  1 s 33 F4662 ]
-"170
+"38
+[v main@lcd lcd `S173  1 a 33 44 ]
+"37
+[v main@tempo_ms tempo_ms `ui  1 a 2 42 ]
+"45
+[v main@pos pos `uc  1 a 1 40 ]
+"36
+[v main@piscadas piscadas `uc  1 a 1 39 ]
+"41
+[v main@F4666 F4666 `[33]uc  1 s 33 F4666 ]
+"210
 } 0
-"127 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\comunicacao.c
+"138 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\comunicacao.c
 [v _write_zero write_zero `(v  1 e 1 0 ]
 {
-"129
+"140
 [v write_zero@i i `uc  1 a 1 2 ]
 [s S166 . 69 `uc 1 count 1 0 `[64]uc 1 buff 64 1 `s 1 data_flag 2 65 `uc 1 addr_from 1 67 `uc 1 command 1 68 ]
-"127
+"138
 [v write_zero@dados dados `*.39S166  1 p 2 0 ]
-"137
+"148
 } 0
 "44
 [v _write_cmd write_cmd `(v  1 e 1 0 ]
@@ -342,7 +356,7 @@ ERR_UNDETECTED 11
 [v write_cmd@data data `*.39S166  1 p 2 4 ]
 [v write_cmd@addr_to addr_to `uc  1 p 1 6 ]
 "45
-[v write_cmd@F4641 F4641 `[64]uc  1 s 64 F4641 ]
+[v write_cmd@F4643 F4643 `[64]uc  1 s 64 F4643 ]
 "66
 } 0
 "54 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\uart.c
@@ -402,13 +416,13 @@ ERR_UNDETECTED 11
 [v _lcd_runtime lcd_runtime `(v  1 e 1 0 ]
 {
 "92
-[v lcd_runtime@i_640 i `i  1 a 2 12 ]
+[v lcd_runtime@i_626 i `i  1 a 2 12 ]
 "87
 [v lcd_runtime@i i `i  1 a 2 10 ]
 [s S173 . 33 `uc 1 NeedsRedraw 1 0 `[2][16]uc 1 Memory 32 1 ]
 "82
 [v lcd_runtime@lcd lcd `*.39S173  1 p 2 6 ]
-"101
+"99
 } 0
 "16 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\pic18\plib\XLCD\writdata.c
 [v _WriteDataXLCD WriteDataXLCD `(v  1 e 1 0 ]
@@ -444,10 +458,10 @@ ERR_UNDETECTED 11
 [v SetDDRamAddr@DDaddr DDaddr `uc  1 a 1 5 ]
 "60
 } 0
-"111 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\display.c
+"109 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\display.c
 [v _DelayPORXLCD DelayPORXLCD `(v  1 e 1 0 ]
 {
-"113
+"111
 } 0
 "8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\pic18\d10ktcyx.c
 [v _Delay10KTCYx Delay10KTCYx `(v  1 e 1 0 ]
@@ -479,14 +493,14 @@ ERR_UNDETECTED 11
 {
 "36
 } 0
-"172 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\main.c
+"212 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\main.c
 [v _delay_ms delay_ms `(v  1 e 1 0 ]
 {
-"174
+"214
 [v delay_ms@t t `ui  1 a 2 3 ]
-"172
+"212
 [v delay_ms@milis milis `ui  1 p 2 0 ]
-"177
+"217
 } 0
 "13 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\pic18\plib\XLCD\wcmdxlcd.c
 [v _WriteCmdXLCD WriteCmdXLCD `(v  1 e 1 0 ]
@@ -502,19 +516,19 @@ ERR_UNDETECTED 11
 {
 "57
 } 0
-"105 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\display.c
+"103 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\display.c
 [v _DelayFor18TCY DelayFor18TCY `(v  1 e 1 0 ]
 {
-"106
+"104
 [v DelayFor18TCY@i i `i  1 a 2 0 ]
-"109
+"107
 } 0
 "80 C:\Users\Luis Felipe Kunzler\Documents\UCS\2018-2\Redes\projeto3Redes\redes_firmware.X\comunicacao.c
 [v _check_data check_data `(E4588  1 e 1 0 ]
 {
 [s S166 . 69 `uc 1 count 1 0 `[64]uc 1 buff 64 1 `s 1 data_flag 2 65 `uc 1 addr_from 1 67 `uc 1 command 1 68 ]
 [v check_data@data data `*.39S166  1 p 2 4 ]
-"125
+"136
 } 0
 "68
 [v _calc_bcc calc_bcc `(uc  1 e 1 0 ]
@@ -526,4 +540,14 @@ ERR_UNDETECTED 11
 "68
 [v calc_bcc@data data `*.39uc  1 p 2 0 ]
 "78
+} 0
+"15 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\Umul16.c
+[v ___wmul __wmul `(ui  1 e 2 0 ]
+{
+"17
+[v ___wmul@product product `ui  1 a 2 4 ]
+"15
+[v ___wmul@multiplier multiplier `ui  1 p 2 0 ]
+[v ___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
+"53
 } 0

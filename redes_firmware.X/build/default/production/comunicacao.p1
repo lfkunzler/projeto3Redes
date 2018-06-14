@@ -1,8 +1,8 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"45 comunicacao.h
+"49 comunicacao.h
 [s S397 `uc 1 `uc -> 64 `i `s 1 `uc 1 `uc 1 ]
 [n S397 . count buff data_flag addr_from command ]
-"54
+"58
 [v _calc_bcc `(uc ~T0 @X0 0 ef1`*uc ]
 "2567 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4550.h
 [s S106 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
@@ -27,8 +27,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 "16 uart.h
 [v _uart_send_byte `(v ~T0 @X0 0 ef1`uc ]
 "81 comunicacao.c
-[c E4586 0 1 2 3 4 5 6 7 8 9 10 11 .. ]
-[n E4586 . ERR_STX ERR_IGNORE_MSG ERR_BCC ERR_NAK LIGA_LED1 LIGA_LED2 DESLIGA_LED1 DESLIGA_LED2 LE_BOTAO1 LE_BOTAO2 LE_MSG ERR_UNDETECTED  ]
+[c E4586 0 1 2 3 4 5 6 7 8 9 10 11 12 13 .. ]
+[n E4586 . ERR_STX ERR_IGNORE_MSG ERR_BCC ERR_NAK LIGA_LED1 LIGA_LED2 DESLIGA_LED1 DESLIGA_LED2 LE_BOTAO1 LE_BOTAO2 LE_MSG PISCA_LED1 PISCA_LED2 ERR_UNDETECTED  ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -4181,33 +4181,35 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdint.h: 205: typedef uint32_t uintmax_t;
 [; ;stdint.h: 210: typedef int16_t intptr_t;
 [; ;stdint.h: 215: typedef uint16_t uintptr_t;
-[; ;comunicacao.h: 28: typedef enum {
-[; ;comunicacao.h: 29: ERR_STX,
-[; ;comunicacao.h: 30: ERR_IGNORE_MSG,
-[; ;comunicacao.h: 31: ERR_BCC,
-[; ;comunicacao.h: 32: ERR_NAK,
-[; ;comunicacao.h: 33: LIGA_LED1,
-[; ;comunicacao.h: 34: LIGA_LED2,
-[; ;comunicacao.h: 35: DESLIGA_LED1,
-[; ;comunicacao.h: 36: DESLIGA_LED2,
-[; ;comunicacao.h: 37: LE_BOTAO1,
-[; ;comunicacao.h: 38: LE_BOTAO2,
-[; ;comunicacao.h: 39: LE_MSG,
-[; ;comunicacao.h: 40: ERR_UNDETECTED
-[; ;comunicacao.h: 41: } comunicacao_en;
-[; ;comunicacao.h: 45: typedef struct {
-[; ;comunicacao.h: 46: uint8_t count;
-[; ;comunicacao.h: 47: uint8_t buff[64];
-[; ;comunicacao.h: 48: short data_flag;
-[; ;comunicacao.h: 49: uint8_t addr_from;
-[; ;comunicacao.h: 50: uint8_t command;
-[; ;comunicacao.h: 51: } dados_t;
-[; ;comunicacao.h: 53: comunicacao_en check_data(dados_t *data);
-[; ;comunicacao.h: 54: uint8_t calc_bcc(uint8_t *data);
-[; ;comunicacao.h: 55: void write_zero(dados_t *dados);
-[; ;comunicacao.h: 56: void mk_msg(dados_t *data, uint8_t count, char *string);
-[; ;comunicacao.h: 57: void write_cmd(dados_t *data, uint8_t addr_to);
-[; ;comunicacao.h: 58: void rcv_msg(dados_t *data, char *msg);
+[; ;comunicacao.h: 30: typedef enum {
+[; ;comunicacao.h: 31: ERR_STX,
+[; ;comunicacao.h: 32: ERR_IGNORE_MSG,
+[; ;comunicacao.h: 33: ERR_BCC,
+[; ;comunicacao.h: 34: ERR_NAK,
+[; ;comunicacao.h: 35: LIGA_LED1,
+[; ;comunicacao.h: 36: LIGA_LED2,
+[; ;comunicacao.h: 37: DESLIGA_LED1,
+[; ;comunicacao.h: 38: DESLIGA_LED2,
+[; ;comunicacao.h: 39: LE_BOTAO1,
+[; ;comunicacao.h: 40: LE_BOTAO2,
+[; ;comunicacao.h: 41: LE_MSG,
+[; ;comunicacao.h: 42: PISCA_LED1,
+[; ;comunicacao.h: 43: PISCA_LED2,
+[; ;comunicacao.h: 44: ERR_UNDETECTED
+[; ;comunicacao.h: 45: } comunicacao_en;
+[; ;comunicacao.h: 49: typedef struct {
+[; ;comunicacao.h: 50: uint8_t count;
+[; ;comunicacao.h: 51: uint8_t buff[64];
+[; ;comunicacao.h: 52: short data_flag;
+[; ;comunicacao.h: 53: uint8_t addr_from;
+[; ;comunicacao.h: 54: uint8_t command;
+[; ;comunicacao.h: 55: } dados_t;
+[; ;comunicacao.h: 57: comunicacao_en check_data(dados_t *data);
+[; ;comunicacao.h: 58: uint8_t calc_bcc(uint8_t *data);
+[; ;comunicacao.h: 59: void write_zero(dados_t *dados);
+[; ;comunicacao.h: 60: void mk_msg(dados_t *data, uint8_t count, char *string);
+[; ;comunicacao.h: 61: void write_cmd(dados_t *data, uint8_t addr_to);
+[; ;comunicacao.h: 62: void rcv_msg(dados_t *data, char *msg);
 [; ;uart.h: 13: void uart_init(void);
 [; ;uart.h: 14: short uart_check_rx(void);
 [; ;uart.h: 15: uint8_t uart_receive_byte(void);
@@ -4302,8 +4304,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _addr_to `uc ~T0 @X0 1 r2 ]
 "45
 [f ]
-[v F4641 `uc ~T0 @X0 -> 64 `i s ]
-[i F4641
+[v F4643 `uc ~T0 @X0 -> 64 `i s ]
+[i F4643
 :U ..
 "46
 -> -> 0 `i `uc
@@ -4311,7 +4313,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ]
 [v _aux `uc ~T0 @X0 -> 64 `i a ]
 [; ;comunicacao.c: 46: uint8_t aux[64] = {0};
-[e = _aux F4641 ]
+[e = _aux F4643 ]
 [; ;comunicacao.c: 48: aux[0] = 0x02;
 "48
 [e = *U + &U _aux * -> -> -> 0 `i `ui `ux -> -> # *U &U _aux `ui `ux -> -> 2 `i `uc ]
@@ -4541,96 +4543,128 @@ Version 3.2 HI-TECH Software Intermediate Code
 "113
 }
 [; ;comunicacao.c: 112: }
-[; ;comunicacao.c: 113: } else {
+[; ;comunicacao.c: 113: } else if (data->count == 2) {
 [e $U 431  ]
 [e :U 428 ]
+[e $ ! == -> . *U _data 0 `i -> 2 `i 432  ]
 {
-[; ;comunicacao.c: 114: if (data->command == 0x70) {
+[; ;comunicacao.c: 114: if (data->command == 0x41) {
 "114
-[e $ ! == -> . *U _data 4 `i -> 112 `i 432  ]
+[e $ ! == -> . *U _data 4 `i -> 65 `i 433  ]
 {
-[; ;comunicacao.c: 116: if (data->buff[5] < 0x80 && data->buff[5] > 0x9F) {
-"116
-[e $ ! && < -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 128 `i > -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 159 `i 433  ]
-{
-[; ;comunicacao.c: 117: return ERR_NAK;
+[; ;comunicacao.c: 117: return PISCA_LED1;
 "117
-[e ) . `E4586 3 ]
+[e ) . `E4586 11 ]
 [e $UE 420  ]
 "118
 }
 [e :U 433 ]
 [; ;comunicacao.c: 118: }
-[; ;comunicacao.c: 119: return LE_MSG;
+[; ;comunicacao.c: 119: if (data->command == 0x42) {
 "119
-[e ) . `E4586 10 ]
+[e $ ! == -> . *U _data 4 `i -> 66 `i 434  ]
+{
+[; ;comunicacao.c: 122: return PISCA_LED2;
+"122
+[e ) . `E4586 12 ]
 [e $UE 420  ]
-"120
+"123
 }
+[e :U 434 ]
+"124
+}
+[; ;comunicacao.c: 123: }
+[; ;comunicacao.c: 124: } else {
+[e $U 435  ]
 [e :U 432 ]
-[; ;comunicacao.c: 120: }
-[; ;comunicacao.c: 121: return ERR_NAK;
-"121
+{
+[; ;comunicacao.c: 125: if (data->command == 0x70) {
+"125
+[e $ ! == -> . *U _data 4 `i -> 112 `i 436  ]
+{
+[; ;comunicacao.c: 127: if (data->buff[5] < 0x80 && data->buff[5] > 0x9F) {
+"127
+[e $ ! && < -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 128 `i > -> *U + &U . *U _data 1 * -> -> -> 5 `i `ui `ux -> -> # *U &U . *U _data 1 `ui `ux `i -> 159 `i 437  ]
+{
+[; ;comunicacao.c: 128: return ERR_NAK;
+"128
 [e ) . `E4586 3 ]
 [e $UE 420  ]
-"122
+"129
 }
+[e :U 437 ]
+[; ;comunicacao.c: 129: }
+[; ;comunicacao.c: 130: return LE_MSG;
+"130
+[e ) . `E4586 10 ]
+[e $UE 420  ]
+"131
+}
+[e :U 436 ]
+[; ;comunicacao.c: 131: }
+[; ;comunicacao.c: 132: return ERR_NAK;
+"132
+[e ) . `E4586 3 ]
+[e $UE 420  ]
+"133
+}
+[e :U 435 ]
 [e :U 431 ]
 [e :U 427 ]
-[; ;comunicacao.c: 122: }
-[; ;comunicacao.c: 124: return ERR_UNDETECTED;
-"124
-[e ) . `E4586 11 ]
+[; ;comunicacao.c: 133: }
+[; ;comunicacao.c: 135: return ERR_UNDETECTED;
+"135
+[e ) . `E4586 13 ]
 [e $UE 420  ]
-[; ;comunicacao.c: 125: }
-"125
+[; ;comunicacao.c: 136: }
+"136
 [e :UE 420 ]
 }
-"127
+"138
 [v _write_zero `(v ~T0 @X0 1 ef1`*S397 ]
-"128
+"139
 {
-[; ;comunicacao.c: 127: void write_zero(dados_t *dados)
-[; ;comunicacao.c: 128: {
+[; ;comunicacao.c: 138: void write_zero(dados_t *dados)
+[; ;comunicacao.c: 139: {
 [e :U _write_zero ]
-"127
+"138
 [v _dados `*S397 ~T0 @X0 1 r1 ]
-"128
+"139
 [f ]
-[; ;comunicacao.c: 129: for (uint8_t i = 0; i < 64; i++) {
-"129
+[; ;comunicacao.c: 140: for (uint8_t i = 0; i < 64; i++) {
+"140
 {
 [v _i `uc ~T0 @X0 1 a ]
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 64 `i 435  ]
-[e $U 436  ]
-[e :U 435 ]
+[e $ < -> _i `i -> 64 `i 439  ]
+[e $U 440  ]
+[e :U 439 ]
 {
-[; ;comunicacao.c: 130: dados->buff[i] = 0x00;
-"130
+[; ;comunicacao.c: 141: dados->buff[i] = 0x00;
+"141
 [e = *U + &U . *U _dados 1 * -> _i `ux -> -> # *U &U . *U _dados 1 `ui `ux -> -> 0 `i `uc ]
-"131
+"142
 }
-"129
+"140
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 64 `i 435  ]
-[e :U 436 ]
-"131
+[e $ < -> _i `i -> 64 `i 439  ]
+[e :U 440 ]
+"142
 }
-[; ;comunicacao.c: 131: }
-[; ;comunicacao.c: 133: dados->count = 0;
-"133
+[; ;comunicacao.c: 142: }
+[; ;comunicacao.c: 144: dados->count = 0;
+"144
 [e = . *U _dados 0 -> -> 0 `i `uc ]
-[; ;comunicacao.c: 134: dados->command = 0;
-"134
+[; ;comunicacao.c: 145: dados->command = 0;
+"145
 [e = . *U _dados 4 -> -> 0 `i `uc ]
-[; ;comunicacao.c: 135: dados->data_flag = 0;
-"135
+[; ;comunicacao.c: 146: dados->data_flag = 0;
+"146
 [e = . *U _dados 2 -> -> 0 `i `s ]
-[; ;comunicacao.c: 136: dados->addr_from = 0;
-"136
+[; ;comunicacao.c: 147: dados->addr_from = 0;
+"147
 [e = . *U _dados 3 -> -> 0 `i `uc ]
-[; ;comunicacao.c: 137: }
-"137
-[e :UE 434 ]
+[; ;comunicacao.c: 148: }
+"148
+[e :UE 438 ]
 }

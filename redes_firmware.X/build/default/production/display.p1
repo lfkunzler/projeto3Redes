@@ -21,20 +21,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _SetDDRamAddr `(v ~T0 @X0 0 ef1`uc ]
 "122
 [v _WriteDataXLCD `(v ~T0 @X0 0 ef1`uc ]
-"2709 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4550.h
-[s S112 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S112 . RD0 RD1 RD2 RD3 RD4 RD5 RD6 RD7 ]
-"2719
-[s S113 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S113 . SPP0 SPP1 SPP2 SPP3 SPP4 SPP5 SPP6 SPP7 ]
-"2729
-[s S114 :7 `uc 1 :1 `uc 1 ]
-[n S114 . . SS2 ]
-"2708
-[u S111 `S112 1 `S113 1 `S114 1 ]
-[n S111 . . . . ]
-"2734
-[v _PORTDbits `VS111 ~T0 @X0 0 e@3971 ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -4501,28 +4487,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;display.c: 97: lcd->NeedsRedraw = 0;
 "97
 [e = . *U _lcd 0 -> -> 0 `i `uc ]
-[; ;display.c: 98: PORTDbits.RD0 = !PORTDbits.RD0;
 "98
-[e = . . _PORTDbits 0 0 -> -> ! != -> . . _PORTDbits 0 0 `i -> -> -> 0 `i `Vuc `i `i `uc ]
-[; ;display.c: 99: delay_ms(200);
-"99
-[e ( _delay_ms (1 -> -> 200 `i `ui ]
-"100
 }
 [e :U 430 ]
-[; ;display.c: 100: }
-[; ;display.c: 101: }
-"101
+[; ;display.c: 98: }
+[; ;display.c: 99: }
+"99
 [e :UE 426 ]
 }
-"105
+"103
 [v _DelayFor18TCY `(v ~T0 @X0 1 ef ]
 {
-[; ;display.c: 105: void DelayFor18TCY(void) {
+[; ;display.c: 103: void DelayFor18TCY(void) {
 [e :U _DelayFor18TCY ]
 [f ]
-[; ;display.c: 106: for (int i = 0; i < 18; i++) {
-"106
+[; ;display.c: 104: for (int i = 0; i < 18; i++) {
+"104
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
@@ -4530,46 +4510,46 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 445  ]
 [e :U 444 ]
 {
-[; ;display.c: 107: continue;
-"107
+[; ;display.c: 105: continue;
+"105
 [e $U 446  ]
-"108
-}
 "106
+}
+"104
 [e :U 446 ]
 [e ++ _i -> 1 `i ]
 [e $ < _i -> 18 `i 444  ]
 [e :U 445 ]
-"108
+"106
 }
-[; ;display.c: 108: }
-[; ;display.c: 109: }
-"109
+[; ;display.c: 106: }
+[; ;display.c: 107: }
+"107
 [e :UE 443 ]
 }
-"111
+"109
 [v _DelayPORXLCD `(v ~T0 @X0 1 ef ]
 {
-[; ;display.c: 111: void DelayPORXLCD(void) {
+[; ;display.c: 109: void DelayPORXLCD(void) {
 [e :U _DelayPORXLCD ]
 [f ]
-[; ;display.c: 112: delay_ms(60);
-"112
+[; ;display.c: 110: delay_ms(60);
+"110
 [e ( _delay_ms (1 -> -> 60 `i `ui ]
-[; ;display.c: 113: }
-"113
+[; ;display.c: 111: }
+"111
 [e :UE 447 ]
 }
-"115
+"113
 [v _DelayXLCD `(v ~T0 @X0 1 ef ]
 {
-[; ;display.c: 115: void DelayXLCD(void) {
+[; ;display.c: 113: void DelayXLCD(void) {
 [e :U _DelayXLCD ]
 [f ]
-[; ;display.c: 116: delay_ms(20);
-"116
+[; ;display.c: 114: delay_ms(20);
+"114
 [e ( _delay_ms (1 -> -> 20 `i `ui ]
-[; ;display.c: 117: }
-"117
+[; ;display.c: 115: }
+"115
 [e :UE 448 ]
 }

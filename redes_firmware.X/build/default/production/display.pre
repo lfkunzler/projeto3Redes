@@ -5854,8 +5854,6 @@ WriteDataXLCD((char) lcd->Memory[1][i]);
 }
 
 lcd->NeedsRedraw = 0;
-PORTDbits.RD0 = !PORTDbits.RD0;
-delay_ms(200);
 }
 }
 

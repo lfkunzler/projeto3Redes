@@ -110,6 +110,17 @@ comunicacao_en check_data(dados_t *data)
         if (data->command == WR_LED2) { // se for para acionar o led2
             return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
         }
+    } else if (data->count == 2) { // comandos com 3 bytes
+        if (data->command == BLINK_LED1) { // se for para piscar o led1
+            // TODO: ler quanto tempo para piscar e passar essa informacao
+            // para o main
+            return PISCA_LED1;
+        }
+        if (data->command == BLINK_LED2) { // se for para piscar o led2
+            // TODO: ler quanto tempo para piscar e passar essa informacao
+            // para o main
+            return PISCA_LED2;
+        }
     } else { // tamanho de dados indefinido
         if (data->command == WRT_MSG) {
             // se estiver fora dos limites de posicionamento
@@ -120,7 +131,7 @@ comunicacao_en check_data(dados_t *data)
         }
         return ERR_NAK; // comando nao reconhecido        
     }
-    
+
     return ERR_UNDETECTED;
 }
 
