@@ -58,11 +58,11 @@ void write_cmd(dados_t *data, uint8_t addr_to)
 
     aux[i + 5] = calc_bcc(data->buff);
 
-    TX_EN_PIN = 0; // send data  
+    TX_EN_PIN = 1; // send data  
     for (uint8_t t = 0; t < i + 6; t++) {
         uart_send_byte(aux[t]);
     }
-    TX_EN_PIN = 1; // receive data
+    TX_EN_PIN = 0; // receive data
 }
 
 uint8_t calc_bcc(uint8_t *data)
@@ -103,6 +103,7 @@ comunicacao_en check_data(dados_t *data)
         if (data->command == RD_BUT2) {
             return LE_BOTAO2;
         }
+        return ERR_NAK;
     } else if (data->count == 1) { // comandos com 1 byte
         if (data->command == WR_LED1) { // se for acionar o led1
             return(data->buff[5] & 0x01 == 1 ? LIGA_LED1 : DESLIGA_LED1);
@@ -110,6 +111,13 @@ comunicacao_en check_data(dados_t *data)
         if (data->command == WR_LED2) { // se for para acionar o led2
             return(data->buff[5] & 0x01 == 1 ? LIGA_LED2 : DESLIGA_LED2);
         }
+        return ERR_NAK;
+    } else if (data->command == WRT_MSG) { // se for para escrever mensagem
+        // se estiver fora dos limites de posicionamento
+        if (data->buff[5] < 0x80 && data->buff[5] > 0x9F) {
+            return ERR_NAK;
+        }
+        return LE_MSG;
     } else if (data->count == 2) { // comandos com 3 bytes
         if (data->command == BLINK_LED1) { // se for para piscar o led1
             // TODO: ler quanto tempo para piscar e passar essa informacao
@@ -121,14 +129,9 @@ comunicacao_en check_data(dados_t *data)
             // para o main
             return PISCA_LED2;
         }
-    } else { // tamanho de dados indefinido
-        if (data->command == WRT_MSG) {
-            // se estiver fora dos limites de posicionamento
-            if (data->buff[5] < 0x80 && data->buff[5] > 0x9F) {
-                return ERR_NAK;
-            }
-            return LE_MSG;
-        }
+        return ERR_NAK;
+    }
+    else { // nao foi possivel mapear o comando
         return ERR_NAK; // comando nao reconhecido        
     }
 

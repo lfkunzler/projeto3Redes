@@ -28,7 +28,7 @@ void main(void)
     /* init comunication */
     uart_init();
     TX_EN_TRIS = 0; // saida
-    TX_EN_PIN = 1; // high, habilita recepcao
+    TX_EN_PIN = 0; // high, habilita recepcao
     /* end init comunication */
 
     /* variables declaration */    
